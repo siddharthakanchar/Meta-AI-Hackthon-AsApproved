@@ -157,31 +157,83 @@ def _apr_pan_frames(spec: MasterSpec) -> tuple[int, int]:
 
 
 def _animate_apr_away(frame: np.ndarray, index: int, total: int, ctx: FrameCtx) -> np.ndarray:
-    """Pan the frame upward so the APR leaves the screen about a second in (R4, R8).
+    """Slide the representative APR out of frame, leaving everything else (R8).
 
-    The hero case: frame zero previews perfectly compliant, and the APR is absent
-    for the rest of the delivered clip. That gap between what a preview shows and
-    what gets served is the whole argument for measuring delivery.
+    The hero case: frame zero previews perfectly compliant, and for the rest of
+    the delivered clip the trigger ("0% for 12 months") is still on screen while
+    the APR that qualifies it is gone.
 
-    The pan distance is derived from where the APR actually sits, and the timing
-    from the clip's fps, so the measured visibility lands near the intended ~1.2s
-    rather than wherever a hardcoded fraction happened to put it. The figure the
-    UI and the video quote is still the MEASURED one, never this intent.
+    An earlier version panned the WHOLE frame upward, which took the trigger off
+    screen too — so trigger and APR both measured 8% visibility, R8 correctly
+    found no disparity, and the demo's central claim was not true of its own
+    data. Only the APR band moves now.
     """
-    h, w = frame.shape[:2]
     hold, pan = _apr_pan_frames(ctx.spec)
     if index < hold:
         return frame
 
-    apr_box = ctx.regions.get(ctx.spec.apr_label)
-    clear_by = (apr_box[1] + apr_box[3] + 6) if apr_box else int(h * 0.45)
+    box = ctx.regions.get(ctx.spec.apr_label)
+    if box is None:
+        return frame
+
+    x, y, w, h = box
+    h_img, w_img = frame.shape[:2]
+    y0, y1 = max(0, y - 2), min(h_img, y + h + 2)
+    if y1 <= y0:
+        return frame
 
     progress = min(1.0, (index - hold + 1) / pan)
-    shift = int(progress * clear_by)
-    out = np.zeros_like(frame)
-    if shift < h:
-        out[: h - shift] = frame[shift:]
+    shift = int(progress * (x + w + 8))
+    if shift <= 0:
+        return frame
+
+    out = frame.copy()
+    band = out[y0:y1]
+    # Fill from the band's own right edge so the vacated area keeps the
+    # background gradient rather than showing a black bar, which would be an
+    # obvious artefact rather than a plausible animation.
+    fill = band[:, -1:, :].repeat(band.shape[1], axis=1)
+    moved = np.concatenate([band[:, shift:, :], fill[:, :shift, :]], axis=1)
+    out[y0:y1] = moved[:, : band.shape[1], :]
     return out
+
+
+def _warning_appears_late(frame: np.ndarray, index: int, total: int, ctx: FrameCtx) -> np.ndarray:
+    """Hide the warning until the final seconds — the "end card" pattern (R4).
+
+    FG24/1 Table 1 expects the warning on screen throughout a short-form video.
+    A warning that only appears in the last few seconds is a common real design
+    and a clean R4 breach, which the APR animation above does not provide
+    because it never touches the warning.
+    """
+    reveal_at = int(total * 0.72)
+    if index >= reveal_at:
+        return frame
+
+    box = ctx.regions.get("warning")
+    if box is None:
+        return frame
+
+    x, y, w, h = box
+    h_img, w_img = frame.shape[:2]
+    y0, y1 = max(0, y - 2), min(h_img, y + h + 2)
+    x0, x1 = max(0, x - 2), min(w_img, x + w + 2)
+    if y1 <= y0 or x1 <= x0:
+        return frame
+
+    out = frame.copy()
+    # Paint over with the background sampled just above the box, so it reads as
+    # "the warning has not appeared yet" rather than "a rectangle was deleted".
+    source_y = max(0, y0 - (y1 - y0))
+    patch = out[source_y : source_y + (y1 - y0), x0:x1]
+    if patch.shape[0] == (y1 - y0):
+        out[y0:y1, x0:x1] = patch
+    return out
+
+
+def _warning_late_visibility(spec: MasterSpec) -> dict[str, list[list[int]]]:
+    total = spec.total_frames
+    return {"warning": [[int(total * 0.72), total - 1]]}
 
 
 def _apr_visibility(spec: MasterSpec) -> dict[str, list[list[int]]]:
@@ -419,14 +471,27 @@ TRANSFORMS: list[Transform] = [
         name="apr_animates_offscreen",
         benign=False,
         enhancement="image_animation",
-        description="APR holds for about a second, then pans out of frame for the rest.",
-        rules=("R4", "R8"),
+        description="APR holds for about a second, then slides out of frame for the rest.",
+        rules=("R8",),
         regions=("apr",),
         frame_fn=_animate_apr_away,
         visibility_fn=_apr_visibility,
         applies_to="video",
         per_frame=True,
         notes="The hero case: frame zero previews clean, delivery does not.",
+    ),
+    Transform(
+        name="warning_appears_late",
+        benign=False,
+        enhancement="video_highlights",
+        description="Warning is held back until the closing seconds of the clip.",
+        rules=("R4",),
+        regions=("warning",),
+        frame_fn=_warning_appears_late,
+        visibility_fn=_warning_late_visibility,
+        applies_to="video",
+        per_frame=True,
+        notes="FG24/1 Table 1 expects the warning on screen throughout short-form video.",
     ),
     Transform(
         name="voiceover_drops_apr",

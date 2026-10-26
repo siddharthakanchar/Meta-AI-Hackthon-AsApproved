@@ -30,7 +30,13 @@ from asapproved.vision.align import Alignment, align_to_master
 from asapproved.vision.diff import DiffResult, changed_in_region, diff_pair
 from asapproved.vision.ocr import OcrResult, read_text, text_in_box
 from asapproved.vision.overlays import occlusion
-from asapproved.vision.track import RegionTrack, region_template, track_region
+from asapproved.vision.track import (
+    RegionTrack,
+    expected_box,
+    inside_fraction,
+    region_template,
+    track_region,
+)
 
 __all__ = ["CheckResult", "check_variant", "load_master", "MasterRef", "sample_frames"]
 
@@ -211,12 +217,17 @@ def check_variant(
     ]
 
     tracks: dict[str, RegionTrack] = {}
+    expected: dict[str, tuple[int, int, int, int] | None] = {}
     for label in watched:
-        template = region_template(master_frame, tuple(master.regions[label]), alignment)
+        m_box = tuple(master.regions[label])
+        expected[label] = expected_box(m_box, alignment, variant_frame.shape)
+        template = region_template(master_frame, m_box, alignment)
         if template is None:
             notes.append(f"region '{label}' too small to track")
             continue
-        tracks[label] = track_region(template, variant_frames, label)
+        tracks[label] = track_region(
+            template, variant_frames, label, near=expected[label]
+        )
 
     master_ocr = read_text(master_frame)
     variant_ocr = read_text(variant_frame)
@@ -242,18 +253,42 @@ def check_variant(
 
         track = tracks.get(label)
         v_box = track.first_box() if track else None
+        located_by = "template"
+
         if v_box is None:
-            variant_regions[label] = {"present": False, "bbox": None}
-            if master.is_video:
-                visible_bp[label] = 0
-                longest_gap[label] = len(variant_frames) * stride
-            continue
+            # Appearance matching failed. That is NOT the same as the region
+            # being gone: a warning set grey-on-grey, shrunk or reworded stops
+            # matching its own template while sitting exactly where it was. If
+            # we called that "absent", R3 would fire on every one of those and
+            # R6/R7/R11 would never get the chance — every appearance breach
+            # would be reported as a removal.
+            fallback = expected.get(label)
+            inside = inside_fraction(fallback, variant_frame.shape) if fallback else 0.0
+            has_text = False
+            if fallback and inside >= 0.5 and variant_ocr.available:
+                has_text = bool(text_in_box(variant_ocr, fallback).boxes)
+
+            if fallback and inside >= 0.5 and has_text:
+                v_box = fallback
+                located_by = "alignment"
+                notes.append(
+                    f"region '{label}' did not match its master template; measured at the "
+                    "position the alignment predicts"
+                )
+            else:
+                variant_regions[label] = {"present": False, "bbox": None}
+                if master.is_video:
+                    visible_bp[label] = 0
+                    longest_gap[label] = len(variant_frames) * stride
+                continue
 
         v_mask = _mask_from_box(v_box, variant_frame.shape)
         v_meas = measure_region(
             variant_frame, v_mask, label, placement=_placement_key(master.placement)
         )
-        variant_regions[label] = _region_dict(v_meas, _median_text_height(variant_ocr, v_box))
+        region = _region_dict(v_meas, _median_text_height(variant_ocr, v_box))
+        region["located_by"] = located_by
+        variant_regions[label] = region
 
         if master.placement:
             occ = occlusion(v_mask, _placement_key(master.placement))

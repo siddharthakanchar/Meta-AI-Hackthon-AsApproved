@@ -95,14 +95,60 @@ def region_template(
     return patch
 
 
+def expected_box(
+    master_box: tuple[int, int, int, int],
+    alignment: Alignment | None,
+    variant_shape: tuple[int, int],
+) -> tuple[int, int, int, int] | None:
+    """Where the master's region should land in the variant, per the alignment.
+
+    This is the positional prior that stops an appearance change from reading as
+    a disappearance. A warning set grey-on-grey, shrunk, or reworded no longer
+    matches its own template — but it has not moved, and measuring at the place
+    it should be is what lets R6, R7 and R11 fire instead of everything
+    collapsing into "the warning is gone".
+    """
+    if alignment is None or not alignment.ok:
+        return None
+    x, y, w, h = master_box
+    corners = np.array(
+        [[x, y], [x + w - 1, y], [x + w - 1, y + h - 1], [x, y + h - 1]], dtype=np.float64
+    )
+    mapped = alignment.map_points_inverse(corners)
+    x0, y0 = mapped[:, 0].min(), mapped[:, 1].min()
+    x1, y1 = mapped[:, 0].max(), mapped[:, 1].max()
+    if not all(np.isfinite(v) for v in (x0, y0, x1, y1)):
+        return None
+    return int(round(x0)), int(round(y0)), int(round(x1 - x0 + 1)), int(round(y1 - y0 + 1))
+
+
+def inside_fraction(box: tuple[int, int, int, int], shape: tuple[int, int]) -> float:
+    """How much of the box lies within the frame, 0..1."""
+    h, w = shape[:2]
+    x, y, bw, bh = box
+    ox = max(0, min(w, x + bw) - max(0, x))
+    oy = max(0, min(h, y + bh) - max(0, y))
+    area = bw * bh
+    return (ox * oy) / area if area else 0.0
+
+
 def track_region(
     template_bgr: np.ndarray,
     frames: list[np.ndarray],
     label: str,
     *,
     threshold: float = MATCH_THRESHOLD,
+    near: tuple[int, int, int, int] | None = None,
+    search_margin: float = 0.35,
 ) -> RegionTrack:
-    """Find the template in each frame. Absent frames report visible=False."""
+    """Find the template in each frame. Absent frames report visible=False.
+
+    `near` restricts the search to a neighbourhood of the expected position.
+    Without it the matcher searches globally and will happily match the APR's
+    template onto the trigger — same typeface, same weight, same colour, same
+    background — so an APR that has slid off screen still reports as present and
+    R8's prominence comparison finds nothing wrong.
+    """
     tmpl = to_gray(template_bgr)
     th, tw = tmpl.shape[:2]
 
@@ -129,13 +175,32 @@ def track_region(
         else:
             sub = tmpl
 
-        result = cv2.matchTemplate(gray, sub, cv2.TM_CCOEFF_NORMED)
+        # Restrict the haystack to a neighbourhood of where the region is
+        # expected, when we know. Global search confuses visually identical
+        # elements — see the docstring.
+        ox = oy = 0
+        haystack = gray
+        if near is not None:
+            nx, ny, nw, nh = near
+            mx, my = int(sub.shape[1] * search_margin), int(sub.shape[0] * search_margin)
+            ox = max(0, nx - mx)
+            oy = max(0, ny - my)
+            x1 = min(fw, nx + nw + mx)
+            y1 = min(fh, ny + nh + my)
+            if x1 - ox >= sub.shape[1] and y1 - oy >= sub.shape[0]:
+                haystack = gray[oy:y1, ox:x1]
+            else:
+                ox = oy = 0
+
+        result = cv2.matchTemplate(haystack, sub, cv2.TM_CCOEFF_NORMED)
         _, max_val, _, max_loc = cv2.minMaxLoc(result)
         score = float(max_val) if np.isfinite(max_val) else 0.0
 
         if score >= threshold:
             visible.append(True)
-            boxes.append((int(max_loc[0]), int(max_loc[1]), int(sub.shape[1]), int(sub.shape[0])))
+            boxes.append(
+                (int(max_loc[0] + ox), int(max_loc[1] + oy), int(sub.shape[1]), int(sub.shape[0]))
+            )
         else:
             visible.append(False)
             boxes.append(None)

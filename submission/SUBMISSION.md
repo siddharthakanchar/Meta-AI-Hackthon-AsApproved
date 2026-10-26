@@ -19,10 +19,11 @@ Indie Developer · Build for Your World
 
 ## Short description (~50 words)
 
-AsApproved measures, frame by frame, whether the APR and risk warnings in a
-regulated firm's approved ad survive Meta's AI edits, then fixes every affected
-ad in one click with a tamper-evident evidence trail. Built on SAM 3.1, Muse
-Spark 1.3 and Muse Voice Transcribe.
+AsApproved measures, frame by frame, whether the risk warning and representative
+APR in a regulated firm's approved ad survive Meta's AI edits, then plans the
+opt-out for every affected ad in one click with a hash-chained evidence record.
+Built to run on SAM 3.1, Muse Spark 1.3 and Muse Voice Transcribe; the measured
+results here came from the keyless fallback detector, labelled on every result.
 
 ---
 
@@ -48,6 +49,13 @@ So regulated advertisers switch Advantage+ off. AsApproved exists to let them
 switch it on.
 
 ### What it does
+
+**What has actually run:** no Meta model. The Model API credit is claimed but
+not yet issued, so every number below came from the keyless fallback path —
+template matching for regions, OCR for text, a deterministic template for notes.
+The SAM 3.1 / Spark / Voice Transcribe integration is written and unit-tested
+against the documented response formats and has never touched the live API. Each
+screen in the UI shows which path produced its result.
 
 Approve a master and AsApproved signs the approval — hash, approver, timestamp,
 rulebook version and the enhancement settings in force. Then it watches what
@@ -99,7 +107,15 @@ go in a compliance record. The per-rule table is where the two separate.
 
 - All creative is synthetic. Three fictional firms, no real brands or people.
 - Previews are not served impressions.
-- Rule paraphrases are not legal advice.
+- Rule paraphrases are not legal advice, and the citations are not all settled:
+  COBS 4.12A.11R and .36R were checked against the live handbook; the FG24/1 and
+  CONC references were not. FG24/1 is guidance, not binding rules.
+- **Development-set numbers, no held-out split.** Thresholds were fitted on
+  these 48 variants.
+- **Act has never written to Meta.** It is always a labelled dry run over
+  synthetic lineage, and three API prerequisites remain unverified.
+- R1 is true by construction on 22 of 24 seeded violations and carries most of
+  the variant-level recall; the per-rule table is the honest measure.
 - Three thresholds are engineering choices, not regulatory figures: 4.5:1
   contrast (WCAG AA as a legibility proxy), 2%-of-region "materially changed",
   98% visibility.
@@ -132,6 +148,11 @@ than replacing them.
 
 Standard tier throughout. Muse Image is not used — unavailable in India under
 Meta's Geographic Use Policy.
+
+**None of these has run.** The table above is the designed integration. What
+produced the results: aligned template matching + normalised cross-correlation
+for regions, RapidOCR for text, a deterministic template for compliance notes,
+and nothing at all for R9, which reports *not evaluated*.
 
 ## Links
 

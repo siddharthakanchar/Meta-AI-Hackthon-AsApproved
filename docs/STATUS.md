@@ -1,114 +1,100 @@
 # STATUS
 
-Path: **undecided** (A/B/C decided after the Phase 1 Marketing API spike, due Tue 27 Oct 23:00 IST)
-Hours: used 13.0 / planned 40–45
-Updated: Mon 26 Oct 2026
+**Last session: Mon 26 Oct 2026.** Hours used ~20 of 40–45.
+Deadline: Thu 5 Nov 07:30 IST. Target submission: Wed 4 Nov 22:00 IST.
 
-## Phases
-- [~] Phase 0 — Setup and rules (Mon 26 Oct, ~2 h) · repo scaffolded; awaiting USER INPUT 0.2
-- [~] Phase 1 — Spikes and go/no-go (Mon 26 – Tue 27 Oct, ~4 h) · **model spike blocked on the
-      key (D-008)**; V1–V3 already verified from public docs, so what remains is the key itself,
-      V13, and the Marketing API spike (USER INPUT 1.2, unaffected by the key blocker)
-- [x] Phase 2 — Deterministic core (**pulled forward**, needed no key) · 83 tests green, ruff clean
-- [x] Phase 3 — Synthetic masters and variants (**pulled forward**, needed no key) · 12 masters,
-      48 variants, ground truth generated not hand-written; audio pending USER INPUT 3.1
-- [ ] Phase 4 — Meta models in the pipeline (Thu 29 – Fri 30 Oct, ~5 h)
-- [x] Phase 5 — Rules, explanations, review UI (**pulled forward**, keyless) · engine,
-      validator, pipeline, UI, benchmark harness
-- [~] Phase 6 — Graph, Act/Prove, precedents, benchmark · all keyless parts done;
-      Neo4j load and live Act await USER INPUT 6.1 / Marketing API
-- [~] Phase 7 — Polish, hosting · README, ARCHITECTURE, DEPLOY, submission copy written;
-      deploy awaits a GitHub push
-- [ ] Phase 8 — Demo video and submission (Tue 3 – Wed 4 Nov, ~4 h)
+---
 
-## Today — Mon 26 Oct
+## Where things stand
 
-**Done**
-- Read the playbook; confirmed today is Phase 0 day and kickoff is tonight 22:30 IST.
-- Probed the machine: Python 3.11.9, pip 26.2.1, venv + sqlite3 present, winget working.
-  `git`, `ffmpeg` and `docker` were all absent; installed Git 2.56.0.3 and ffmpeg 9.0.2 via winget.
-- Scaffolded the repo to the design notes: package tree, CLI skeleton with a working `doctor`,
-  launchable Streamlit shell, draft rulebook YAML (R1–R12 + B1), `.gitignore`/`.env.example`
-  secret hygiene, MIT licence, pre-commit (ruff + gitleaks + detect-private-key), Phase 0 tests.
-- Pulled V1/V2/V3 forward out of Phase 1 — the Meta model docs need no API key. Verified Spark,
-  SAM and Voice Transcribe against the live docs and **found four deviations** from the
-  playbook's 24 Oct research (DECISIONS.md D-006), all corrected in the stubs before any code
-  was written on top of them:
-  1. an official Python SAM parser exists (`meta-sam-parser`) — the playbook budgeted time to
-     hand-write one;
-  2. SAM masks are RLE (`lossless` / `one_bit`), not base85, and come back as a token string
-     with the mask offset relative to the bounding box;
-  3. Voice Transcribe has its own `/v1/asr/transcribe` endpoint, not the OpenAI-compatible one,
-     and prefers **24 kHz** PCM, not 16 kHz;
-  4. cached input is $0.15/M vs $1.25/M — the rulebook prefix is identical across all 48
-     benchmark variants, so this materially changes the cost-per-variant we publish.
+| Phase | State |
+|---|---|
+| 0 · Setup | done |
+| 1 · Spikes | **blocked on the Model API key.** V1–V3 and V9 verified from public docs without one |
+| 2 · Deterministic core | done |
+| 3 · Masters and variants | done — 12 masters, 48 variants, 10 synthetic voiceovers |
+| 4 · Meta models in the pipeline | **not started — needs the key.** Clients written and unit-tested against documented formats |
+| 5 · Rules, explanations, UI | done |
+| 6 · Graph, Act/Prove, benchmark | done, keyless. Neo4j load and live Act await access |
+| 7 · Polish, hosting | README/ARCHITECTURE/DEPLOY/submission written; **deploy needs a GitHub push** |
+| 8 · Video and submission | script written (`submission/VIDEO.md`); recording and form are yours |
 
-**Phase 2 delivered** (commit `bd70e0e`)
-- `canonical.py` — canonical bytes for everything signed or chained; floats rejected outright.
-- `manifest.py` (C1) — Ed25519 approval manifests. `verify-manifest` can pin a trusted signer and
-  states plainly when it is proving integrity but not identity.
-- `evidence.py` (C12) — hash chain whose digest covers `index` and `prev`, so reordering and
-  deletion fail too, not just edits. Known limit pinned by test: truncation from the end is
-  undetectable from the chain alone and needs an anchored head.
-- `vision/align.py` (C3) — ORB + RANSAC homography across all five geometry cases, with a
-  labelled scale-only fallback; `Alignment.ok` gates whether R1/R3 may fire at all.
-- `vision/diff.py` (C3) — SSIM over the aligned pair, change intersected with the claim region.
-- `vision/overlays.py` (C9) — placement safe zones as data; figures unverified (V11) and every
-  finding carries the caveat.
-- `measure.py` (C5) — WCAG contrast, size, border, clipping, occlusion, per-frame visibility.
-  Integers in fixed units only; anything unmeasurable returns `None` and surfaces as
-  `inconclusive` rather than as a pass or a fail.
-- CLI wired and demonstrated end to end: `keygen → approve → verify-manifest`, plus both tamper
-  demos (altered manifest → `INVALID`; flipped decision → `TAMPERED record 1 … line 2`).
-- Found while testing: a Windows BOM made a re-saved manifest read as "unreadable", which in a
-  compliance tool reads as a tamper alarm. Readers now accept a BOM so only changed content
-  fails. Regression test added.
+478 tests green, ruff clean, `asapproved demo` loads from cache in 0 ms with no key.
 
-**Phase 3 delivered**
-- 3 fictional firms (Northfield Card, Brightwell Loans, Kestrel Invest), original geometric
-  logos, no real brands or people. **12 masters**: 5 credit stills, 3 credit videos, 2 high-risk
-  stills, 2 investment videos — between them exercising all four COBS 4.12A.11R prescribed
-  warnings, not just the crypto one.
-- **48 variants**, 24 seeded violations / 24 benign, spanning R1 and R3–R12.
-- Masters are **compliant by construction and tested for it**: warning outside the placement's UI
-  zone, own border, bold, underlined, contrast ≥ 4.5:1, APR no less prominent than its trigger,
-  no two regions overlapping.
-- `text_norm.py` — R11 folds typographic variants (curly vs straight apostrophes, dashes, NBSP)
-  but never wording. Pinned both ways, including that the crypto and NRRS texts stay distinct.
-- Four self-inflicted bugs caught by the generator's own checks before they reached the
-  benchmark — see DECISIONS.md **D-009**. The worst: two rules (R11, R4) had **no coverage at
-  all**, so the per-rule table would have shipped with empty rows.
+---
 
-**Next**
-- USER INPUT 3.1: voiceovers (needed to score R9) and a 2-minute look at three rendered masters.
-- USER INPUT 0.1: confirm environment answers (Docker decision, GitHub username).
-- USER INPUT 0.2: after the 22:30 IST kickoff, pull the Official Rules into `RULES_SUMMARY.md`.
-- Phase 1: Meta Model API key -> `scripts/spike_models.py`; then the Marketing API assets.
-- Phase 1 is now cheaper than planned: V1–V3 are done, so the spike only has to confirm the
-  key works, settle V13 (`meta-sam-parser`), and measure real latency and cost.
+## Pick up here tomorrow
 
-**Risks**
-- **Model API key: now actionable, and on a clock (D-008a).** The organisers' blast confirms the
-  credit must be **claimed via a form** (not automatic), that **a credit card on the account is
-  required by design** to make any API call, and that **credits arrive in batches** — so there is
-  an unknown lag between applying and being able to build. Claim deadline is **Wed 4 Nov 21:00
-  ET**, the same moment as the submission deadline, so late ≈ never.
-  **Action on Siddhartha, today:** submit the claim form (event rules require each participant to
-  claim their own — it cannot be delegated), then set a Spend Limit on the Billing page.
-  Mitigation if the batch is slow: Phases 2 and 3 are done keyless, and **Phase 5 (rules engine +
-  review UI) can also run keyless**, so Phase 4 can slip without stalling the build.
-- Docker is not installed. Installing Docker Desktop needs admin + WSL2 + a reboot; Neo4j Aura
-  Free is the lower-friction path and the hosted demo needs a precomputed graph JSON regardless
-  (§16). Leaning Aura — see `DECISIONS.md` D-004, confirm at USER INPUT 6.1.
-- Path A/B/C is unknown until the Phase 1 spike, and it shapes how much of the demo can use real
-  Meta variants. Everything downstream is built to work under Path C.
-- The $150 Model API credit has not been confirmed on the account yet.
+**1. Finish the pending rebuild** (it was running when the session ended).
 
-**Inputs needed from Siddhartha**
-1. ~~GitHub username~~ — `siddharthakvss`, wired into `pyproject.toml` and the README.
-2. **Claim the $150 credit (D-008a) — today.** Submit the claim form yourself (cannot be
-   delegated under event rules), then add the card and set a Spend Limit on the Billing page.
-   Credits arrive in batches, so the lag is the risk; the hard claim deadline is Wed 4 Nov
-   21:00 ET and Phase 4 wants the key by Thu 29 Oct.
-3. Docker: install it, or go with Neo4j Aura Free? Needed by Phase 6 (Sun 1 Nov).
-4. Tonight after kickoff: the Official Rules link or paste.
+```powershell
+python scripts/make_variants.py
+python scripts/precompute.py
+asapproved bench
+```
+
+Then update three things with the fresh numbers — they must agree exactly:
+- `README.md` → Results tables and the labels digest
+- `docs/DECISIONS.md` → the coverage table and label hash
+- `submission/SUBMISSION.md` → the `[BENCH]` placeholder
+
+The digest **will have changed**: `synth/derive.py` now checks the left/right
+overlay bands, so ground truth differs from the committed `ee290d4b…`. Worth
+re-verifying the reproducibility claim afterwards — a fresh clone regenerating
+the dataset previously reproduced the committed digest exactly, which is a
+strong thing to be able to say.
+
+**2. Push to GitHub.** No remote exists, so the Demo criterion (25%) currently
+has nothing behind it and the clone URL in the README is unverifiable.
+
+```powershell
+pre-commit run --all-files          # let gitleaks confirm independently
+git remote add origin https://github.com/<you>/asapproved.git
+git push -u origin main
+```
+
+Then deploy per `DEPLOY.md` (~3 min) and paste the real URLs into `README.md`,
+`DEPLOY.md` and `submission/SUBMISSION.md`.
+
+**3. When the credits land** — check "free credits" on the dev.meta.ai Billing
+page first; until it shows, calls bill the card directly.
+
+```powershell
+# .env: META_MODEL_API_KEY=...
+$env:ASAPPROVED_MODE="live"; python scripts/spike_models.py
+```
+
+Then wire **SAM 3.1 only**, on the five variants that produce the R5/R7/R12
+false positives, and publish the region-IoU delta against the template
+detector. That is worth more than integrating all three models: it measures
+what Meta's model adds over a real classical control, and the README already
+promised that metric before the numbers existed.
+
+---
+
+## Open risks
+
+- **No Meta model has run.** 25% of the rubric. Everything published came from
+  the keyless fallback, labelled as such throughout. Decision point if nothing
+  has arrived by **Thu 29 Oct**.
+- **No real Advantage+ output has ever been through this.** One sandbox ad with
+  enhancements on, and a screenshot of what Meta returns, would convert the
+  project from plausible to demonstrated. Cheapest high-value item left.
+- **Development-set results, no held-out split.** Thresholds were fitted on
+  these 48 variants. Disclosed in the README.
+- Per-rule precision on R5/R7/R12 is 50–57% — localisation, not logic.
+
+## Waiting on you
+
+1. GitHub repo created, so the push and deploy can happen.
+2. Official Rules → `docs/RULES_SUMMARY.md` (kickoff was 22:30 IST Mon 26 Oct).
+3. Docker vs Neo4j Aura — needed only if the live graph backend is wanted;
+   the in-memory one is what the demo uses and it is not a blocker.
+4. Record the demo video from `submission/VIDEO.md`, or accept the synthetic
+   voiceovers for it.
+
+## Local file kept out of the repo
+
+`C:\Users\siddh\Desktop\home\asapproved-playbook-local-KEEP.md` — the build
+playbook. Purged from the repo and from git history because it named the
+employer and discussed prior-project IP. Do not re-add it.

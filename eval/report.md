@@ -1,7 +1,7 @@
 # VariantBench-UK results
 
 Dataset: 48 variants (24 seeded violations, 24 benign) from 12 approved masters.
-Labels frozen at `ee290d4b0052186b…`.
+Labels digest `d18da5ad90127363…` — a content hash, not a freeze. The labels and the detector were both changed during development; see the README's Limits section.
 
 All creative is SIMULATED. Numbers are reported as measured, including where a baseline beats the full pipeline.
 
@@ -9,8 +9,8 @@ All creative is SIMULATED. Numbers are reported as measured, including where a b
 
 | Baseline | Precision | Recall | F1 | False-block rate | Scored | Not evaluated | Mean s/variant |
 |---|---|---|---|---|---|---|---|
-| **B1** — pixel diff alone | 95% | 95% | 95% | 4% | 45 | 3 | 1.0 |
-| **B2** — AsApproved | 100% | 100% | 100% | 0% | 45 | 3 | 5.3 |
+| **PIXEL** — pixel diff alone | 95% | 95% | 95% | 4% | 45 | 3 | 0.4 |
+| **ASAPPROVED** — full pipeline | 100% | 100% | 100% | 0% | 45 | 3 | 4.3 |
 
 **False-block rate** is the share of benign variants wrongly flagged. A tool that blocks compliant ads gets switched off, so it is reported beside recall rather than below it.
 
@@ -22,7 +22,7 @@ It is also not the question a compliance officer can act on. They need to know *
 
 ## Per-rule attribution
 
-### B1
+### PIXEL
 
 | Rule | TP | FP | FN | Precision | Recall | F1 | Not evaluated |
 |---|---|---|---|---|---|---|---|
@@ -36,7 +36,7 @@ It is also not the question a compliance officer can act on. They need to know *
 | R9 | 0 | 0 | 0 | — | — | — | 2 |
 | R10 | 0 | 0 | 2 | — | 0% | — | 0 |
 | R11 | 0 | 0 | 2 | — | 0% | — | 0 |
-| R12 | 0 | 0 | 4 | — | 0% | — | 0 |
+| R12 | 0 | 0 | 5 | — | 0% | — | 0 |
 
 Not evaluated:
 
@@ -44,21 +44,21 @@ Not evaluated:
 - northfield_card_v1__v0_voiceover_drops_apr: requires audio, not evaluated
 - northfield_card_v2__v2_music_swap: requires audio, not evaluated
 
-### B2
+### ASAPPROVED
 
 | Rule | TP | FP | FN | Precision | Recall | F1 | Not evaluated |
 |---|---|---|---|---|---|---|---|
-| R1 | 21 | 0 | 1 | 100% | 95% | 98% | 0 |
-| R3 | 5 | 1 | 0 | 83% | 100% | 91% | 0 |
+| R1 | 22 | 0 | 0 | 100% | 100% | 100% | 0 |
+| R3 | 5 | 0 | 0 | 100% | 100% | 100% | 0 |
 | R4 | 4 | 0 | 0 | 100% | 100% | 100% | 0 |
 | R5 | 3 | 3 | 0 | 50% | 100% | 67% | 0 |
 | R6 | 3 | 0 | 0 | 100% | 100% | 100% | 0 |
-| R7 | 2 | 2 | 0 | 50% | 100% | 67% | 0 |
+| R7 | 2 | 1 | 0 | 67% | 100% | 80% | 0 |
 | R8 | 2 | 0 | 0 | 100% | 100% | 100% | 0 |
 | R9 | 0 | 0 | 0 | — | — | — | 2 |
 | R10 | 0 | 0 | 0 | — | — | — | 2 |
-| R11 | 2 | 1 | 0 | 67% | 100% | 80% | 0 |
-| R12 | 4 | 3 | 0 | 57% | 100% | 73% | 0 |
+| R11 | 2 | 0 | 0 | 100% | 100% | 100% | 0 |
+| R12 | 2 | 3 | 1 | 40% | 67% | 50% | 2 |
 
 Not evaluated:
 

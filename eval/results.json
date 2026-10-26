@@ -1,8 +1,8 @@
 {
-  "labels_sha256": "ee290d4b0052186be096d5f3bd54eb0591437db80efc76852a418e0377d00195",
+  "labels_sha256": "d18da5ad90127363ec9436bc0cd5b514cc6ab0ef1fc4ca5df4e30c5b4242a369",
   "reports": [
     {
-      "name": "B1",
+      "name": "PIXEL",
       "description": "pixel diff alone",
       "variants_scored": 45,
       "variants_skipped": 3,
@@ -45,7 +45,7 @@
           "rule_id": "R12",
           "tp": 0,
           "fp": 0,
-          "fn": 4,
+          "fn": 5,
           "not_evaluated": 0,
           "precision": null,
           "recall": 0.0,
@@ -122,7 +122,7 @@
           "f1": null
         }
       },
-      "mean_seconds": 1.033305009206136,
+      "mean_seconds": 0.4199948946634928,
       "errors": [],
       "notes": [
         "brightwell_loans_v1__v1_voiceover_drops_apr: requires audio, not evaluated",
@@ -135,8 +135,8 @@
       "false_block_rate": 0.043478260869565216
     },
     {
-      "name": "B2",
-      "description": "AsApproved",
+      "name": "ASAPPROVED",
+      "description": "full pipeline",
       "variants_scored": 45,
       "variants_skipped": 3,
       "tp": 22,
@@ -146,13 +146,13 @@
       "per_rule": {
         "R1": {
           "rule_id": "R1",
-          "tp": 21,
+          "tp": 22,
           "fp": 0,
-          "fn": 1,
+          "fn": 0,
           "not_evaluated": 0,
           "precision": 1.0,
-          "recall": 0.9545454545454546,
-          "f1": 0.9767441860465117
+          "recall": 1.0,
+          "f1": 1.0
         },
         "R10": {
           "rule_id": "R10",
@@ -167,32 +167,32 @@
         "R11": {
           "rule_id": "R11",
           "tp": 2,
-          "fp": 1,
+          "fp": 0,
           "fn": 0,
           "not_evaluated": 0,
-          "precision": 0.6666666666666666,
+          "precision": 1.0,
           "recall": 1.0,
-          "f1": 0.8
+          "f1": 1.0
         },
         "R12": {
           "rule_id": "R12",
-          "tp": 4,
+          "tp": 2,
           "fp": 3,
-          "fn": 0,
-          "not_evaluated": 0,
-          "precision": 0.5714285714285714,
-          "recall": 1.0,
-          "f1": 0.7272727272727273
+          "fn": 1,
+          "not_evaluated": 2,
+          "precision": 0.4,
+          "recall": 0.6666666666666666,
+          "f1": 0.5
         },
         "R3": {
           "rule_id": "R3",
           "tp": 5,
-          "fp": 1,
+          "fp": 0,
           "fn": 0,
           "not_evaluated": 0,
-          "precision": 0.8333333333333334,
+          "precision": 1.0,
           "recall": 1.0,
-          "f1": 0.9090909090909091
+          "f1": 1.0
         },
         "R4": {
           "rule_id": "R4",
@@ -227,12 +227,12 @@
         "R7": {
           "rule_id": "R7",
           "tp": 2,
-          "fp": 2,
+          "fp": 1,
           "fn": 0,
           "not_evaluated": 0,
-          "precision": 0.5,
+          "precision": 0.6666666666666666,
           "recall": 1.0,
-          "f1": 0.6666666666666666
+          "f1": 0.8
         },
         "R8": {
           "rule_id": "R8",
@@ -255,7 +255,7 @@
           "f1": null
         }
       },
-      "mean_seconds": 5.316961012946235,
+      "mean_seconds": 4.27609338760376,
       "errors": [],
       "notes": [
         "brightwell_loans_v1__v1_voiceover_drops_apr: requires audio, not evaluated",

@@ -296,14 +296,14 @@ and the whole 60-asset set stays small enough to regenerate in about two minutes
 | V11 | Meta's current published safe-zone percentages for Feed / Stories / Reels (C9, R12) | Phase 7 | unverified |
 | V12 | Official hackathon rules: submission fields, video length limit, repo/licence rules, judging criteria, prior-work and track rules | after 22:30 IST kickoff tonight | pending |
 
-## VariantBench-UK coverage (48 variants, build of 26 Oct)
+## VariantBench-UK coverage (48 variants)
 
 Ground truth is DERIVED — every rule a variant actually breaks, computed from what the generator
 drew. The transform's own declaration is kept as `intended_rules` so the difference is visible.
 
 | | R1 | R3 | R4 | R5 | R6 | R7 | R8 | R9 | R10 | R11 | R12 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| **derived** (ground truth) | 22 | 5 | 4 | 3 | 3 | 2 | 2 | 2 | 2 | 2 | 4 |
+| **derived** (ground truth) | 22 | 5 | 4 | 3 | 3 | 2 | 2 | 2 | 2 | 2 | 5 |
 | **intended** (by design) | 3 | 5 | 3 | 3 | 3 | 2 | 2 | 2 | 2 | 2 | 2 |
 
 The gap on R1 is not an error: any seeded edit to a claim region materially changes it, so R1 is
@@ -311,15 +311,23 @@ true by construction on 22 of 24 violations while only 3 were
 designed to test it. That is why the per-rule table, not the variant-level score, is the honest
 measure — and why the README leads with it.
 
-3 variants require voiceover audio that does not exist yet. They are reported as
+3 variants require voiceover audio a transcriber can read. They are reported as
 **not evaluated**, never as passes, and their rules appear in the not-evaluated column rather
 than vanishing from the table.
 
-Label hash for this build: `ee290d4b0052186be096d5f3bd54eb0591437db80efc76852a418e0377d00195`.
+Label digest for this build: `d18da5ad90127363ec9436bc0cd5b514cc6ab0ef1fc4ca5df4e30c5b4242a369`.
 
 **The labels are NOT frozen, and that matters.** They and the detector were both changed during
-development — commits `6964c96`, `bee1941`, `ca67041` touch the label derivation and the
-detector together. Roughly half the "detector failures" in this build turned out to be defects in
-the benchmark itself, which is a good argument for deriving labels and a bad argument for
-treating these numbers as a held-out evaluation. The rulebook also remains `status: draft` with
-`sources_checked: null`. Published results are development-set results and the README says so.
+development. Roughly half the apparent "detector failures" in this project turned out to be
+defects in the benchmark itself — which is a good argument for deriving labels and a bad argument
+for treating these numbers as a held-out evaluation. The rulebook also remains `status: draft`
+with `sources_checked: null`. Published results are development-set results and the README says so.
+
+**Last measured run.** AsApproved 100%/100%/100%
+(precision/recall/F1) at variant level with 0/23 false blocks, against a
+pixel diff at 95%/95%/95% and
+1/23. Per-rule, the weakest are
+R12 (40% precision), R5 (50% precision), R7 (67% precision).
+R12 is the only rule with a false negative, and it regressed this round because the ground truth
+began checking the left and right overlay bands the detector already enforced — the two had been
+testing different rules.

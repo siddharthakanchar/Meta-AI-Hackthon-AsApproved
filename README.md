@@ -88,56 +88,64 @@ caption zone it was meant to be the clean comparison for.
 
 ## Results
 
-VariantBench-UK: 12 approved masters → 48 variants (24 seeded violations,
-24 benign edits). Ground truth is **computed, not hand-written**: every rule a
-variant breaks is derived from what the generator drew — the RGB values it
-chose, the font scale it set, the box coordinates it placed. Nothing in the
-label pipeline reads a pixel or calls the rules engine.
+VariantBench-UK: 12 approved masters → 48 variants (24 seeded
+violations, 24 benign edits). Ground truth is **computed, not
+hand-written**: every rule a variant breaks is derived from what the generator
+drew — the RGB values it chose, the font scale it set, the box coordinates it
+placed. Nothing in the label pipeline reads a pixel or calls the rules engine,
+so a bug in the detector cannot launder itself into the answer key.
 
 **Read the per-rule table first.** The variant-level score answers the easy
 question.
 
 ### Per-rule attribution
 
-| Rule | What it checks | Precision | Recall | TP | FP | Not evaluated |
-|---|---|---|---|---|---|---|
-| R1 | claim region materially changed | 100% | 95% | 21 | 0 | 0 |
-| R3 | warning removed or clipped | 83% | 100% | 5 | 1 | 0 |
-| R4 | on screen throughout (video) | 100% | 100% | 4 | 0 | 0 |
-| R5 | bordered, bold, underlined | 50% | 100% | 3 | 3 | 0 |
-| R6 | contrast below threshold | 100% | 100% | 3 | 0 | 0 |
-| R7 | smaller than body copy | 50% | 100% | 2 | 2 | 0 |
-| R8 | APR prominence vs trigger | 100% | 100% | 2 | 0 | 0 |
-| **R9** | **trigger spoken, APR not** | **—** | **—** | **0** | **0** | **2** |
-| **R10** | **cost figure, no example** | **—** | **—** | **0** | **0** | **2** |
-| R11 | prescribed wording altered | 67% | 100% | 2 | 1 | 0 |
-| R12 | inside the platform UI zone | 57% | 100% | 4 | 3 | 0 |
+| Rule | What it checks | Precision | Recall | TP | FP | FN | Not evaluated |
+|---|---|---|---|---|---|---|---|
+| R1 | claim region materially changed | 100% | 100% | 22 | 0 | 0 | 0 |
+| R3 | warning removed or clipped | 100% | 100% | 5 | 0 | 0 | 0 |
+| R4 | on screen throughout (video) | 100% | 100% | 4 | 0 | 0 | 0 |
+| R5 | bordered, bold, underlined | 50% | 100% | 3 | 3 | 0 | 0 |
+| R6 | contrast below threshold | 100% | 100% | 3 | 0 | 0 | 0 |
+| R7 | smaller than body copy | 67% | 100% | 2 | 1 | 0 | 0 |
+| R8 | APR prominence vs trigger | 100% | 100% | 2 | 0 | 0 | 0 |
+| **R9** | **trigger spoken, APR not** | **—** | **—** | **0** | **0** | **0** | **2** |
+| **R10** | **cost figure, no example** | **—** | **—** | **0** | **0** | **0** | **2** |
+| R11 | prescribed wording altered | 100% | 100% | 2 | 0 | 0 | 0 |
+| R12 | inside the platform UI zone | 40% | 67% | 2 | 3 | 1 | 2 |
 
 A pixel-diff baseline scores **0% recall on every rule except R1** — asserting
 "something changed" is the only thing it can do.
 
 **Three of twelve rules carry no measured evidence.** R2 compares live API
 settings against the manifest and has no pixel expression, so it is excluded
-from every vision baseline. R9 needs voiceover audio that does not exist yet.
+from every vision baseline. R9 needs voiceover audio a transcriber can read.
 R10 needs Muse Spark claim extraction. Nine rules were measured.
 
-**Where it is weak.** Precision on R5, R7 and R12 sits at 50–57%. Those are
-*localisation* errors, not logic errors: the tracker's box is close but not
-exact, so a neighbouring rule occasionally trips alongside the right one. SAM
-3.1 exists to close that gap, and region IoU is how we will measure whether it
-does.
+**Where it is weak.** Precision is below 100% on R12, R5, R7, and **R12 is the
+only rule that also misses** (67% recall,
+1 false negative). R12 got *worse* in the last
+round, not better: the ground truth now checks the left and right overlay bands
+as well as top and bottom — previously it checked only top and bottom, so the
+detector and the labels were enforcing different rules and the mismatch was
+invisible. Correcting the labels exposed real detector error that had been
+hidden. These are localisation errors rather than logic errors: the tracker's
+box is close but not exact, so a neighbouring rule occasionally trips with the
+right one. SAM 3.1 exists to close that gap, and region IoU is how we will
+measure whether it does.
 
 ### Variant-level detection
 
 | Baseline | Precision | Recall | F1 | False blocks | s/variant |
 |---|---|---|---|---|---|
-| B1 — pixel diff alone | 95% | 95% | 95% | 1/23 | 0.5 |
-| B2 — AsApproved | 100% | 100% | 100% | 0/23 | 3.0 |
-| B0 — Muse Spark alone | not run — needs an API key | | | | |
+| Pixel diff alone | 95% | 95% | 95% | 1/23 | 0.4 |
+| **AsApproved** | 100% | 100% | 100% | 0/23 | 4.3 |
+| Muse Spark alone | not run — needs an API key | | | | |
 
-45 of 48 variants scored; 3 need audio. **0/23 false blocks has a 95% upper
-bound near 14%** — it is a small synthetic benign set (hue shift, brightness,
-re-encode, margin trim, touch-up), not Meta's generative enhancements.
+45 of 48 variants scored; 3 need
+audio. **0/23 false blocks has a 95% upper bound near
+14%** — it is a small synthetic benign set (hue shift, brightness, re-encode,
+margin trim, touch-up), not Meta's generative enhancements.
 
 **These are development-set numbers.** The 48 variants are the set the detector
 was debugged and calibrated against: the R1 area floor, the SSIM floor and the
@@ -145,10 +153,14 @@ OCR similarity bands were all fitted by measuring these populations. There is no
 held-out split. 100% on the set you tuned on is weak evidence of generalisation,
 and it should be read that way.
 
-**R1 is satisfied by construction on 22 of 24 seeded violations** — any seeded
-edit changes a claim region — so it contributes 21 of 46 true positives and
-carries most of the variant-level recall. Only 3 variants were *designed* to
-test R1. The label file records both `intended_rules` and `violated_rules`.
+**R1 is satisfied by construction on 22 of 24 seeded violations** — any
+seeded edit changes a claim region — so it carries most of the variant-level
+recall. Only 3 variants were *designed* to test it. The label file records
+both `intended_rules` and `violated_rules`.
+
+**Reproducible.** Regenerating the dataset from a clean clone reproduces the
+committed label digest `d18da5ad90127363…` exactly, so a judge who rebuilds is
+scoring against the same answer key these numbers came from.
 
 Full report: [`eval/report.md`](eval/report.md). Regenerate with
 `asapproved bench`.

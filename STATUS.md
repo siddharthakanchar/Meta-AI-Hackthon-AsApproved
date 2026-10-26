@@ -1,7 +1,7 @@
 # STATUS
 
 Path: **undecided** (A/B/C decided after the Phase 1 Marketing API spike, due Tue 27 Oct 23:00 IST)
-Hours: used 1.5 / planned 40–45
+Hours: used 4.0 / planned 40–45
 Updated: Mon 26 Oct 2026
 
 ## Phases
@@ -9,7 +9,7 @@ Updated: Mon 26 Oct 2026
 - [~] Phase 1 — Spikes and go/no-go (Mon 26 – Tue 27 Oct, ~4 h) · **model spike blocked on the
       key (D-008)**; V1–V3 already verified from public docs, so what remains is the key itself,
       V13, and the Marketing API spike (USER INPUT 1.2, unaffected by the key blocker)
-- [ ] Phase 2 — Deterministic core (**pulled forward**, needs no key, ~5 h)
+- [x] Phase 2 — Deterministic core (**pulled forward**, needed no key) · 83 tests green, ruff clean
 - [ ] Phase 3 — Synthetic masters and variants (Wed 28 – Thu 29 Oct, ~4 h)
 - [ ] Phase 4 — Meta models in the pipeline (Thu 29 – Fri 30 Oct, ~5 h)
 - [ ] Phase 5 — Rules, explanations, review UI (Sat 31 Oct, ~9–10 h)
@@ -38,6 +38,27 @@ Updated: Mon 26 Oct 2026
      and prefers **24 kHz** PCM, not 16 kHz;
   4. cached input is $0.15/M vs $1.25/M — the rulebook prefix is identical across all 48
      benchmark variants, so this materially changes the cost-per-variant we publish.
+
+**Phase 2 delivered** (commit `bd70e0e`)
+- `canonical.py` — canonical bytes for everything signed or chained; floats rejected outright.
+- `manifest.py` (C1) — Ed25519 approval manifests. `verify-manifest` can pin a trusted signer and
+  states plainly when it is proving integrity but not identity.
+- `evidence.py` (C12) — hash chain whose digest covers `index` and `prev`, so reordering and
+  deletion fail too, not just edits. Known limit pinned by test: truncation from the end is
+  undetectable from the chain alone and needs an anchored head.
+- `vision/align.py` (C3) — ORB + RANSAC homography across all five geometry cases, with a
+  labelled scale-only fallback; `Alignment.ok` gates whether R1/R3 may fire at all.
+- `vision/diff.py` (C3) — SSIM over the aligned pair, change intersected with the claim region.
+- `vision/overlays.py` (C9) — placement safe zones as data; figures unverified (V11) and every
+  finding carries the caveat.
+- `measure.py` (C5) — WCAG contrast, size, border, clipping, occlusion, per-frame visibility.
+  Integers in fixed units only; anything unmeasurable returns `None` and surfaces as
+  `inconclusive` rather than as a pass or a fail.
+- CLI wired and demonstrated end to end: `keygen → approve → verify-manifest`, plus both tamper
+  demos (altered manifest → `INVALID`; flipped decision → `TAMPERED record 1 … line 2`).
+- Found while testing: a Windows BOM made a re-saved manifest read as "unreadable", which in a
+  compliance tool reads as a tamper alarm. Readers now accept a BOM so only changed content
+  fails. Regression test added.
 
 **Next**
 - USER INPUT 0.1: confirm environment answers (Docker decision, GitHub username).

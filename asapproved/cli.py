@@ -255,9 +255,62 @@ def drift() -> None:
 
 
 @app.command()
-def blast_radius(finding: str = typer.Argument(...)) -> None:
-    """List every sibling ad sharing the asset and feature (D2, Phase 6)."""
-    _todo("Phase 6", "blast-radius lookup")
+def blast_radius(
+    variant: str = typer.Argument(..., help="Variant id, e.g. northfield_card_v2__v0_...")
+) -> None:
+    """Every other live ad sharing this asset AND enrolled in the enhancement."""
+    from asapproved.act import plan_opt_out
+    from asapproved.graph import build_from_lineage
+
+    lineage = settings.data_dir / "lineage.json"
+    runs_index = settings.data_dir / "runs" / "index.json"
+    if not lineage.exists():
+        console.print(
+            "[red]no ad lineage[/] — build it with:\n  python scripts/make_lineage.py"
+        )
+        raise typer.Exit(code=1)
+
+    graph = build_from_lineage(lineage, runs_index if runs_index.exists() else None)
+    try:
+        result = graph.blast_radius(variant)
+    except KeyError:
+        console.print(f"[red]unknown variant:[/] {variant}")
+        console.print("[dim]list them with: asapproved demo, or see data/runs/index.json[/]")
+        raise typer.Exit(code=1) from None
+
+    console.print(f"[bold]{result.headline()}[/]  (enhancement: {result.feature})")
+    console.print(
+        "[dim]Siblings must share the asset AND be enrolled in the feature. Sharing the "
+        "asset alone over-reports — an ad that opted out is not at risk from it.[/]\n"
+    )
+
+    if not result.siblings:
+        console.print("[green]No other live ad uses this asset with this enhancement on.[/]")
+        raise typer.Exit(code=0)
+
+    t = Table()
+    t.add_column("ad", style="cyan", no_wrap=True)
+    t.add_column("master")
+    t.add_column("placement")
+    t.add_column("enrolment")
+    t.add_column("already failing")
+    for s in result.siblings:
+        t.add_row(
+            s.ad_id,
+            s.master_id,
+            s.placement or "—",
+            s.enroll_status,
+            "yes" if s.already_failing else "",
+        )
+    console.print(t)
+
+    plan = plan_opt_out([s.ad_id for s in result.siblings], result.feature)
+    console.print(f"\n[dim]Act would send {plan.count} opt-out request(s):[/]")
+    console.print(json.dumps(plan.as_requests()[:1], indent=2))
+    console.print(
+        "[yellow]DRY RUN[/] — no Marketing API access, so nothing is sent and Prove "
+        "reports 'could not verify', never 'proven'."
+    )
 
 
 @app.command()

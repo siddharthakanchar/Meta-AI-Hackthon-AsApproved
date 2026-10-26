@@ -1,6 +1,6 @@
 # AsApproved rulebook — UK consumer credit + high-risk investments
 #
-# STATUS: draft, scaffolded in Phase 0 from playbook §9. Thresholds and logic are
+# STATUS: draft. Thresholds and logic are
 # wired up in Phase 5. Every `citation` must be re-checked against the live FCA
 # handbook before the benchmark is scored, and the check logged in docs/DECISIONS.md.
 #

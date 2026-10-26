@@ -138,7 +138,7 @@ def _run_decision(variant_id: str, run: dict, action: str) -> None:
                     for s in siblings
                 ]
             ),
-            use_container_width=True,
+            width="stretch",
             height=180,
         )
 
@@ -155,7 +155,7 @@ def _run_decision(variant_id: str, run: dict, action: str) -> None:
         proof = prove([s.ad_id for s in siblings], feature)
         st.dataframe(
             pd.DataFrame([{"ad": p.ad_id, "status": p.status} for p in proof]),
-            use_container_width=True,
+            width="stretch",
             height=160,
         )
         st.caption(
@@ -221,7 +221,7 @@ with st.sidebar:
         st.caption(f"{index['count']} variants checked")
         st.caption(f"labels `{(index.get('labels_sha256') or '')[:12]}…`")
 
-if index is None:
+if index is None or not index.get("runs"):
     st.title("AsApproved")
     st.error(
         "No precomputed runs found. Build the dataset and cache the checks:\n\n"
@@ -290,13 +290,13 @@ if screen == "Overview":
         .agg(variants=("variant_id", "count"), failing=("fail", lambda s: int((s > 0).sum())))
         .sort_values("variants", ascending=False)
     )
-    st.dataframe(by_feature, use_container_width=True)
+    st.dataframe(by_feature, width="stretch")
 
     st.markdown("#### All checks")
     view = df[
         ["variant_id", "benign", "transform", "enhancement", "kind", "fail", "inconclusive", "seconds"]
     ].rename(columns={"fail": "failing rules", "seconds": "s"})
-    st.dataframe(view, use_container_width=True, height=420)
+    st.dataframe(view, width="stretch", height=420)
 
 
 # ---------------------------------------------------------------------------
@@ -416,9 +416,9 @@ elif screen == "Variant review":
         "that would be sent, the Prove step, and an append to the hash-chained evidence log."
     )
     d1, d2, d3 = st.columns(3)
-    blocked = d1.button("Block", type="primary", use_container_width=True)
-    accepted = d2.button("Accept with reason", use_container_width=True)
-    escalated = d3.button("Escalate", use_container_width=True)
+    blocked = d1.button("Block", type="primary", width="stretch")
+    accepted = d2.button("Accept with reason", width="stretch")
+    escalated = d3.button("Escalate", width="stretch")
 
     if blocked or accepted or escalated:
         action = "block" if blocked else ("accept" if accepted else "escalate")
@@ -505,7 +505,7 @@ elif screen == "Blast radius":
                     for s in result.siblings
                 ]
             ),
-            use_container_width=True,
+            width="stretch",
         )
 
     st.markdown("#### Act, then prove")
@@ -529,7 +529,7 @@ elif screen == "Blast radius":
         pd.DataFrame(
             [{"ad": p.ad_id, "status": p.status, "note": p.note} for p in proof]
         ),
-        use_container_width=True,
+        width="stretch",
     )
 
 
@@ -553,7 +553,7 @@ elif screen == "Evidence":
     from asapproved.evidence import append_record, read_entries, verify_chain
 
     cols = st.columns([1, 1, 2])
-    if cols[0].button("Build a sample log", use_container_width=True):
+    if cols[0].button("Build a sample log", width="stretch"):
         demo_log.unlink(missing_ok=True)
         for i, decision in enumerate(["accept", "block", "accept", "escalate"]):
             append_record(
@@ -567,7 +567,7 @@ elif screen == "Evidence":
         st.rerun()
 
     if demo_log.exists():
-        if cols[1].button("Tamper with one record", use_container_width=True):
+        if cols[1].button("Tamper with one record", width="stretch"):
             text = demo_log.read_text(encoding="utf-8")
             demo_log.write_text(
                 text.replace('"decision":"block"', '"decision":"accept"', 1), encoding="utf-8"
@@ -600,7 +600,7 @@ elif screen == "Evidence":
                     "prev": entry.prev[:16] + "…",
                 }
             )
-        st.dataframe(pd.DataFrame(rows), use_container_width=True)
+        st.dataframe(pd.DataFrame(rows), width="stretch")
 
         st.caption(
             "Known limit, stated rather than hidden: a hash chain cannot detect records "
@@ -644,7 +644,7 @@ elif screen == "Benchmark":
                     "s/variant": f"{rep['mean_seconds']:.1f}",
                 }
             )
-        st.dataframe(pd.DataFrame(rows), use_container_width=True)
+        st.dataframe(pd.DataFrame(rows), width="stretch")
         st.caption(
             "B0 (Muse Spark alone) needs a Model API key and is reported as not run rather "
             "than as a zero. False-block rate is the share of benign variants wrongly "
@@ -669,7 +669,7 @@ elif screen == "Benchmark":
                         "not evaluated": v["not_evaluated"],
                     }
                 )
-            st.dataframe(pd.DataFrame(rr), use_container_width=True)
+            st.dataframe(pd.DataFrame(rr), width="stretch")
 
 
 # ---------------------------------------------------------------------------
@@ -685,7 +685,8 @@ elif screen == "Rulebook":
     c1, c2, c3 = st.columns(3)
     _metric(c1, meta["version"], "version")
     _metric(c2, meta["status"], "status", "aa-warn" if not meta["verified"] else "aa-ok")
-    _metric(c3, str(len(meta["rules"])), "rules")
+    scored = [r for r in meta["rules"] if not r["id"].startswith("B")]
+    _metric(c3, f"{len(scored)} + 1", "rules + benchmark check")
 
     if not meta["verified"]:
         st.warning(
@@ -695,7 +696,7 @@ elif screen == "Rulebook":
             icon="⚠️",
         )
 
-    st.dataframe(pd.DataFrame(meta["rules"]), use_container_width=True, height=520)
+    st.dataframe(pd.DataFrame(meta["rules"]), width="stretch", height=520)
     st.caption(
         "The rulebook is data, not code: adding a jurisdiction is a YAML file, not a release. "
         "Thresholds (2% region change, 4.5:1 contrast, 98% visibility) are engineering "

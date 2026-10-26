@@ -9,12 +9,14 @@
   "summary": {
     "fail": 0,
     "blocking": 0,
-    "pass": 8,
-    "inconclusive": 3,
+    "pass": 6,
+    "inconclusive": 5,
     "not_applicable": 2,
     "failed_rules": [],
     "inconclusive_rules": [
+      "R1",
       "R2",
+      "R5",
       "R9",
       "B1"
     ]
@@ -23,25 +25,23 @@
     {
       "rule_id": "R1",
       "rulebook_version": "uk_v1",
-      "status": "pass",
+      "status": "inconclusive",
       "severity": "review",
       "citation": "FG24/1 para 4.14",
-      "detail": "Largest change inside a claim region was 0.0% ('warning'), within the 2% threshold.",
-      "measured": 0,
-      "measured_display": "0.0%",
+      "detail": "7.1% of the 'trigger' region differs, but that is only 913 pixels — below the 2,500-pixel floor where this detector can separate a real edit from re-encoding artefacts.",
+      "measured": 706,
+      "measured_display": "7.1%",
       "threshold": 200,
       "threshold_display": "2%",
       "units": "fraction_bp",
       "evidence": {
-        "region": "warning",
-        "per_region_bp": {
-          "warning": 0,
-          "risk_note": 0,
-          "trigger": 0
-        }
+        "region": "trigger",
+        "changed_pixels": 913
       },
       "sub_results": {},
-      "caveats": [],
+      "caveats": [
+        "change too small to distinguish from compression noise"
+      ],
       "benchmark_only": false,
       "not_legal_advice": true
     },
@@ -107,10 +107,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "pass",
+      "status": "inconclusive",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Measured checks pass (border); could not measure: bold, underline.",
+      "detail": "Measured checks pass (border), but bold, underline could not be measured, and the rule requires all of them.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -169,15 +169,15 @@
       "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A (prominence guidance)",
-      "detail": "Warning text is 25px against body copy at 23px.",
+      "detail": "Warning text is 25px against body copy at 20px.",
       "measured": 25,
       "measured_display": "25px",
-      "threshold": 23,
-      "threshold_display": "23px",
+      "threshold": 20,
+      "threshold_display": "20px",
       "units": "none",
       "evidence": {
         "warning_px": 25,
-        "body_px": 23
+        "body_px": 20
       },
       "sub_results": {},
       "caveats": [],
@@ -610,6 +610,6 @@
     ]
   },
   "sample_fps": 5.0,
-  "note": "No rule in rulebook uk_v1 failed for this variant.\n3 rule(s) could not be assessed: R2, R9, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 3.52
+  "note": "No rule in rulebook uk_v1 failed for this variant.\n5 rule(s) could not be assessed: R1, R2, R5, R9, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 4.09
 }

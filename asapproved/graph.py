@@ -6,7 +6,7 @@ has to be enrolled in the enhancement that did the damage. One approved fix then
 covers all of them, which is the difference between "we found a problem" and
 "we fixed the problem".
 
-Schema (playbook §5.4):
+Schema (design note):
 
     (:Master)<-[:CREATED_FROM]-(:Ad)-[:USES]->(:Asset)
     (:Ad)-[:ENROLLED {status}]->(:Feature)

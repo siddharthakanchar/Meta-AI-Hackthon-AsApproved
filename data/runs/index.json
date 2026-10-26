@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-26T14:53:13Z",
-  "labels_sha256": "ee290d4b0052186be096d5f3bd54eb0591437db80efc76852a418e0377d00195",
+  "generated_at": "2026-10-26T16:19:35Z",
+  "labels_sha256": "d18da5ad90127363ec9436bc0cd5b514cc6ab0ef1fc4ca5df4e30c5b4242a369",
   "count": 48,
   "runs": [
     {
@@ -24,7 +24,7 @@
         "R1",
         "R7"
       ],
-      "seconds": 4.21
+      "seconds": 4.11
     },
     {
       "variant_id": "brightwell_loans_01__v1_warning_into_overlay_zone",
@@ -36,7 +36,7 @@
       "placement": "reels",
       "fail": 2,
       "blocking": 1,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [
         "R1",
         "R12"
@@ -45,7 +45,7 @@
         "R1",
         "R12"
       ],
-      "seconds": 2.75
+      "seconds": 2.61
     },
     {
       "variant_id": "brightwell_loans_01__v2_background_hue_shift",
@@ -57,10 +57,10 @@
       "placement": "reels",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.73
+      "seconds": 2.59
     },
     {
       "variant_id": "brightwell_loans_01__v3_brightness_lift",
@@ -72,10 +72,10 @@
       "placement": "reels",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.15
+      "seconds": 1.97
     },
     {
       "variant_id": "brightwell_loans_02__v0_warning_low_contrast",
@@ -87,7 +87,7 @@
       "placement": "feed",
       "fail": 2,
       "blocking": 0,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [
         "R1",
         "R6"
@@ -96,7 +96,7 @@
         "R1",
         "R6"
       ],
-      "seconds": 2.91
+      "seconds": 2.86
     },
     {
       "variant_id": "brightwell_loans_02__v1_representative_example_removed",
@@ -108,7 +108,7 @@
       "placement": "feed",
       "fail": 2,
       "blocking": 1,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [
         "R1",
         "R3"
@@ -118,7 +118,7 @@
         "R3",
         "R10"
       ],
-      "seconds": 1.94
+      "seconds": 1.88
     },
     {
       "variant_id": "brightwell_loans_02__v2_background_hue_shift",
@@ -130,10 +130,10 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.14
+      "seconds": 2.06
     },
     {
       "variant_id": "brightwell_loans_02__v3_brightness_lift",
@@ -145,10 +145,10 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.79
+      "seconds": 1.73
     },
     {
       "variant_id": "brightwell_loans_v1__v0_warning_border_removed",
@@ -169,7 +169,7 @@
         "R1",
         "R5"
       ],
-      "seconds": 3.93
+      "seconds": 4.47
     },
     {
       "variant_id": "brightwell_loans_v1__v1_voiceover_drops_apr",
@@ -181,12 +181,12 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 4,
+      "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [
         "R9"
       ],
-      "seconds": 3.51
+      "seconds": 4.06
     },
     {
       "variant_id": "brightwell_loans_v1__v2_background_hue_shift",
@@ -198,10 +198,10 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 4,
+      "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 3.52
+      "seconds": 4.09
     },
     {
       "variant_id": "brightwell_loans_v1__v3_brightness_lift",
@@ -213,10 +213,10 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 4,
+      "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 3.58
+      "seconds": 4.12
     },
     {
       "variant_id": "kestrel_crypto_01__v0_expand_pushes_warning_offframe",
@@ -226,20 +226,19 @@
       "enhancement": "image_background_gen",
       "kind": "still",
       "placement": "reels",
-      "fail": 3,
-      "blocking": 2,
-      "inconclusive": 2,
+      "fail": 2,
+      "blocking": 1,
+      "inconclusive": 3,
       "failed_rules": [
         "R1",
-        "R3",
-        "R12"
+        "R3"
       ],
       "expected_rules": [
         "R1",
         "R3",
         "R12"
       ],
-      "seconds": 2.71
+      "seconds": 2.61
     },
     {
       "variant_id": "kestrel_crypto_01__v1_warning_reworded",
@@ -262,7 +261,7 @@
         "R1",
         "R11"
       ],
-      "seconds": 2.71
+      "seconds": 2.55
     },
     {
       "variant_id": "kestrel_crypto_01__v2_background_hue_shift",
@@ -274,10 +273,10 @@
       "placement": "reels",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 1,
+      "inconclusive": 2,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.54
+      "seconds": 2.41
     },
     {
       "variant_id": "kestrel_crypto_01__v3_brightness_lift",
@@ -289,10 +288,10 @@
       "placement": "reels",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 1,
+      "inconclusive": 2,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.23
+      "seconds": 2.07
     },
     {
       "variant_id": "kestrel_ltaf_v1__v0_warning_appears_late",
@@ -313,7 +312,7 @@
         "R1",
         "R4"
       ],
-      "seconds": 4.69
+      "seconds": 5.26
     },
     {
       "variant_id": "kestrel_ltaf_v1__v1_warning_low_contrast",
@@ -323,19 +322,18 @@
       "enhancement": "image_background_gen",
       "kind": "video",
       "placement": "feed",
-      "fail": 3,
+      "fail": 2,
       "blocking": 0,
-      "inconclusive": 3,
+      "inconclusive": 4,
       "failed_rules": [
         "R1",
-        "R6",
-        "R7"
+        "R6"
       ],
       "expected_rules": [
         "R1",
         "R6"
       ],
-      "seconds": 4.64
+      "seconds": 5.2
     },
     {
       "variant_id": "kestrel_ltaf_v1__v2_background_hue_shift",
@@ -347,10 +345,10 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 3,
+      "inconclusive": 5,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 3.52
+      "seconds": 4.09
     },
     {
       "variant_id": "kestrel_ltaf_v1__v3_brightness_lift",
@@ -362,10 +360,10 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 3,
+      "inconclusive": 5,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 3.57
+      "seconds": 4.16
     },
     {
       "variant_id": "kestrel_nrrs_01__v0_crop_removes_warning",
@@ -377,7 +375,7 @@
       "placement": "feed",
       "fail": 2,
       "blocking": 1,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [
         "R1",
         "R3"
@@ -386,7 +384,7 @@
         "R1",
         "R3"
       ],
-      "seconds": 2.54
+      "seconds": 2.48
     },
     {
       "variant_id": "kestrel_nrrs_01__v1_warning_border_removed",
@@ -407,7 +405,7 @@
         "R1",
         "R5"
       ],
-      "seconds": 2.3
+      "seconds": 2.22
     },
     {
       "variant_id": "kestrel_nrrs_01__v2_background_hue_shift",
@@ -419,10 +417,10 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 1,
+      "inconclusive": 2,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.66
+      "seconds": 1.56
     },
     {
       "variant_id": "kestrel_nrrs_01__v3_brightness_lift",
@@ -434,10 +432,10 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 1,
+      "inconclusive": 2,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.65
+      "seconds": 1.54
     },
     {
       "variant_id": "kestrel_p2p_v1__v0_warning_reworded",
@@ -447,12 +445,11 @@
       "enhancement": "text_translation",
       "kind": "video",
       "placement": "reels",
-      "fail": 4,
-      "blocking": 3,
-      "inconclusive": 4,
+      "fail": 3,
+      "blocking": 2,
+      "inconclusive": 5,
       "failed_rules": [
         "R1",
-        "R3",
         "R11",
         "R12"
       ],
@@ -460,7 +457,7 @@
         "R1",
         "R11"
       ],
-      "seconds": 6.7
+      "seconds": 7.51
     },
     {
       "variant_id": "kestrel_p2p_v1__v1_warning_appears_late",
@@ -470,19 +467,18 @@
       "enhancement": "video_highlights",
       "kind": "video",
       "placement": "reels",
-      "fail": 3,
-      "blocking": 2,
-      "inconclusive": 3,
+      "fail": 2,
+      "blocking": 1,
+      "inconclusive": 4,
       "failed_rules": [
         "R1",
-        "R4",
-        "R11"
+        "R4"
       ],
       "expected_rules": [
         "R1",
         "R4"
       ],
-      "seconds": 5.85
+      "seconds": 6.92
     },
     {
       "variant_id": "kestrel_p2p_v1__v2_recompressed",
@@ -494,10 +490,10 @@
       "placement": "reels",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 4,
+      "inconclusive": 5,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 4.87
+      "seconds": 5.97
     },
     {
       "variant_id": "kestrel_p2p_v1__v3_background_hue_shift",
@@ -509,10 +505,10 @@
       "placement": "reels",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 4,
+      "inconclusive": 5,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 5.14
+      "seconds": 6.32
     },
     {
       "variant_id": "northfield_card_01__v0_representative_example_removed",
@@ -524,7 +520,7 @@
       "placement": "feed",
       "fail": 2,
       "blocking": 1,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [
         "R1",
         "R3"
@@ -534,7 +530,7 @@
         "R3",
         "R10"
       ],
-      "seconds": 2.19
+      "seconds": 2.17
     },
     {
       "variant_id": "northfield_card_01__v1_warning_border_removed",
@@ -555,7 +551,7 @@
         "R1",
         "R5"
       ],
-      "seconds": 2.14
+      "seconds": 2.06
     },
     {
       "variant_id": "northfield_card_01__v2_margin_trim",
@@ -567,10 +563,10 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.52
+      "seconds": 2.44
     },
     {
       "variant_id": "northfield_card_01__v3_background_hue_shift",
@@ -582,10 +578,10 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.83
+      "seconds": 1.73
     },
     {
       "variant_id": "northfield_card_02__v0_warning_into_overlay_zone",
@@ -595,18 +591,19 @@
       "enhancement": "adapt_to_placement",
       "kind": "still",
       "placement": "stories",
-      "fail": 2,
+      "fail": 3,
       "blocking": 1,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [
         "R1",
+        "R7",
         "R12"
       ],
       "expected_rules": [
         "R1",
         "R12"
       ],
-      "seconds": 3.34
+      "seconds": 3.27
     },
     {
       "variant_id": "northfield_card_02__v1_warning_low_contrast",
@@ -618,7 +615,7 @@
       "placement": "stories",
       "fail": 2,
       "blocking": 0,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [
         "R1",
         "R6"
@@ -627,7 +624,7 @@
         "R1",
         "R6"
       ],
-      "seconds": 2.62
+      "seconds": 2.51
     },
     {
       "variant_id": "northfield_card_02__v2_image_touchup",
@@ -639,10 +636,10 @@
       "placement": "stories",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.2
+      "seconds": 2.01
     },
     {
       "variant_id": "northfield_card_02__v3_background_hue_shift",
@@ -654,10 +651,10 @@
       "placement": "stories",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.21
+      "seconds": 2.03
     },
     {
       "variant_id": "northfield_card_03__v0_apr_shrunk_below_trigger",
@@ -667,19 +664,18 @@
       "enhancement": "text_optimizations",
       "kind": "still",
       "placement": "feed",
-      "fail": 3,
+      "fail": 2,
       "blocking": 1,
-      "inconclusive": 2,
+      "inconclusive": 4,
       "failed_rules": [
         "R1",
-        "R7",
         "R8"
       ],
       "expected_rules": [
         "R1",
         "R8"
       ],
-      "seconds": 2.17
+      "seconds": 2.06
     },
     {
       "variant_id": "northfield_card_03__v1_warning_shrunk",
@@ -701,7 +697,7 @@
         "R1",
         "R7"
       ],
-      "seconds": 1.95
+      "seconds": 1.86
     },
     {
       "variant_id": "northfield_card_03__v2_brightness_lift",
@@ -713,10 +709,10 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.82
+      "seconds": 1.73
     },
     {
       "variant_id": "northfield_card_03__v3_background_hue_shift",
@@ -728,10 +724,10 @@
       "placement": "feed",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 2,
+      "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.84
+      "seconds": 1.74
     },
     {
       "variant_id": "northfield_card_v1__v0_voiceover_drops_apr",
@@ -743,12 +739,12 @@
       "placement": "reels",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 4,
+      "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [
         "R9"
       ],
-      "seconds": 5.34
+      "seconds": 6.49
     },
     {
       "variant_id": "northfield_card_v1__v1_warning_appears_late",
@@ -760,7 +756,7 @@
       "placement": "reels",
       "fail": 2,
       "blocking": 1,
-      "inconclusive": 4,
+      "inconclusive": 5,
       "failed_rules": [
         "R1",
         "R4"
@@ -769,7 +765,7 @@
         "R1",
         "R4"
       ],
-      "seconds": 6.41
+      "seconds": 7.47
     },
     {
       "variant_id": "northfield_card_v1__v2_background_hue_shift",
@@ -781,10 +777,10 @@
       "placement": "reels",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 4,
+      "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 5.06
+      "seconds": 6.15
     },
     {
       "variant_id": "northfield_card_v1__v3_brightness_lift",
@@ -796,10 +792,10 @@
       "placement": "reels",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 4,
+      "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 5.02
+      "seconds": 6.12
     },
     {
       "variant_id": "northfield_card_v2__v0_apr_animates_offscreen",
@@ -809,17 +805,19 @@
       "enhancement": "image_animation",
       "kind": "video",
       "placement": "reels",
-      "fail": 1,
+      "fail": 2,
       "blocking": 1,
-      "inconclusive": 4,
+      "inconclusive": 5,
       "failed_rules": [
+        "R1",
         "R8"
       ],
       "expected_rules": [
         "R1",
-        "R8"
+        "R8",
+        "R12"
       ],
-      "seconds": 5.07
+      "seconds": 6.16
     },
     {
       "variant_id": "northfield_card_v2__v1_zoom_drops_warning",
@@ -829,14 +827,13 @@
       "enhancement": "image_animation",
       "kind": "video",
       "placement": "reels",
-      "fail": 4,
-      "blocking": 3,
-      "inconclusive": 4,
+      "fail": 3,
+      "blocking": 2,
+      "inconclusive": 5,
       "failed_rules": [
         "R1",
         "R3",
-        "R4",
-        "R12"
+        "R4"
       ],
       "expected_rules": [
         "R1",
@@ -844,7 +841,7 @@
         "R4",
         "R12"
       ],
-      "seconds": 8.08
+      "seconds": 8.17
     },
     {
       "variant_id": "northfield_card_v2__v2_music_swap",
@@ -856,10 +853,10 @@
       "placement": "reels",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 4,
+      "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 5.04
+      "seconds": 6.16
     },
     {
       "variant_id": "northfield_card_v2__v3_background_hue_shift",
@@ -871,10 +868,10 @@
       "placement": "reels",
       "fail": 0,
       "blocking": 0,
-      "inconclusive": 4,
+      "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 5.04
+      "seconds": 6.23
     }
   ]
 }

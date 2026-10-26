@@ -9,12 +9,13 @@
   "summary": {
     "fail": 0,
     "blocking": 0,
-    "pass": 7,
-    "inconclusive": 2,
+    "pass": 6,
+    "inconclusive": 3,
     "not_applicable": 4,
     "failed_rules": [],
     "inconclusive_rules": [
       "R2",
+      "R5",
       "R10"
     ]
   },
@@ -103,10 +104,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "pass",
+      "status": "inconclusive",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Measured checks pass (border); could not measure: bold, underline.",
+      "detail": "Measured checks pass (border), but bold, underline could not be measured, and the rule requires all of them.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -376,6 +377,6 @@
     ]
   },
   "sample_fps": 0.0,
-  "note": "No rule in rulebook uk_v1 failed for this variant.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 2.14
+  "note": "No rule in rulebook uk_v1 failed for this variant.\n3 rule(s) could not be assessed: R2, R5, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 2.06
 }

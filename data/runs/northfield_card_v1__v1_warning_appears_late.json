@@ -9,8 +9,8 @@
   "summary": {
     "fail": 2,
     "blocking": 1,
-    "pass": 6,
-    "inconclusive": 4,
+    "pass": 5,
+    "inconclusive": 5,
     "not_applicable": 1,
     "failed_rules": [
       "R1",
@@ -18,6 +18,7 @@
     ],
     "inconclusive_rules": [
       "R2",
+      "R5",
       "R9",
       "R10",
       "B1"
@@ -31,7 +32,7 @@
       "severity": "review",
       "citation": "FG24/1 para 4.14",
       "detail": "99.9% of the 'warning' region changed from the approved master (threshold 2%).",
-      "measured": 9992,
+      "measured": 9993,
       "measured_display": "99.9%",
       "threshold": 200,
       "threshold_display": "2%",
@@ -39,9 +40,9 @@
       "evidence": {
         "region": "warning",
         "per_region_bp": {
-          "warning": 9992,
-          "apr": 0,
-          "trigger": 0
+          "warning": 9993,
+          "apr": 847,
+          "trigger": 404
         }
       },
       "sub_results": {},
@@ -111,10 +112,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "pass",
+      "status": "inconclusive",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Measured checks pass (border); could not measure: bold, underline.",
+      "detail": "Measured checks pass (border), but bold, underline could not be measured, and the rule requires all of them.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -173,15 +174,15 @@
       "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A (prominence guidance)",
-      "detail": "Warning text is 29px against body copy at 22px.",
+      "detail": "Warning text is 29px against body copy at 23px.",
       "measured": 29,
       "measured_display": "29px",
-      "threshold": 22,
-      "threshold_display": "22px",
+      "threshold": 23,
+      "threshold_display": "23px",
       "units": "none",
       "evidence": {
         "warning_px": 29,
-        "body_px": 22
+        "body_px": 23
       },
       "sub_results": {},
       "caveats": [],
@@ -613,6 +614,6 @@
     ]
   },
   "sample_fps": 5.0,
-  "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 99.9% of the 'warning' region changed from the approved master (threshold 2%).\n- R4 (FG24/1 Table 1): The warning is on screen for 28.0% of frames, below the 98% the guidance expects. Longest continuous absence: 10.8s.\n4 rule(s) could not be assessed: R2, R9, R10, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 6.41
+  "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 99.9% of the 'warning' region changed from the approved master (threshold 2%).\n- R4 (FG24/1 Table 1): The warning is on screen for 28.0% of frames, below the 98% the guidance expects. Longest continuous absence: 10.8s.\n5 rule(s) could not be assessed: R2, R5, R9, R10, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 7.47
 }

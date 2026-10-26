@@ -160,6 +160,30 @@ def main() -> int:
             f"[{record['seconds']:.1f}s]  {i}/{len(items)}"
         )
 
+    if not index:
+        print(
+            f"\nNothing was cached — no variants found in {settings.variants_dir}.\n"
+            "data/runs/index.json left untouched.\n\n"
+            "Build the dataset first:\n"
+            "  python scripts/make_masters.py\n"
+            "  python scripts/make_variants.py",
+            file=sys.stderr,
+        )
+        return 1
+
+    if args.limit or args.only:
+        # A partial run must not replace the full index. Overwriting it with a
+        # subset silently shrank the demo; overwriting it with nothing killed it
+        # outright, and the app then showed an empty selectbox rather than
+        # saying why.
+        existing = runs_dir / "index.json"
+        if existing.exists():
+            previous = json.loads(existing.read_text(encoding="utf-8")).get("runs", [])
+            keep = {row["variant_id"] for row in index}
+            index = [row for row in previous if row["variant_id"] not in keep] + index
+            index.sort(key=lambda row: row["variant_id"])
+            print(f"  merged into the existing index ({len(index)} runs total)")
+
     (runs_dir / "index.json").write_text(
         json.dumps(
             {

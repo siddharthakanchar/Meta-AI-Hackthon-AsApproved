@@ -1,6 +1,6 @@
 """The 12 approved masters.
 
-Composition follows playbook §6: 5 credit stills, 3 credit videos, 2 high-risk
+Composition follows the design notes: 5 credit stills, 3 credit videos, 2 high-risk
 stills, 2 investment videos. The four investment masters between them use all
 four prescribed warnings from COBS 4.12A.11R, so R11 gets exercised on every
 variant of the text rather than on one.

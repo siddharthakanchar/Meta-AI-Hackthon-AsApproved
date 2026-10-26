@@ -236,8 +236,16 @@ def test_r5_fails_when_a_sub_check_fails():
     assert f.sub_results == {"border": "fail", "bold": "pass", "underline": "pass"}
 
 
-def test_r5_reports_unmeasurable_sub_checks_without_failing_on_them():
-    """V14: bold/underline detection may be unreliable. Unknown is not a breach."""
+def test_r5_will_not_pass_a_conjunction_it_only_partly_measured():
+    """COBS 4.12A.36R is border AND bold AND underline.
+
+    This previously returned `pass` with two of three limbs unmeasured — which
+    asserted compliance with a rule we had checked a third of, and contradicted
+    this engine's own invariant that an unknown input never yields a pass. The
+    pipeline hard-codes bold and underline as unmeasurable (V14), so that pass
+    was the verdict on EVERY run. Unknown is still not a breach: the answer is
+    inconclusive, not fail.
+    """
     f = _find(
         evaluate(
             _ctx(
@@ -253,9 +261,11 @@ def test_r5_reports_unmeasurable_sub_checks_without_failing_on_them():
         ),
         "R5",
     )
-    assert f.status == "pass"
+    assert f.status == "inconclusive"
+    assert f.sub_results["border"] == "pass"
     assert f.sub_results["bold"] == "inconclusive"
     assert "bold not measurable" in f.caveats
+    assert "requires all of them" in f.detail
 
 
 def test_r5_is_inconclusive_when_nothing_could_be_measured():

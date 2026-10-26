@@ -19,7 +19,7 @@ repos:
       - id: trailing-whitespace
       - id: detect-private-key
 
-  # Secret scanner — the hard guardrail from playbook §17. Nothing ships if this fires.
+  # Secret scanner — the hard guardrail. Nothing ships if this fires.
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.18.4
     hooks:

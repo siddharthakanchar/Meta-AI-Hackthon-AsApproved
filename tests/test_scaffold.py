@@ -44,16 +44,19 @@ def test_mask_never_reveals_short_secrets() -> None:
 
 def test_unbuilt_commands_exit_cleanly() -> None:
     """Stubs must say which phase they land in, not raise NotImplementedError at the user."""
-    for cmd in ("drift", "blast-radius"):
-        args = [cmd, "x"] if cmd == "blast-radius" else [cmd]
-        result = runner.invoke(app, args)
+    # Only `drift` remains unbuilt — it needs live Marketing API settings.
+    for cmd in ("drift",):
+        result = runner.invoke(app, [cmd])
         assert result.exit_code == 2, cmd
         assert "Not built yet" in result.stdout, cmd
 
 
 def test_phase2_commands_are_wired() -> None:
     """keygen/approve/verify-* are built — they must no longer claim otherwise."""
-    for cmd in ("keygen", "approve", "verify-manifest", "verify-log", "check", "bench", "demo"):
+    for cmd in (
+        "keygen", "approve", "verify-manifest", "verify-log",
+        "check", "bench", "demo", "blast-radius",
+    ):
         result = runner.invoke(app, [cmd, "--help"])
         assert result.exit_code == 0, cmd
         assert "Not built yet" not in result.stdout, cmd

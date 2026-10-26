@@ -44,29 +44,47 @@ def main() -> int:
 
     masters = settings.masters_dir
     variants = settings.variants_dir
+    if not variants.is_dir() or not any(variants.glob("*.*")):
+        print(
+            f"no variants at {variants} — run:\n"
+            "  python scripts/make_masters.py\n"
+            "  python scripts/make_variants.py",
+            file=sys.stderr,
+        )
+        return 1
+
     wanted = {b.strip().lower() for b in args.baselines.split(",")}
     reports = []
 
     if "b1" in wanted:
-        print("B1 — pixel diff alone ...", flush=True)
+        print("PIXEL — pixel diff alone ...", flush=True)
         t0 = time.time()
         preds = run_b1(labels, masters, variants)
         # Scored rule-aware, like B2. A pixel diff answers "did something
         # change?" and nothing else, so its per-rule row is the honest measure
         # of the gap: strong at detection, incapable of attribution.
-        reports.append(score("B1", "pixel diff alone", preds, labels))
+        reports.append(score("PIXEL", "pixel diff alone", preds, labels))
         print(f"   done in {time.time() - t0:.0f}s")
 
     if "b2" in wanted:
-        print("B2 — AsApproved full pipeline ...", flush=True)
+        print("ASAPPROVED — full pipeline ...", flush=True)
         t0 = time.time()
         preds = run_b2(labels, masters, variants)
-        reports.append(score("B2", "AsApproved", preds, labels))
+        reports.append(score("ASAPPROVED", "full pipeline", preds, labels))
         print(f"   done in {time.time() - t0:.0f}s")
 
+    # A partial run writes to partial files. Letting `--limit 4` overwrite the
+    # published 48-variant report made the README's headline numbers disagree
+    # with the repo's own eval/report.md, which is the single most
+    # credibility-destroying inconsistency this project could ship.
     out_dir = REPO_ROOT / "eval"
-    report_path = write_report(reports, out_dir / "report.md", labels)
-    (out_dir / "results.json").write_text(
+    partial = bool(args.limit) or wanted != {"b1", "b2"}
+    suffix = ".partial" if partial else ""
+    if partial:
+        print(f"\n  partial run -> eval/report{suffix}.md (published files untouched)")
+
+    report_path = write_report(reports, out_dir / f"report{suffix}.md", labels)
+    (out_dir / f"results{suffix}.json").write_text(
         json.dumps(
             {
                 "labels_sha256": labels.get("labels_sha256"),

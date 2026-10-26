@@ -173,23 +173,30 @@ Image is unused (unavailable in India under Meta's Geographic Use Policy).
 
 ## Quick start
 
-```bash
+```powershell
 git clone https://github.com/siddharthakvss/asapproved.git
 cd asapproved
-python -m venv .venv && .venv\Scripts\Activate.ps1
-pip install -e ".[dev,ocr,graph,pdf,viz]"
+python -m venv .venv
+.venv\Scripts\Activate.ps1           # macOS/Linux: source .venv/bin/activate
+pip install -e ".[dev,ocr,graph]"
 
 asapproved demo                       # hero case from cache, no network
 streamlit run app/streamlit_app.py    # the review UI
 ```
 
-`data/runs/` is committed, so the demo and the UI work on a fresh clone with no
-API key and no build step. To regenerate the dataset (~20 min, needs `ffmpeg`):
+One command per line deliberately: `&&` is not a statement separator in Windows
+PowerShell 5.1, which is the default shell on Windows 11.
 
-```bash
-python scripts/make_masters.py && python scripts/make_variants.py
-python scripts/make_lineage.py && python scripts/precompute.py
-asapproved bench
+`data/runs/` is committed, so the demo and the UI work on a fresh clone with no
+API key and no build step. To regenerate the dataset (~30 min, needs `ffmpeg`):
+
+```powershell
+python scripts/make_masters.py        # 5m30 (video encoding)
+python scripts/make_variants.py       # 17m30
+python scripts/make_lineage.py        # instant
+python scripts/make_voiceovers.py     # synthetic speech, offline
+python scripts/precompute.py          # ~3 min
+asapproved bench                      # ~3 min
 ```
 
 `ASAPPROVED_MODE=demo` is the default and makes a model cache miss **raise**

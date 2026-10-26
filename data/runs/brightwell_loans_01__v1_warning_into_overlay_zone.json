@@ -9,8 +9,8 @@
   "summary": {
     "fail": 2,
     "blocking": 1,
-    "pass": 5,
-    "inconclusive": 2,
+    "pass": 4,
+    "inconclusive": 3,
     "not_applicable": 4,
     "failed_rules": [
       "R1",
@@ -18,6 +18,7 @@
     ],
     "inconclusive_rules": [
       "R2",
+      "R5",
       "R10"
     ]
   },
@@ -106,10 +107,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "pass",
+      "status": "inconclusive",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Measured checks pass (border); could not measure: bold, underline.",
+      "detail": "Measured checks pass (border), but bold, underline could not be measured, and the rule requires all of them.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -385,6 +386,6 @@
     ]
   },
   "sample_fps": 0.0,
-  "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 77.5% of the 'apr' region changed from the approved master (threshold 2%).\n- R12 (FG24/1 para 1.5): 91,612 pixels of the 'warning' fall inside the reels interface overlay zone, where platform chrome can obscure them.\n  Caveat: Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 2.75
+  "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 77.5% of the 'apr' region changed from the approved master (threshold 2%).\n- R12 (FG24/1 para 1.5): 91,612 pixels of the 'warning' fall inside the reels interface overlay zone, where platform chrome can obscure them.\n  Caveat: Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.\n3 rule(s) could not be assessed: R2, R5, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 2.61
 }

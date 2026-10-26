@@ -1,11 +1,13 @@
 """D5 — scoring VariantBench-UK.
 
 Baselines:
-  B0  Muse Spark alone — master + variant + rulebook in one prompt. Needs an API
-      key; reported as "not run" until one exists, never as a zero.
-  B1  Pixel diff alone — flag when enough of any claim region changed. The
-      straw man that a lot of "AI compliance" tooling actually is.
-  B2  AsApproved — align, track, measure, rules.
+  SPARK       Muse Spark alone — master + variant + rulebook in one prompt.
+              Needs an API key; reported as "not run", never as a zero.
+  PIXEL       Pixel diff alone — flag when enough of any claim region changed.
+  ASAPPROVED  The full pipeline — align, track, measure, rules.
+
+Named rather than numbered: "B1" was also the id of the Clearcast hold-time
+rule, so a report could show "B1" as a baseline directly above "B1" as a rule.
 
 Two decisions that shape every number here:
 
@@ -303,7 +305,9 @@ def write_report(reports: list[BaselineReport], out_path: Path, labels: dict) ->
         f"Dataset: {labels['count']} variants "
         f"({labels['violations']} seeded violations, {labels['benign']} benign) "
         f"from 12 approved masters.",
-        f"Labels frozen at `{labels.get('labels_sha256', 'unset')[:16]}…`.",
+        f"Labels digest `{labels.get('labels_sha256', 'unset')[:16]}…` — a content hash, "
+        "not a freeze. The labels and the detector were both changed during development; "
+        "see the README's Limits section.",
         "",
         "All creative is SIMULATED. Numbers are reported as measured, including "
         "where a baseline beats the full pipeline.",

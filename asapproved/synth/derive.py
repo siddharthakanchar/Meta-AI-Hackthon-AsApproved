@@ -56,6 +56,26 @@ def _overlay_bottom(spec: MasterSpec) -> float:
         return 0.0
 
 
+def _overlay_left(spec: MasterSpec) -> float:
+    from asapproved.vision.overlays import get_spec
+
+    placement = "reels_with_disclaimer" if spec.placement == "reels" else spec.placement
+    try:
+        return get_spec(placement).left
+    except KeyError:
+        return 0.0
+
+
+def _overlay_right(spec: MasterSpec) -> float:
+    from asapproved.vision.overlays import get_spec
+
+    placement = "reels_with_disclaimer" if spec.placement == "reels" else spec.placement
+    try:
+        return get_spec(placement).right
+    except KeyError:
+        return 0.0
+
+
 def _overlay_top(spec: MasterSpec) -> float:
     from asapproved.vision.overlays import get_spec
 
@@ -167,8 +187,19 @@ def derive_violations(
             box = regions.get(label)
             if box is None or not region_present.get(label, True):
                 continue
-            _, y, _, bh = box
-            if y < zone_top_px or (y + bh) > zone_bottom_px:
+            x, y, bw, bh = box
+            # Left and right bands too. The detector enforces all four, so
+            # omitting the side bands here made ground truth a DIFFERENT rule
+            # from the one under test, and the resulting false positives were
+            # definitionally unfixable.
+            left_px = _overlay_left(spec) * w_img
+            right_px = (1.0 - _overlay_right(spec)) * w_img
+            if (
+                y < zone_top_px
+                or (y + bh) > zone_bottom_px
+                or x < left_px
+                or (x + bw) > right_px
+            ):
                 broken.add("R12")
                 break
 

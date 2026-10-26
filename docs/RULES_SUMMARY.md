@@ -6,7 +6,7 @@ livestream, **Mon 26 Oct 2026, 22:30 IST**. USER INPUT 0.2 collects them.
 Nothing in this plan may rely on an assumed rule. Until this file is populated, the figures below
 are *unconfirmed secondary reporting* and are not to be quoted in the submission.
 
-## To extract (playbook §1.3, §12 Phase 0)
+## To extract (the design notes, §12 Phase 0)
 - [ ] Every required submission field, with character limits
 - [ ] Demo video: maximum length, hosting requirement, public/unlisted
 - [ ] Repository: public or private, licence requirement, commit-window rule

@@ -9,11 +9,12 @@
   "summary": {
     "fail": 0,
     "blocking": 0,
-    "pass": 7,
-    "inconclusive": 4,
+    "pass": 6,
+    "inconclusive": 5,
     "not_applicable": 2,
     "failed_rules": [],
     "inconclusive_rules": [
+      "R1",
       "R2",
       "R5",
       "R9",
@@ -24,25 +25,23 @@
     {
       "rule_id": "R1",
       "rulebook_version": "uk_v1",
-      "status": "pass",
+      "status": "inconclusive",
       "severity": "review",
       "citation": "FG24/1 para 4.14",
-      "detail": "Largest change inside a claim region was 0.0% ('warning'), within the 2% threshold.",
-      "measured": 0,
-      "measured_display": "0.0%",
+      "detail": "5.8% of the 'trigger' region differs, but that is only 586 pixels — below the 2,500-pixel floor where this detector can separate a real edit from re-encoding artefacts.",
+      "measured": 584,
+      "measured_display": "5.8%",
       "threshold": 200,
       "threshold_display": "2%",
       "units": "fraction_bp",
       "evidence": {
-        "region": "warning",
-        "per_region_bp": {
-          "warning": 0,
-          "risk_note": 0,
-          "trigger": 0
-        }
+        "region": "trigger",
+        "changed_pixels": 586
       },
       "sub_results": {},
-      "caveats": [],
+      "caveats": [
+        "change too small to distinguish from compression noise"
+      ],
       "benchmark_only": false,
       "not_legal_advice": true
     },
@@ -171,15 +170,15 @@
       "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A (prominence guidance)",
-      "detail": "Warning text is 30px against body copy at 23px.",
+      "detail": "Warning text is 30px against body copy at 21px.",
       "measured": 30,
       "measured_display": "30px",
-      "threshold": 23,
-      "threshold_display": "23px",
+      "threshold": 21,
+      "threshold_display": "21px",
       "units": "none",
       "evidence": {
         "warning_px": 30,
-        "body_px": 23
+        "body_px": 21
       },
       "sub_results": {},
       "caveats": [],
@@ -612,6 +611,6 @@
     ]
   },
   "sample_fps": 5.0,
-  "note": "No rule in rulebook uk_v1 failed for this variant.\n4 rule(s) could not be assessed: R2, R5, R9, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 5.14
+  "note": "No rule in rulebook uk_v1 failed for this variant.\n5 rule(s) could not be assessed: R1, R2, R5, R9, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 6.32
 }

@@ -289,6 +289,9 @@ class Context:
     # Which labels count as the warning / APR in this creative.
     warning_label: str = "warning"
     apr_label: str = "apr"
+    # Set by `evaluate` so findings record the book that actually ran.
+    rulebook_version: str = ""
+    prescribed_texts: dict[str, str] = field(default_factory=dict)
 
     def region(self, which: str, label: str) -> dict[str, Any] | None:
         source = self.master_regions if which == "master" else self.variant_regions
@@ -298,6 +301,23 @@ class Context:
 # ---------------------------------------------------------------------------
 # logic handlers
 # ---------------------------------------------------------------------------
+
+def _locate_failed(region: dict[str, Any] | None) -> bool:
+    """True when a region is absent only because we could not look for it.
+
+    A region we searched for and did not find is evidence. A region we could not
+    search for is not. Collapsing both into `present: False` gave one flag four
+    different confident readings: R3 accused the advertiser of removing the
+    warning (severity: block), R5/R6/R7 called the real breach not-applicable,
+    and R12 returned a pass. Reachable with no code change at all — OCR is an
+    optional extra, and without it both locators collapse.
+    """
+    if region is None:
+        return True
+    if region.get("present"):
+        return False
+    return not region.get("locate_confident", True)
+
 
 Handler = Callable[[Rule, Context], Finding]
 _HANDLERS: dict[str, Handler] = {}
@@ -468,6 +488,15 @@ def _r3(rule: Rule, ctx: Context) -> Finding:
         )
 
     variant = ctx.region("variant", ctx.warning_label)
+    if _locate_failed(variant):
+        return _finding(
+            rule,
+            ctx_version(ctx),
+            "inconclusive",
+            "The warning could not be located in the variant. That is a failure to look, "
+            "not evidence of removal.",
+            caveats=["region could not be located"],
+        )
     if not variant or not variant.get("present"):
         return _finding(
             rule,
@@ -479,11 +508,34 @@ def _r3(rule: Rule, ctx: Context) -> Finding:
             evidence={"master_box": master.get("bbox")},
         )
     if variant.get("clipped"):
+        # Touching the frame edge is a suspicion, not a finding. A warning
+        # legitimately set flush to the edge trips it too, and the box may be a
+        # PREDICTED rectangle rather than a measured one — which is how a
+        # warning sitting 50px clear of the edge was reported as truncated.
+        if master.get("clipped"):
+            return _finding(
+                rule,
+                ctx_version(ctx),
+                "pass",
+                "The warning reaches the frame edge, as it does on the approved master.",
+                evidence={"variant_box": variant.get("bbox")},
+            )
+        if variant.get("located_by") in {"alignment", "text"}:
+            return _finding(
+                rule,
+                ctx_version(ctx),
+                "inconclusive",
+                "The warning appears to reach the frame edge, but its position was inferred "
+                "rather than matched, so truncation cannot be asserted.",
+                caveats=["position inferred, not matched"],
+                evidence={"variant_box": variant.get("bbox")},
+            )
         return _finding(
             rule,
             ctx_version(ctx),
             "fail",
-            "The warning reaches the frame edge in the variant and may be truncated.",
+            "The warning reaches the frame edge in the variant and may be truncated; "
+            "it did not on the approved master.",
             measured=1,
             measured_display="clipped",
             evidence={"variant_box": variant.get("bbox")},
@@ -536,6 +588,14 @@ def _r4(rule: Rule, ctx: Context) -> Finding:
 def _r5(rule: Rule, ctx: Context) -> Finding:
     """R5 — own border AND bold AND underlined (COBS 4.12A.36R)."""
     variant = ctx.region("variant", ctx.warning_label)
+    if _locate_failed(variant):
+        return _finding(
+            rule,
+            ctx_version(ctx),
+            "inconclusive",
+            "The warning could not be located, so this cannot be assessed.",
+            caveats=["region could not be located"],
+        )
     if not variant or not variant.get("present"):
         return _finding(
             rule,
@@ -562,10 +622,15 @@ def _r5(rule: Rule, ctx: Context) -> Finding:
         status = "inconclusive"
         detail = f"None of the presentation checks could be measured: {', '.join(unknown)}."
     elif unknown:
-        status = "pass"
+        # COBS 4.12A.36R is a conjunction: border AND bold AND underline. With
+        # two limbs unmeasured, "pass" asserts compliance with a rule we checked
+        # a third of — and contradicts this engine's own stated invariant that an
+        # unknown input never yields a pass. Report what we know and no more.
+        status = "inconclusive"
         detail = (
-            f"Measured checks pass ({', '.join(k for k, v in results.items() if v == 'pass')}); "
-            f"could not measure: {', '.join(unknown)}."
+            f"Measured checks pass ({', '.join(k for k, v in results.items() if v == 'pass')}), "
+            f"but {', '.join(unknown)} could not be measured, and the rule requires all of "
+            "them."
         )
     else:
         status = "pass"
@@ -586,6 +651,14 @@ def _r5(rule: Rule, ctx: Context) -> Finding:
 def _r6(rule: Rule, ctx: Context) -> Finding:
     """R6 — warning contrast below the legibility threshold."""
     variant = ctx.region("variant", ctx.warning_label)
+    if _locate_failed(variant):
+        return _finding(
+            rule,
+            ctx_version(ctx),
+            "inconclusive",
+            "The warning could not be located, so this cannot be assessed.",
+            caveats=["region could not be located"],
+        )
     if not variant or not variant.get("present"):
         return _finding(rule, ctx_version(ctx), "not_applicable", "No warning region to measure.")
 
@@ -627,6 +700,14 @@ def _r7(rule: Rule, ctx: Context) -> Finding:
     """R7 — warning text smaller than the ad's body copy."""
     warning = ctx.region("variant", ctx.warning_label)
     body = ctx.region("variant", "body")
+    if _locate_failed(warning):
+        return _finding(
+            rule,
+            ctx_version(ctx),
+            "inconclusive",
+            "The warning could not be located, so its size cannot be compared.",
+            caveats=["region could not be located"],
+        )
     if not warning or not warning.get("present"):
         return _finding(rule, ctx_version(ctx), "not_applicable", "No warning region to measure.")
     if not body or body.get("text_height") is None:
@@ -697,9 +778,14 @@ def _r8(rule: Rule, ctx: Context) -> Finding:
         )
 
     reasons: list[str] = []
-    apr_h = apr.get("text_height") or (apr.get("bbox") or [0, 0, 0, 0])[3]
-    trg_h = trigger.get("text_height") or (trigger.get("bbox") or [0, 0, 0, 0])[3]
-    if apr_h and trg_h and apr_h < trg_h:
+    # Text height only. Falling back to the bounding-box height compared the
+    # CONTAINER rather than the type, so an APR whose type size had been halved
+    # inside an unchanged box passed as "at least as prominent", and two
+    # unmeasured heights compared 0px against 0px and passed as well.
+    apr_h = apr.get("text_height")
+    trg_h = trigger.get("text_height")
+    size_known = isinstance(apr_h, int) and isinstance(trg_h, int) and apr_h > 0 and trg_h > 0
+    if size_known and apr_h < trg_h:
         reasons.append(f"APR text is {apr_h}px against the trigger's {trg_h}px")
 
     if ctx.is_video:
@@ -710,6 +796,20 @@ def _r8(rule: Rule, ctx: Context) -> Finding:
                 f"APR is on screen for {apr_vis / 100:.1f}% of frames against the trigger's "
                 f"{trg_vis / 100:.1f}%"
             )
+
+    time_known = ctx.is_video and (
+        ctx.visible_ratio_bp.get(ctx.apr_label) is not None
+        and ctx.visible_ratio_bp.get("trigger") is not None
+    )
+    if not reasons and not size_known and not time_known:
+        return _finding(
+            rule,
+            ctx_version(ctx),
+            "inconclusive",
+            "Neither the APR's type size nor its time on screen could be measured, so "
+            "prominence cannot be compared.",
+            caveats=["no measurable prominence signal"],
+        )
 
     if reasons:
         return _finding(
@@ -728,15 +828,18 @@ def _r8(rule: Rule, ctx: Context) -> Finding:
                 "trigger_visible_bp": ctx.visible_ratio_bp.get("trigger"),
             },
         )
+    detail = "Representative APR is at least as prominent as its trigger"
+    if size_known:
+        detail += f" ({apr_h}px vs {trg_h}px)"
     return _finding(
         rule,
         ctx_version(ctx),
         "pass",
-        f"Representative APR is at least as prominent as its trigger ({apr_h}px vs {trg_h}px).",
-        measured=apr_h,
-        measured_display=f"{apr_h}px",
-        threshold=trg_h,
-        threshold_display=f"{trg_h}px",
+        detail + ".",
+        measured=apr_h if size_known else None,
+        measured_display=f"{apr_h}px" if size_known else "",
+        threshold=trg_h if size_known else None,
+        threshold_display=f"{trg_h}px" if size_known else "",
     )
 
 
@@ -818,8 +921,11 @@ def _r11(rule: Rule, ctx: Context) -> Finding:
             "not_applicable",
             "Not a high-risk investment promotion, so no prescribed wording applies.",
         )
-    book = load_rulebook()
-    prescribed = book.prescribed_texts.get(ctx.investment_type)
+    # From the book that ran, not the shipped one: a pinned rulebook's own
+    # prescribed wording must be what R11 compares against.
+    prescribed = (ctx.prescribed_texts or load_rulebook().prescribed_texts).get(
+        ctx.investment_type
+    )
     if prescribed is None:
         return _finding(
             rule,
@@ -902,10 +1008,31 @@ def _r12(rule: Rule, ctx: Context) -> Finding:
             caveats=["placement unknown"],
         )
     watched = [label for label in (ctx.warning_label, ctx.apr_label) if label]
+    present = [
+        label
+        for label in watched
+        if (ctx.region("variant", label) or {}).get("present")
+        or not _locate_failed(ctx.region("variant", label))
+    ]
     measured = {k: v for k, v in ctx.occluded_pixels.items() if k in watched}
+    unmeasured = [label for label in present if label not in measured]
+
     if not measured:
         return _finding(
             rule, ctx_version(ctx), "inconclusive", "Occlusion was not measured."
+        )
+    if unmeasured:
+        # Do not announce "no part of the warning or APR falls inside the zone"
+        # while one of them was never measured. A pass that names regions it did
+        # not look at is the kind of confident silence this engine exists to
+        # avoid.
+        return _finding(
+            rule,
+            ctx_version(ctx),
+            "inconclusive",
+            "Occlusion could not be measured for: " + ", ".join(sorted(unmeasured)) + ".",
+            caveats=["region not measured for occlusion"],
+            evidence={"placement": ctx.placement, "per_region_px": measured},
         )
 
     assert rule.threshold is not None
@@ -963,7 +1090,13 @@ def _b1(rule: Rule, ctx: Context) -> Finding:
 
 
 def ctx_version(ctx: Context) -> str:
-    return load_rulebook().version
+    """The rulebook version that actually decided, not the default one.
+
+    `evaluate(ctx, rulebook=...)` ran the caller's book while every finding was
+    stamped `uk_v1`, so a firm pinning its own thresholds would get a signed
+    evidence record naming the wrong rulebook for the numbers that decided.
+    """
+    return ctx.rulebook_version or load_rulebook().version
 
 
 # ---------------------------------------------------------------------------
@@ -974,6 +1107,9 @@ def ctx_version(ctx: Context) -> str:
 def evaluate(ctx: Context, rulebook: Rulebook | None = None) -> list[Finding]:
     """Run every rule against the context. Order follows the rulebook."""
     book = rulebook or load_rulebook()
+    ctx.rulebook_version = book.version
+    if not ctx.prescribed_texts:
+        ctx.prescribed_texts = book.prescribed_texts
     findings: list[Finding] = []
     for rule in book.rules:
         fn = _HANDLERS.get(rule.logic)

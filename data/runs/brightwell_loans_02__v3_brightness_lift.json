@@ -9,12 +9,13 @@
   "summary": {
     "fail": 0,
     "blocking": 0,
-    "pass": 7,
-    "inconclusive": 2,
+    "pass": 6,
+    "inconclusive": 3,
     "not_applicable": 4,
     "failed_rules": [],
     "inconclusive_rules": [
       "R2",
+      "R5",
       "R10"
     ]
   },
@@ -103,10 +104,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "pass",
+      "status": "inconclusive",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Measured checks pass (border); could not measure: bold, underline.",
+      "detail": "Measured checks pass (border), but bold, underline could not be measured, and the rule requires all of them.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -165,15 +166,15 @@
       "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A (prominence guidance)",
-      "detail": "Warning text is 25px against body copy at 24px.",
+      "detail": "Warning text is 25px against body copy at 23px.",
       "measured": 25,
       "measured_display": "25px",
-      "threshold": 24,
-      "threshold_display": "24px",
+      "threshold": 23,
+      "threshold_display": "23px",
       "units": "none",
       "evidence": {
         "warning_px": 25,
-        "body_px": 24
+        "body_px": 23
       },
       "sub_results": {},
       "caveats": [],
@@ -376,6 +377,6 @@
     ]
   },
   "sample_fps": 0.0,
-  "note": "No rule in rulebook uk_v1 failed for this variant.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 1.79
+  "note": "No rule in rulebook uk_v1 failed for this variant.\n3 rule(s) could not be assessed: R2, R5, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 1.73
 }

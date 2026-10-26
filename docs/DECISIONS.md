@@ -30,7 +30,7 @@ exhaustion.
 ## D-004 · Neo4j: Aura Free over Docker — Mon 26 Oct 2026 (provisional)
 Docker is not installed. Docker Desktop needs admin rights, WSL2 and a reboot; Neo4j Aura Free
 needs a browser and two minutes. The hosted demo has to render a precomputed graph JSON either
-way (playbook §16), so a local database buys little.
+way (design note), so a local database buys little.
 **Leaning Aura Free.** Confirm at USER INPUT 6.1. Revisit if Aura's free-tier limits bite.
 
 ## D-005 · Rulebook scaffolded as draft — Mon 26 Oct 2026

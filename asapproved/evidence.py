@@ -7,11 +7,12 @@ name the exact record that broke.
 
 What this does and does not prove, stated plainly because a compliance tool that
 overclaims is worse than one that claims nothing:
-  - It proves the log has not been edited or reordered since it was written.
+  - It proves the log has not been edited or reordered since it was written,
+    including fields ADDED to a record: unknown top-level keys are rejected
+    rather than ignored, so a line cannot be annotated and still verify.
   - It does NOT prove when it was written, and it does not stop someone who
     controls the file from rewriting the whole chain from record k onward. That
-    needs either a signature per record (we sign the head — see `seal`) or an
-    external anchor (a timestamping authority, or shipping the head hash off-box).
+    needs either a signature per record or an external anchor (a timestamping authority, or shipping the head hash off-box).
     A firm deploying this would anchor the head daily. Said so in the README.
 
 Retention framing: COBS 4.11.1R — 3 years by default, 5 for MiFID business.
@@ -81,6 +82,15 @@ class LogEntry:
 
     @staticmethod
     def from_raw(raw: dict[str, Any]) -> LogEntry:
+        # Reject unknown top-level keys rather than ignoring them. Ignoring them
+        # meant a field could be ADDED to a record — "decision_override":
+        # "accepted by compliance" — and the chain still certified the line as
+        # intact, because the digest only covered the four keys we read back.
+        # Anyone reading the JSONL, or any downstream consumer, would see the
+        # annotation inside a record the tool vouches for.
+        unexpected = set(raw) - {"index", "prev", "ts", "record", "hash"}
+        if unexpected:
+            raise ValueError(f"unexpected fields in record: {sorted(unexpected)}")
         return LogEntry(
             index=raw["index"],
             prev=raw["prev"],
@@ -94,7 +104,11 @@ class LogEntry:
 
 
 def read_entries(log_path: str | Path) -> Iterator[tuple[int, LogEntry | None, str]]:
-    """Yield (line_number, entry_or_None, raw_line). Unparseable lines yield None.
+    """Yield (line_number, entry_or_None, detail).
+
+    `detail` is the raw line for a good entry, and the PARSE ERROR for a bad
+    one — so a caller can report why a record is malformed rather than only
+    that it is.
 
     A corrupted line is a verification failure, not an exception — the tamper demo
     depends on reporting *where* the damage is rather than crashing on it.
@@ -111,8 +125,10 @@ def read_entries(log_path: str | Path) -> Iterator[tuple[int, LogEntry | None, s
                 continue
             try:
                 yield lineno, LogEntry.from_raw(json.loads(line)), line
-            except Exception:  # noqa: BLE001 - malformed line is a finding, not a crash
-                yield lineno, None, line
+            except Exception as exc:  # noqa: BLE001 - a bad line is a finding, not a crash
+                # Carry the reason: "unexpected fields" and "not JSON" are very
+                # different tampering stories, and the demo should say which.
+                yield lineno, None, f"{type(exc).__name__}: {exc}"
 
 
 def head_hash(log_path: str | Path) -> str:
@@ -180,12 +196,16 @@ def verify_chain(log_path: str | Path) -> ChainResult:
 
     for lineno, entry, _raw in read_entries(path):
         if entry is None:
+            # When an entry fails to parse, `read_entries` yields the reason in
+            # place of the raw line: "unexpected fields" and "not valid JSON"
+            # are different tampering stories and the demo should name which.
+            why = _raw or "not valid JSON"
             return ChainResult(
                 False,
                 count,
                 first_bad_index=expected_index,
                 first_bad_line=lineno,
-                reason=f"line {lineno} is not valid JSON or is missing fields",
+                reason=f"record at line {lineno} is malformed: {why}",
                 head=head,
             )
         if entry.index != expected_index:

@@ -9,12 +9,14 @@
   "summary": {
     "fail": 0,
     "blocking": 0,
-    "pass": 8,
-    "inconclusive": 4,
+    "pass": 6,
+    "inconclusive": 6,
     "not_applicable": 1,
     "failed_rules": [],
     "inconclusive_rules": [
+      "R1",
       "R2",
+      "R5",
       "R9",
       "R10",
       "B1"
@@ -24,25 +26,23 @@
     {
       "rule_id": "R1",
       "rulebook_version": "uk_v1",
-      "status": "pass",
+      "status": "inconclusive",
       "severity": "review",
       "citation": "FG24/1 para 4.14",
-      "detail": "Largest change inside a claim region was 0.0% ('warning'), within the 2% threshold.",
-      "measured": 0,
-      "measured_display": "0.0%",
+      "detail": "9.7% of the 'apr' region differs, but that is only 2,241 pixels — below the 2,500-pixel floor where this detector can separate a real edit from re-encoding artefacts.",
+      "measured": 971,
+      "measured_display": "9.7%",
       "threshold": 200,
       "threshold_display": "2%",
       "units": "fraction_bp",
       "evidence": {
-        "region": "warning",
-        "per_region_bp": {
-          "warning": 0,
-          "apr": 0,
-          "trigger": 0
-        }
+        "region": "apr",
+        "changed_pixels": 2241
       },
       "sub_results": {},
-      "caveats": [],
+      "caveats": [
+        "change too small to distinguish from compression noise"
+      ],
       "benchmark_only": false,
       "not_legal_advice": true
     },
@@ -108,10 +108,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "pass",
+      "status": "inconclusive",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Measured checks pass (border); could not measure: bold, underline.",
+      "detail": "Measured checks pass (border), but bold, underline could not be measured, and the rule requires all of them.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -605,6 +605,6 @@
     ]
   },
   "sample_fps": 5.0,
-  "note": "No rule in rulebook uk_v1 failed for this variant.\n4 rule(s) could not be assessed: R2, R9, R10, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 5.04
+  "note": "No rule in rulebook uk_v1 failed for this variant.\n6 rule(s) could not be assessed: R1, R2, R5, R9, R10, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 6.23
 }

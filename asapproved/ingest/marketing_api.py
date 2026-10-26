@@ -1,4 +1,4 @@
-"""Meta Marketing API client — playbook §8. Every fact here is VERIFY-pending
+"""Meta Marketing API client. Every fact here is VERIFY-pending
 until the Phase 1 spike; record the outcome in docs/DECISIONS.md.
 
 Reads we need:

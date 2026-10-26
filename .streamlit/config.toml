@@ -9,8 +9,9 @@ font = "sans serif"
 
 [server]
 headless = true
-enableCORS = false
-enableXsrfProtection = true
+# enableCORS is left at its default: setting it false alongside XSRF protection
+# makes Streamlit print a twelve-line security warning before the app starts,
+# which is the first thing anyone running this sees in their terminal.
 
 [browser]
 gatherUsageStats = false

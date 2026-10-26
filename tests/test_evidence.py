@@ -131,7 +131,8 @@ def test_malformed_line_is_reported_not_raised(tmp_path):
     result = verify_chain(log)
     assert not result.ok
     assert result.first_bad_line == 3
-    assert "not valid JSON" in result.reason
+    assert "malformed" in result.reason
+    assert "JSONDecodeError" in result.reason
 
 
 def test_refuses_to_append_to_a_damaged_log(tmp_path):
@@ -175,3 +176,39 @@ def test_export_reports_failure_rather_than_hiding_it(tmp_path):
     doc = json.loads(export_json(log, tmp_path / "pack.json").read_text(encoding="utf-8"))
     assert doc["verification"]["ok"] is False
     assert doc["verification"]["first_bad_index"] == 1
+
+
+def test_adding_a_field_to_a_record_breaks_verification(tmp_path):
+    """The chain must cover fields it does not know about.
+
+    Ignoring unknown top-level keys meant a record could be ANNOTATED —
+    "decision_override": "accepted by compliance" — and the chain still
+    certified the line as intact, because the digest only covered the four keys
+    we read back. Anyone reading the JSONL would see the annotation inside a
+    record the tool vouches for.
+    """
+    log = tmp_path / "evidence.jsonl"
+    _seed(log, 3)
+    assert verify_chain(log).ok
+
+    lines = log.read_text(encoding="utf-8").splitlines()
+    raw = json.loads(lines[1])
+    raw["decision_override"] = "accepted by compliance"
+    lines[1] = json.dumps(raw, separators=(",", ":"), ensure_ascii=False)
+    log.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    result = verify_chain(log)
+    assert not result.ok
+    assert "unexpected fields" in result.reason
+    assert "decision_override" in result.reason
+
+
+def test_reserialising_a_record_without_changing_it_still_verifies(tmp_path):
+    """Key order and spacing are not content; re-saving must not cry tamper."""
+    log = tmp_path / "evidence.jsonl"
+    _seed(log, 2)
+    lines = log.read_text(encoding="utf-8").splitlines()
+    raw = json.loads(lines[0])
+    lines[0] = json.dumps(dict(reversed(list(raw.items()))), indent=None, separators=(", ", ": "))
+    log.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    assert verify_chain(log).ok

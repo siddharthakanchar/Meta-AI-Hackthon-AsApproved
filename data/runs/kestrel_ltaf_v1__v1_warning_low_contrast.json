@@ -7,18 +7,18 @@
   "sampled_fps": 5,
   "frame_count": 75,
   "summary": {
-    "fail": 3,
+    "fail": 2,
     "blocking": 0,
     "pass": 5,
-    "inconclusive": 3,
+    "inconclusive": 4,
     "not_applicable": 2,
     "failed_rules": [
       "R1",
-      "R6",
-      "R7"
+      "R6"
     ],
     "inconclusive_rules": [
       "R2",
+      "R5",
       "R9",
       "B1"
     ]
@@ -40,8 +40,8 @@
         "region": "warning",
         "per_region_bp": {
           "warning": 10000,
-          "risk_note": 0,
-          "trigger": 0
+          "risk_note": 465,
+          "trigger": 959
         }
       },
       "sub_results": {},
@@ -111,10 +111,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "pass",
+      "status": "inconclusive",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Measured checks pass (border); could not measure: bold, underline.",
+      "detail": "Measured checks pass (border), but bold, underline could not be measured, and the rule requires all of them.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -170,18 +170,18 @@
     {
       "rule_id": "R7",
       "rulebook_version": "uk_v1",
-      "status": "fail",
+      "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A (prominence guidance)",
-      "detail": "Warning text is 23px against body copy at 27px — smaller than the surrounding copy.",
+      "detail": "Warning text is 23px against body copy at 20px.",
       "measured": 23,
       "measured_display": "23px",
-      "threshold": 27,
-      "threshold_display": "27px",
+      "threshold": 20,
+      "threshold_display": "20px",
       "units": "none",
       "evidence": {
         "warning_px": 23,
-        "body_px": 27
+        "body_px": 20
       },
       "sub_results": {},
       "caveats": [],
@@ -619,6 +619,6 @@
     ]
   },
   "sample_fps": 5.0,
-  "note": "3 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 100.0% of the 'warning' region changed from the approved master (threshold 2%).\n- R6 (COBS 4.12A (prominence and legibility)): Warning text contrast is 1.39:1, below the 4.5:1 design threshold.\n  Caveat: 4.5:1 is an engineering proxy for legibility (WCAG AA), not a figure the FCA prescribes.\n- R7 (COBS 4.12A (prominence guidance)): Warning text is 23px against body copy at 27px — smaller than the surrounding copy.\n3 rule(s) could not be assessed: R2, R9, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 4.64
+  "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 100.0% of the 'warning' region changed from the approved master (threshold 2%).\n- R6 (COBS 4.12A (prominence and legibility)): Warning text contrast is 1.39:1, below the 4.5:1 design threshold.\n  Caveat: 4.5:1 is an engineering proxy for legibility (WCAG AA), not a figure the FCA prescribes.\n4 rule(s) could not be assessed: R2, R5, R9, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 5.2
 }

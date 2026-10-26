@@ -1,6 +1,6 @@
 """AsApproved — does the approved ad survive Meta's AI edits?
 
-Pipeline (playbook §5.1):
+Pipeline (design note):
     approve master -> sense -> align/diff -> segment -> measure -> rules decide
     -> LLM explains -> human approves -> act -> prove -> remember
 

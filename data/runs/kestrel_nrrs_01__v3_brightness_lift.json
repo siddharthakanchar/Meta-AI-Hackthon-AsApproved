@@ -9,12 +9,13 @@
   "summary": {
     "fail": 0,
     "blocking": 0,
-    "pass": 7,
-    "inconclusive": 1,
+    "pass": 6,
+    "inconclusive": 2,
     "not_applicable": 5,
     "failed_rules": [],
     "inconclusive_rules": [
-      "R2"
+      "R2",
+      "R5"
     ]
   },
   "findings": [
@@ -102,10 +103,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "pass",
+      "status": "inconclusive",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Measured checks pass (border); could not measure: bold, underline.",
+      "detail": "Measured checks pass (border), but bold, underline could not be measured, and the rule requires all of them.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -164,15 +165,15 @@
       "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A (prominence guidance)",
-      "detail": "Warning text is 28px against body copy at 23px.",
+      "detail": "Warning text is 28px against body copy at 20px.",
       "measured": 28,
       "measured_display": "28px",
-      "threshold": 23,
-      "threshold_display": "23px",
+      "threshold": 20,
+      "threshold_display": "20px",
       "units": "none",
       "evidence": {
         "warning_px": 28,
-        "body_px": 23
+        "body_px": 20
       },
       "sub_results": {},
       "caveats": [],
@@ -381,6 +382,6 @@
     ]
   },
   "sample_fps": 0.0,
-  "note": "No rule in rulebook uk_v1 failed for this variant.\n1 rule(s) could not be assessed: R2. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 1.65
+  "note": "No rule in rulebook uk_v1 failed for this variant.\n2 rule(s) could not be assessed: R2, R5. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 1.54
 }

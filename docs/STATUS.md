@@ -27,7 +27,7 @@ Updated: Mon 26 Oct 2026
 - Read the playbook; confirmed today is Phase 0 day and kickoff is tonight 22:30 IST.
 - Probed the machine: Python 3.11.9, pip 26.2.1, venv + sqlite3 present, winget working.
   `git`, `ffmpeg` and `docker` were all absent; installed Git 2.56.0.3 and ffmpeg 9.0.2 via winget.
-- Scaffolded the repo to playbook §5.3: package tree, CLI skeleton with a working `doctor`,
+- Scaffolded the repo to the design notes: package tree, CLI skeleton with a working `doctor`,
   launchable Streamlit shell, draft rulebook YAML (R1–R12 + B1), `.gitignore`/`.env.example`
   secret hygiene, MIT licence, pre-commit (ruff + gitleaks + detect-private-key), Phase 0 tests.
 - Pulled V1/V2/V3 forward out of Phase 1 — the Meta model docs need no API key. Verified Spark,

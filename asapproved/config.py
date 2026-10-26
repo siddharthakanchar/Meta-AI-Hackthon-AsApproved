@@ -1,6 +1,6 @@
 """Central configuration. Loads from .env, never prints secrets.
 
-Rules enforced here (playbook §17):
+Rules enforced here (design note):
 - secrets only ever come from the environment / .env, never from code or git;
 - any secret that gets displayed goes through `mask()`;
 - `MODE` gates all network access: in `demo` mode every model call must be a cache hit.
@@ -57,7 +57,7 @@ class ModelConfig:
 
 @dataclass(frozen=True)
 class MarketingConfig:
-    """Meta Marketing API. `path` (A/B/C per playbook §8) is recorded in docs/DECISIONS.md."""
+    """Meta Marketing API. `path` (A/B/C per the design notes) is recorded in docs/DECISIONS.md."""
 
     app_id: str = field(default_factory=lambda: _env("META_APP_ID"))
     app_secret: str = field(default_factory=lambda: _env("META_APP_SECRET"))

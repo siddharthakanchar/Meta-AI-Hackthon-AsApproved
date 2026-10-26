@@ -47,6 +47,11 @@ __all__ = ["CheckResult", "check_variant", "load_master", "MasterRef", "sample_f
 # the resolution limit travels with the number rather than being folded away.
 TARGET_SAMPLE_FPS = 5
 
+# How many frames R1's change measurement looks at on a video. Bounded for
+# cost, but never one: a single-frame measurement reported as a verdict over
+# the whole clip is an assertion about 99.7% of an asset nobody looked at.
+R1_SAMPLE_FRAMES = 8
+
 
 @dataclass(frozen=True)
 class MasterRef:
@@ -212,6 +217,18 @@ def check_variant(
     if not alignment.ok:
         notes.append(f"alignment degraded: {alignment.reason}")
 
+    # On video, diff several frames and keep the WORST change per region.
+    # Measuring frame zero alone and then asserting a verdict over the whole
+    # clip is exactly the claim this project says it never makes — and the
+    # flagship variant is built so that frame zero looks compliant, so R1 was
+    # blind to the one case the demo leads with.
+    diff_frames = [variant_frame]
+    if master.is_video and len(variant_frames) > 1:
+        step = max(1, len(variant_frames) // (R1_SAMPLE_FRAMES - 1))
+        diff_frames = variant_frames[::step][:R1_SAMPLE_FRAMES]
+        if variant_frames[-1] is not diff_frames[-1]:
+            diff_frames.append(variant_frames[-1])
+
     watched = [
         label for label in ("warning", master.apr_label, "trigger") if label in master.regions
     ]
@@ -248,6 +265,11 @@ def check_variant(
     occlusion_caveats: list[str] = []
     visible_bp: dict[str, int] = {}
     longest_gap: dict[str, int] = {}
+    # The OCR of the frame each region was actually measured on. R11 compares
+    # prescribed wording, so reading it from frame zero while the region was
+    # located on a later frame compares the warning's text against whatever
+    # occupied that screen position at the start of the clip.
+    region_ocr: dict[str, OcrResult] = {}
 
     for label in watched:
         m_box = tuple(master.regions[label])
@@ -255,9 +277,14 @@ def check_variant(
         m_meas = measure_region(master_frame, m_mask, label)
         master_regions[label] = _region_dict(m_meas, _median_text_height(master_ocr, m_box))
 
-        change = changed_in_region(diff, m_mask, label)
-        changed_bp[label] = change.fraction_bp
-        changed_px[label] = change.changed_pixels
+        worst_bp, worst_px = 0, 0
+        for frame_n, frame in enumerate(diff_frames):
+            d = diff if frame_n == 0 else diff_pair(master_frame, frame, alignment)
+            change = changed_in_region(d, m_mask, label)
+            if change.fraction_bp > worst_bp:
+                worst_bp, worst_px = change.fraction_bp, change.changed_pixels
+        changed_bp[label] = worst_bp
+        changed_px[label] = worst_px
 
         track = tracks.get(label)
         v_box = track.first_box() if track else None
@@ -327,7 +354,26 @@ def check_variant(
                     f"region '{label}' located at the position the alignment predicts"
                 )
             else:
-                variant_regions[label] = {"present": False, "bbox": None}
+                # Distinguish "we looked and it is gone" from "we could not
+                # look". Collapsing both into present=False had R3 issue a
+                # block-severity accusation ("the approved warning is absent")
+                # whenever OCR was unavailable, while R5/R6/R7 called the real
+                # breach not-applicable and R12 called it a pass. One flag, four
+                # confident and mutually inconsistent verdicts.
+                searchable = variant_ocr.available and alignment.ok
+                off_frame = fallback is not None and inside < 0.5
+                confident = searchable or off_frame
+                if not confident:
+                    notes.append(
+                        f"region '{label}' could not be located (ocr="
+                        f"{variant_ocr.available}, alignment={alignment.ok}); "
+                        "rules that depend on it report inconclusive"
+                    )
+                variant_regions[label] = {
+                    "present": False,
+                    "bbox": None,
+                    "locate_confident": confident,
+                }
                 if master.is_video:
                     visible_bp[label] = 0
                     longest_gap[label] = len(variant_frames) * stride
@@ -337,6 +383,7 @@ def check_variant(
         v_meas = measure_region(
             appearance_frame, v_mask, label, placement=_placement_key(master.placement)
         )
+        region_ocr[label] = appearance_ocr
         region = _region_dict(v_meas, _median_text_height(appearance_ocr, v_box))
         region["located_by"] = located_by
         variant_regions[label] = region
@@ -369,13 +416,30 @@ def check_variant(
         # it. A variant that shrinks the warning reflows everything below it, so
         # reading at the master's body box found nothing and R7 — the rule that
         # variant exists to trigger — reported "no body copy to compare against".
-        b_height = _body_text_height(variant_ocr, variant_regions, variant_frame.shape)
+        # Exclude every region the master declares, not just the three we track.
+        # Finding body copy by excluding only warning/APR/trigger left the
+        # headline, the brand wordmark and the footer small print in the
+        # baseline — so the "median body height" was the headline's, and R7
+        # reported a warning LARGER than the body copy as smaller than it.
+        other_boxes = [
+            expected_box(tuple(box), alignment, variant_frame.shape) or tuple(box)
+            for name, box in master.regions.items()
+            if name not in {"body"}
+        ]
+        b_height = _body_text_height(
+            variant_ocr, variant_regions, variant_frame.shape, extra_exclude=other_boxes
+        )
         variant_regions["body"] = {"present": b_height is not None, "text_height": b_height}
 
     warning_text = None
     warning_box = (variant_regions.get("warning") or {}).get("bbox")
     if warning_box:
-        warning_text = text_in_box(variant_ocr, tuple(warning_box)).text() or None
+        # Read from the frame the warning was measured on, not frame zero.
+        # On a variant that holds the warning back to an end card, frame zero
+        # has headline copy in that position — and R11 (severity: block) then
+        # accused a byte-correct prescribed warning of being reworded.
+        scoped_ocr = region_ocr.get("warning", variant_ocr)
+        warning_text = text_in_box(scoped_ocr, tuple(warning_box)).text() or None
 
     ctx = Context(
         variant_id=variant_path.stem,
@@ -422,7 +486,12 @@ def check_variant(
     )
 
 
-def _body_text_height(ocr: OcrResult, regions: dict[str, Any], shape) -> int | None:
+def _body_text_height(
+    ocr: OcrResult,
+    regions: dict[str, Any],
+    shape,
+    extra_exclude: list | None = None,
+) -> int | None:
     """Median height of the ad's ordinary copy.
 
     Body copy is whatever text is NOT one of the regions we track separately —
@@ -437,6 +506,7 @@ def _body_text_height(ocr: OcrResult, regions: dict[str, Any], shape) -> int | N
 
     height = shape[0]
     taken = [tuple(r["bbox"]) for r in regions.values() if isinstance(r, dict) and r.get("bbox")]
+    taken += [tuple(b) for b in (extra_exclude or []) if b]
 
     heights: list[int] = []
     for tb in ocr.boxes:

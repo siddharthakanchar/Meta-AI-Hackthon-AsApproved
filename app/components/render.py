@@ -1,6 +1,6 @@
 """Shared rendering helpers for the review UI.
 
-Design rules from playbook §11, applied here rather than restated per screen:
+Design rules from the design notes, applied here rather than restated per screen:
 one accent colour reserved for failures, numbers big and plain, and every claim
 on screen carrying its source (a measurement, a rule, a frame).
 """

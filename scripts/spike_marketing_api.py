@@ -14,7 +14,7 @@ Outcome:
   Path B  settings readable, previews don't -> real drift + SIMULATED variants
   Path C  access blocked                    -> fully SIMULATED + recorded fixtures
 
-Record the decision and the evidence in DECISIONS.md and STATUS.md.
+Record the decision and the evidence in docs/DECISIONS.md and docs/STATUS.md.
 Run: python scripts/spike_marketing_api.py
 """
 

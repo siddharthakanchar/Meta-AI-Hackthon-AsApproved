@@ -34,12 +34,12 @@ def _env(name: str, default: str = "") -> str:
     return os.environ.get(name, default).strip()
 
 
-META_API_BASE = "https://api.meta.ai/v1"  # verified 26 Oct 2026, DECISIONS.md D-006
+META_API_BASE = "https://api.meta.ai/v1"  # verified 26 Oct 2026, docs/DECISIONS.md D-006
 
 
 @dataclass(frozen=True)
 class ModelConfig:
-    """Meta Model API. Verified against the live docs on 26 Oct 2026 — DECISIONS.md D-006."""
+    """Meta Model API. Verified against the live docs on 26 Oct 2026 — docs/DECISIONS.md D-006."""
 
     api_key: str = field(default_factory=lambda: _env("META_MODEL_API_KEY"))
     base_url: str = field(default_factory=lambda: _env("META_MODEL_BASE_URL", META_API_BASE))
@@ -57,7 +57,7 @@ class ModelConfig:
 
 @dataclass(frozen=True)
 class MarketingConfig:
-    """Meta Marketing API. `path` (A/B/C per playbook §8) is recorded in DECISIONS.md."""
+    """Meta Marketing API. `path` (A/B/C per playbook §8) is recorded in docs/DECISIONS.md."""
 
     app_id: str = field(default_factory=lambda: _env("META_APP_ID"))
     app_secret: str = field(default_factory=lambda: _env("META_APP_SECRET"))

@@ -1,6 +1,6 @@
 """SAM 3.1 — region masks and video tracking (C4), via the Responses API.
 
-Verified against dev.meta.ai/docs/sam/segmenting on 26 Oct 2026 (DECISIONS.md
+Verified against dev.meta.ai/docs/sam/segmenting on 26 Oct 2026 (docs/DECISIONS.md
 D-006):
   - model id `sam-3.1`, POST https://api.meta.ai/v1/responses, "stream": true
   - content parts: {"type": "input_text"} + {"type": "input_image"|"input_video"}

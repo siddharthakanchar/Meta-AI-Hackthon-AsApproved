@@ -6,7 +6,7 @@
 # fires when warning or APR pixels fall inside one of these zones.
 #
 # ---------------------------------------------------------------------------
-# PROVISIONAL — status: unverified (V11, DECISIONS.md)
+# PROVISIONAL — status: unverified (V11, docs/DECISIONS.md)
 # These percentages come from secondary 2026 spec round-ups, NOT from Meta's own
 # published guidance, which we could not reach directly. They are data, not code,
 # precisely so that swapping in Meta's official numbers is a one-file edit with no

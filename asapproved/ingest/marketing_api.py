@@ -1,5 +1,5 @@
 """Meta Marketing API client — playbook §8. Every fact here is VERIFY-pending
-until the Phase 1 spike; record the outcome in DECISIONS.md.
+until the Phase 1 spike; record the outcome in docs/DECISIONS.md.
 
 Reads we need:
   - ads + creatives, including `degrees_of_freedom_spec.creative_features_spec`

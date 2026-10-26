@@ -35,6 +35,7 @@ from pathlib import Path
 from typing import Any
 
 __all__ = [
+    "build_from_lineage",
     "LineageGraph",
     "Sibling",
     "BlastRadius",
@@ -276,3 +277,52 @@ def blast_radius_neo4j(driver, asset_id: str, feature: str) -> list[dict[str, An
             dict(record)
             for record in session.run(BLAST_RADIUS_CYPHER, asset_id=asset_id, feature=feature)
         ]
+
+
+def build_from_lineage(path: Path, runs_index: Path | None = None) -> LineageGraph:
+    """Build lineage from the synthetic ad account (data/lineage.json).
+
+    Preferred over `build_from_runs`: that derives one ad per master per feature,
+    so no two ads ever share an asset and the blast radius is always zero — which
+    is not a property of the product, only of the benchmark's shape.
+    """
+    import json as _json
+
+    doc = _json.loads(Path(path).read_text(encoding="utf-8"))
+    graph = LineageGraph(backend="memory")
+
+    for record in doc["records"]:
+        graph.add_ad(
+            record["ad_id"], record["master_id"], record["asset_id"], record.get("placement")
+        )
+        for feature, status in record["enrolments"].items():
+            graph.enrol(record["ad_id"], feature, status)
+
+    if runs_index is not None and Path(runs_index).exists():
+        index = _json.loads(Path(runs_index).read_text(encoding="utf-8"))
+        for run in index["runs"]:
+            feature = run["enhancement"]
+            # Attach each checked variant to an ad that genuinely uses this
+            # asset AND is enrolled in the enhancement that produced it.
+            host = next(
+                (
+                    ad_id
+                    for ad_id, ad in graph.ads.items()
+                    if ad["master_id"] == run["master_id"]
+                    and graph.enrolments.get(ad_id, {}).get(feature) == "OPT_IN"
+                ),
+                None,
+            )
+            if host is None:
+                # No ad in the account is enrolled in it; enrol the first ad on
+                # this master so the variant has somewhere to live.
+                host = next(
+                    (a for a, ad in graph.ads.items() if ad["master_id"] == run["master_id"]),
+                    None,
+                )
+                if host is None:
+                    continue
+                graph.enrol(host, feature, "OPT_IN")
+            graph.add_variant(run["variant_id"], host, feature, failing=run["fail"] > 0)
+
+    return graph

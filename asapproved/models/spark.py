@@ -1,6 +1,6 @@
 """Muse Spark 1.3 — claim extraction (C6) and compliance notes (C10).
 
-Verified against dev.meta.ai/docs on 26 Oct 2026 (DECISIONS.md D-006):
+Verified against dev.meta.ai/docs on 26 Oct 2026 (docs/DECISIONS.md D-006):
   - OpenAI-compatible API at https://api.meta.ai/v1, model `muse-spark-1.3`
   - 1,048,576-token context; text / image / video / PDF input
   - structured output via JSON Schema (constrained decoding)

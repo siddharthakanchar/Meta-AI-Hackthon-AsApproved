@@ -11,7 +11,7 @@ mismatch aborts the build — that is the generator testing itself rather than
 restating itself.
 
 Labels are written to data/labels/variantbench_uk.json with a hash over their
-canonical form. Freeze that hash in DECISIONS.md before the first scored run.
+canonical form. Freeze that hash in docs/DECISIONS.md before the first scored run.
 """
 
 from __future__ import annotations
@@ -86,7 +86,7 @@ def main() -> int:
 
     doc = json.loads(labels_path.read_text(encoding="utf-8"))
     print(f"  labels_sha256: {doc['labels_sha256']}")
-    print("\nRecord that hash in DECISIONS.md to freeze the label set.")
+    print("\nRecord that hash in docs/DECISIONS.md to freeze the label set.")
     return 0
 
 

@@ -30,7 +30,7 @@ exists to catch. So the line is drawn deliberately:
 "you are unlikely to be protected" and "you should not expect to be protected"
 differ by wording and must stay different after normalisation — they are the
 cryptoasset and NRRS variants, and collapsing them would defeat the per-type
-table entirely (DECISIONS.md D-007).
+table entirely (docs/DECISIONS.md D-007).
 """
 
 from __future__ import annotations

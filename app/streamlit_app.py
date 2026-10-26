@@ -24,6 +24,7 @@ from app.components.render import (  # noqa: E402
     visibility_bar_html,
 )
 from asapproved import RULEBOOK_VERSION, __version__  # noqa: E402
+from asapproved.act import plan_opt_out, prove  # noqa: E402
 from asapproved.config import settings  # noqa: E402
 
 st.set_page_config(page_title="AsApproved", page_icon="🛡️", layout="wide")
@@ -54,6 +55,22 @@ def load_run(variant_id: str) -> dict | None:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+@st.cache_resource(show_spinner=False)
+def load_graph():
+    """Lineage over the synthetic ad account, not over the benchmark runs.
+
+    Deriving it from the runs gave one ad per master per feature, so no two ads
+    ever shared an asset and the blast radius was always zero — a property of the
+    benchmark's shape, not of the product.
+    """
+    from asapproved.graph import build_from_lineage
+
+    path = settings.data_dir / "lineage.json"
+    if not path.exists():
+        return None
+    return build_from_lineage(path, RUNS / "index.json")
+
+
 @st.cache_data(show_spinner=False)
 def load_eval() -> dict | None:
     path = REPO_ROOT / "eval" / "results.json"
@@ -78,6 +95,104 @@ def load_rulebook_meta() -> dict:
     }
 
 
+def _decision_log():
+    return settings.evidence_dir / "decisions.jsonl"
+
+
+def _run_decision(variant_id: str, run: dict, action: str) -> None:
+    """Execute a decision end to end against the cached data.
+
+    This is the claim the whole product rests on — "fix every affected ad in one
+    click" — so it has to actually run, not be described. Every step below is
+    the real code path: the same blast-radius query, the same payload builder,
+    the same Prove logic and the same hash chain the CLI uses. The only thing
+    held back is the network call, which is a labelled dry run because nobody
+    has authorised this demo to touch a live ad account.
+    """
+    from asapproved.act import apply_opt_out, plan_opt_out, prove
+    from asapproved.evidence import append_record, verify_chain
+
+    graph = load_graph()
+    siblings: list = []
+    feature = run["label"]["enhancement"]
+    if graph is not None:
+        try:
+            radius = graph.blast_radius(variant_id)
+            siblings = radius.siblings
+            feature = radius.feature
+        except KeyError:
+            siblings = []
+
+    st.divider()
+    if action == "block":
+        st.markdown(f"### Blocked — fix once, opt out {len(siblings)}")
+    else:
+        st.markdown(f"### Recorded as *{action}*")
+
+    if action == "block" and siblings:
+        st.markdown("**1 · Blast radius** — ads sharing this asset and enrolled in this feature")
+        st.dataframe(
+            pd.DataFrame(
+                [
+                    {"ad": s.ad_id, "placement": s.placement, "enrolment": s.enroll_status}
+                    for s in siblings
+                ]
+            ),
+            use_container_width=True,
+            height=180,
+        )
+
+        plan = plan_opt_out(
+            [s.ad_id for s in siblings], feature, reason=f"blocked: {variant_id}"
+        )
+        result = apply_opt_out(plan)  # dry run by default
+        st.markdown(f"**2 · Act** — {result.label}")
+        st.code(json.dumps(plan.as_requests()[:2], indent=2), language="json")
+        if plan.count > 2:
+            st.caption(f"…and {plan.count - 2} more identical in shape.")
+
+        st.markdown("**3 · Prove**")
+        proof = prove([s.ad_id for s in siblings], feature)
+        st.dataframe(
+            pd.DataFrame([{"ad": p.ad_id, "status": p.status} for p in proof]),
+            use_container_width=True,
+            height=160,
+        )
+        st.caption(
+            "Every row reads *could not verify*, not *proven*. Without Marketing API access "
+            "nothing was observed, and reporting a fix as proven that we did not watch land "
+            "would make the entire evidence trail worthless."
+        )
+
+    st.markdown("**4 · Evidence**")
+    entry = append_record(
+        _decision_log(),
+        {
+            "variant_id": variant_id,
+            "master_id": run["master_id"],
+            "decision": action,
+            "rule_ids": run["summary"]["failed_rules"],
+            "rulebook_version": "uk_v1",
+            "variant_sha256": run["variant_sha256"],
+            "feature": feature,
+            "siblings_opted_out": len(siblings) if action == "block" else 0,
+            "dry_run": True,
+            "approver": "demo@asapproved.test",
+        },
+    )
+    chain = verify_chain(_decision_log())
+    st.success(
+        f"record {entry.index} appended · chain {'INTACT' if chain.ok else 'BROKEN'} "
+        f"over {chain.entries} records"
+    )
+    st.code(entry.to_json(), language="json")
+    st.caption(
+        "The digest covers the record, its index and the previous record's hash — so editing, "
+        "reordering or deleting any record breaks verification from that point on. "
+        "Check it on the Evidence screen."
+    )
+
+
 index = load_index()
 
 
@@ -85,9 +200,10 @@ index = load_index()
 # chrome
 # ---------------------------------------------------------------------------
 
+# Variant review first: the demo opens on the hero case, not on two dataframes.
 SCREENS = [
-    "Overview",
     "Variant review",
+    "Overview",
     "Blast radius",
     "Evidence",
     "Benchmark",
@@ -295,15 +411,18 @@ elif screen == "Variant review":
     st.code(run.get("note", ""), language=None)
 
     st.markdown("#### Decision")
-    d1, d2, d3 = st.columns(3)
-    d1.button("Block", type="primary", use_container_width=True, disabled=True)
-    d2.button("Accept with reason", use_container_width=True, disabled=True)
-    d3.button("Escalate", use_container_width=True, disabled=True)
     st.caption(
-        "Decisions are disabled in this cached demo. In the live tool each writes a signed "
-        "record into the hash-chained evidence log and, on Block, triggers the blast-radius "
-        "opt-out."
+        "A decision runs the whole loop: blast radius over the ad account, the opt-out payloads "
+        "that would be sent, the Prove step, and an append to the hash-chained evidence log."
     )
+    d1, d2, d3 = st.columns(3)
+    blocked = d1.button("Block", type="primary", use_container_width=True)
+    accepted = d2.button("Accept with reason", use_container_width=True)
+    escalated = d3.button("Escalate", use_container_width=True)
+
+    if blocked or accepted or escalated:
+        action = "block" if blocked else ("accept" if accepted else "escalate")
+        _run_decision(variant_id, run, action)
 
     st.markdown(
         f'<div class="aa-provenance">'
@@ -329,6 +448,11 @@ elif screen == "Blast radius":
     _simulated_banner()
     st.write("")
 
+    graph = load_graph()
+    if graph is None:
+        st.info("No lineage yet. Run:\n\n```\npython scripts/make_lineage.py\n```")
+        st.stop()
+
     df = pd.DataFrame(RUN_ROWS)
     failing = df[df["fail"] > 0]
     if failing.empty:
@@ -336,53 +460,76 @@ elif screen == "Blast radius":
         st.stop()
 
     variant_id = st.selectbox("Blocked variant", failing["variant_id"].tolist())
-    row = df[df["variant_id"] == variant_id].iloc[0]
-    feature = row["enhancement"]
-    master_id = row["master_id"]
+    try:
+        result = graph.blast_radius(variant_id)
+    except KeyError:
+        st.warning("That variant is not attached to an ad in the lineage.")
+        st.stop()
 
-    siblings = df[(df["enhancement"] == feature) & (df["variant_id"] != variant_id)]
-
-    c1, c2, c3 = st.columns(3)
-    _metric(c1, feature, "enhancement")
-    _metric(c2, str(len(siblings)), "sibling ads sharing it", "aa-fail")
-    _metric(c3, f"Fix once, opt out {len(siblings)}", "")
+    c1, c2, c3 = st.columns([1, 1, 2])
+    _metric(c1, result.feature, "enhancement that caused it")
+    _metric(c2, str(result.count), "other live ads at risk", "aa-fail")
+    c3.markdown(
+        f'<div class="aa-metric aa-fail">{result.headline()}</div>'
+        '<div class="aa-metric-sub">one approved decision, applied across the account</div>',
+        unsafe_allow_html=True,
+    )
 
     st.caption(
-        "Grouped by the Meta enhancement that produced each variant. In the live tool this "
-        "is a Neo4j query over Asset–Ad–Feature lineage; here it is the same grouping over "
-        "cached runs, because the hosted demo must not depend on a database being up."
+        "Siblings must share the asset **and** be enrolled in the enhancement that did the "
+        "damage. Sharing the asset alone over-reports: an ad that opted out of the feature is "
+        "not at risk from it, and telling a reviewer to fix 40 ads when 14 are affected is how "
+        "a tool loses their trust the first time they check it by hand."
     )
 
-    st.markdown("#### Siblings that would be opted out")
-    st.dataframe(
-        siblings[["variant_id", "master_id", "transform", "fail", "benign"]].rename(
-            columns={"fail": "failing rules"}
-        ),
-        use_container_width=True,
+    st.markdown("#### The query")
+    st.code(result.cypher, language="cypher")
+    st.caption(
+        f"Run against Neo4j when configured; here against the same graph in memory "
+        f"(backend: `{result.backend}`), because a hosted demo must not be able to fail "
+        "because a database is down."
     )
+
+    if result.siblings:
+        st.markdown("#### Ads that would be opted out")
+        st.dataframe(
+            pd.DataFrame(
+                [
+                    {
+                        "ad": s.ad_id,
+                        "master": s.master_id,
+                        "placement": s.placement,
+                        "enrolment": s.enroll_status,
+                        "already failing": s.already_failing,
+                    }
+                    for s in result.siblings
+                ]
+            ),
+            use_container_width=True,
+        )
 
     st.markdown("#### Act, then prove")
     st.caption(
-        "Without Marketing API write access this runs as a labelled dry run that prints the "
-        "exact payloads it would send. The Prove step re-reads settings and re-renders the "
-        "preview; a finding only closes when both confirm."
+        "Dry run by default — acting on a live ad account must never happen by omission. "
+        "The Prove step re-reads settings and re-renders the preview; a finding only closes "
+        "when both confirm, never because a request returned 200."
     )
-    st.code(
-        json.dumps(
-            {
-                "dry_run": True,
-                "action": "set_enhancement_opt_out",
-                "feature": feature,
-                "ad_ids": siblings["variant_id"].tolist()[:8],
-                "payload": {
-                    "degrees_of_freedom_spec": {
-                        "creative_features_spec": {feature: {"enroll_status": "OPT_OUT"}}
-                    }
-                },
-            },
-            indent=2,
+    plan = plan_opt_out(
+        [s.ad_id for s in result.siblings],
+        result.feature,
+        asset_id=result.asset_id,
+        reason=f"blocked: {variant_id}",
+    )
+    st.code(json.dumps(plan.as_requests()[:3], indent=2), language="json")
+    if plan.count > 3:
+        st.caption(f"…and {plan.count - 3} more of the same shape.")
+
+    proof = prove([s.ad_id for s in result.siblings], result.feature)
+    st.dataframe(
+        pd.DataFrame(
+            [{"ad": p.ad_id, "status": p.status, "note": p.note} for p in proof]
         ),
-        language="json",
+        use_container_width=True,
     )
 
 

@@ -8,7 +8,7 @@ the Spark JSON schema, the Voice Transcribe audio conversion and turn matching.
 What this adds is the only thing that cannot be faked — whether the live API
 behaves as documented.
 
-It proves five things and writes what it finds into DECISIONS.md:
+It proves five things and writes what it finds into docs/DECISIONS.md:
 
   1. Spark structured output honours the strict JSON Schema
   2. SAM 3.1 returns a usable mask for "risk warning box" on a real master
@@ -150,7 +150,7 @@ def main() -> int:
         print(f"    {model}: ${cost:.4f}")
     findings.append(f"Spike spend: ${summary.cost_usd:.4f} across {summary.calls} calls")
 
-    banner("Record these in DECISIONS.md")
+    banner("Record these in docs/DECISIONS.md")
     for line in findings:
         print(f"  - {line}")
     return 0

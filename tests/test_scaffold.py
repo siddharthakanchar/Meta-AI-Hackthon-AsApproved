@@ -75,7 +75,7 @@ def test_rulebook_parses_and_is_complete() -> None:
 
 
 def test_prescribed_texts_are_verbatim_and_distinct() -> None:
-    """COBS 4.12A.11R, verified 26 Oct 2026 (DECISIONS.md D-007).
+    """COBS 4.12A.11R, verified 26 Oct 2026 (docs/DECISIONS.md D-007).
 
     These four strings are quoted law. A stray edit here silently breaks R11 in the
     worst way — it would pass altered warnings and flag correct ones — so they are

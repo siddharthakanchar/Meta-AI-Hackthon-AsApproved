@@ -1,0 +1,1153 @@
+{
+  "source": "SIMULATED",
+  "note": "A synthetic ad account shaped like a real one: each approved master is an asset reused across several ads, each enrolled in some Advantage+ enhancements. Blast-radius queries run for real against this data.",
+  "seed": 20261026,
+  "assets": 12,
+  "ads": 65,
+  "features": [
+    "image_touchups",
+    "image_background_gen",
+    "image_animation",
+    "text_optimizations",
+    "text_translation",
+    "adapt_to_placement",
+    "music_generation",
+    "video_highlights",
+    "translate_voiceover"
+  ],
+  "records": [
+    {
+      "ad_id": "ad_northfield_card_01_00",
+      "name": "Northfield Card \u00b7 q4-push \u00b7 north-west",
+      "master_id": "northfield_card_01",
+      "asset_id": "asset_northfield_card_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_01_01",
+      "name": "Northfield Card \u00b7 brand \u00b7 north-west",
+      "master_id": "northfield_card_01",
+      "asset_id": "asset_northfield_card_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_01_02",
+      "name": "Northfield Card \u00b7 q4-push \u00b7 existing-customers",
+      "master_id": "northfield_card_01",
+      "asset_id": "asset_northfield_card_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_01_03",
+      "name": "Northfield Card \u00b7 balance-transfer \u00b7 age-35-54",
+      "master_id": "northfield_card_01",
+      "asset_id": "asset_northfield_card_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_01_04",
+      "name": "Northfield Card \u00b7 brand \u00b7 retargeting-site",
+      "master_id": "northfield_card_01",
+      "asset_id": "asset_northfield_card_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_01_05",
+      "name": "Northfield Card \u00b7 q4-push \u00b7 broad-uk",
+      "master_id": "northfield_card_01",
+      "asset_id": "asset_northfield_card_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_02_00",
+      "name": "Northfield Card \u00b7 brand \u00b7 retargeting-site",
+      "master_id": "northfield_card_02",
+      "asset_id": "asset_northfield_card_02",
+      "placement": "stories",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_02_01",
+      "name": "Northfield Card \u00b7 brand \u00b7 age-35-54",
+      "master_id": "northfield_card_02",
+      "asset_id": "asset_northfield_card_02",
+      "placement": "stories",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_02_02",
+      "name": "Northfield Card \u00b7 brand \u00b7 age-35-54",
+      "master_id": "northfield_card_02",
+      "asset_id": "asset_northfield_card_02",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_02_03",
+      "name": "Northfield Card \u00b7 balance-transfer \u00b7 london",
+      "master_id": "northfield_card_02",
+      "asset_id": "asset_northfield_card_02",
+      "placement": "stories",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_02_04",
+      "name": "Northfield Card \u00b7 q4-push \u00b7 lookalike-1pc",
+      "master_id": "northfield_card_02",
+      "asset_id": "asset_northfield_card_02",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_03_00",
+      "name": "Northfield Card \u00b7 brand \u00b7 existing-customers",
+      "master_id": "northfield_card_03",
+      "asset_id": "asset_northfield_card_03",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_03_01",
+      "name": "Northfield Card \u00b7 always-on \u00b7 age-35-54",
+      "master_id": "northfield_card_03",
+      "asset_id": "asset_northfield_card_03",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_03_02",
+      "name": "Northfield Card \u00b7 always-on \u00b7 broad-uk",
+      "master_id": "northfield_card_03",
+      "asset_id": "asset_northfield_card_03",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_03_03",
+      "name": "Northfield Card \u00b7 balance-transfer \u00b7 london",
+      "master_id": "northfield_card_03",
+      "asset_id": "asset_northfield_card_03",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_01_00",
+      "name": "Brightwell Loans \u00b7 always-on \u00b7 age-25-34",
+      "master_id": "brightwell_loans_01",
+      "asset_id": "asset_brightwell_loans_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_01_01",
+      "name": "Brightwell Loans \u00b7 always-on \u00b7 age-25-34",
+      "master_id": "brightwell_loans_01",
+      "asset_id": "asset_brightwell_loans_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_01_02",
+      "name": "Brightwell Loans \u00b7 q4-push \u00b7 age-25-34",
+      "master_id": "brightwell_loans_01",
+      "asset_id": "asset_brightwell_loans_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_01_03",
+      "name": "Brightwell Loans \u00b7 q4-push \u00b7 age-25-34",
+      "master_id": "brightwell_loans_01",
+      "asset_id": "asset_brightwell_loans_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_01_04",
+      "name": "Brightwell Loans \u00b7 q4-push \u00b7 broad-uk",
+      "master_id": "brightwell_loans_01",
+      "asset_id": "asset_brightwell_loans_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_01_05",
+      "name": "Brightwell Loans \u00b7 brand \u00b7 lookalike-1pc",
+      "master_id": "brightwell_loans_01",
+      "asset_id": "asset_brightwell_loans_01",
+      "placement": "stories",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_01_06",
+      "name": "Brightwell Loans \u00b7 balance-transfer \u00b7 retargeting-site",
+      "master_id": "brightwell_loans_01",
+      "asset_id": "asset_brightwell_loans_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_01_07",
+      "name": "Brightwell Loans \u00b7 brand \u00b7 existing-customers",
+      "master_id": "brightwell_loans_01",
+      "asset_id": "asset_brightwell_loans_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_02_00",
+      "name": "Brightwell Loans \u00b7 balance-transfer \u00b7 retargeting-site",
+      "master_id": "brightwell_loans_02",
+      "asset_id": "asset_brightwell_loans_02",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_02_01",
+      "name": "Brightwell Loans \u00b7 always-on \u00b7 london",
+      "master_id": "brightwell_loans_02",
+      "asset_id": "asset_brightwell_loans_02",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_02_02",
+      "name": "Brightwell Loans \u00b7 balance-transfer \u00b7 lookalike-1pc",
+      "master_id": "brightwell_loans_02",
+      "asset_id": "asset_brightwell_loans_02",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v1_00",
+      "name": "Northfield Card \u00b7 brand \u00b7 north-west",
+      "master_id": "northfield_card_v1",
+      "asset_id": "asset_northfield_card_v1",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v1_01",
+      "name": "Northfield Card \u00b7 brand \u00b7 lookalike-1pc",
+      "master_id": "northfield_card_v1",
+      "asset_id": "asset_northfield_card_v1",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v1_02",
+      "name": "Northfield Card \u00b7 q4-push \u00b7 age-25-34",
+      "master_id": "northfield_card_v1",
+      "asset_id": "asset_northfield_card_v1",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v1_03",
+      "name": "Northfield Card \u00b7 always-on \u00b7 retargeting-site",
+      "master_id": "northfield_card_v1",
+      "asset_id": "asset_northfield_card_v1",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v1_04",
+      "name": "Northfield Card \u00b7 balance-transfer \u00b7 retargeting-site",
+      "master_id": "northfield_card_v1",
+      "asset_id": "asset_northfield_card_v1",
+      "placement": "stories",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_OUT",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v1_05",
+      "name": "Northfield Card \u00b7 q4-push \u00b7 existing-customers",
+      "master_id": "northfield_card_v1",
+      "asset_id": "asset_northfield_card_v1",
+      "placement": "stories",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v1_06",
+      "name": "Northfield Card \u00b7 always-on \u00b7 age-25-34",
+      "master_id": "northfield_card_v1",
+      "asset_id": "asset_northfield_card_v1",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_OUT",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_v1_00",
+      "name": "Brightwell Loans \u00b7 always-on \u00b7 north-west",
+      "master_id": "brightwell_loans_v1",
+      "asset_id": "asset_brightwell_loans_v1",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_v1_01",
+      "name": "Brightwell Loans \u00b7 brand \u00b7 broad-uk",
+      "master_id": "brightwell_loans_v1",
+      "asset_id": "asset_brightwell_loans_v1",
+      "placement": "stories",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_v1_02",
+      "name": "Brightwell Loans \u00b7 brand \u00b7 age-25-34",
+      "master_id": "brightwell_loans_v1",
+      "asset_id": "asset_brightwell_loans_v1",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_v1_03",
+      "name": "Brightwell Loans \u00b7 always-on \u00b7 broad-uk",
+      "master_id": "brightwell_loans_v1",
+      "asset_id": "asset_brightwell_loans_v1",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_v1_04",
+      "name": "Brightwell Loans \u00b7 brand \u00b7 london",
+      "master_id": "brightwell_loans_v1",
+      "asset_id": "asset_brightwell_loans_v1",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_v1_05",
+      "name": "Brightwell Loans \u00b7 always-on \u00b7 age-25-34",
+      "master_id": "brightwell_loans_v1",
+      "asset_id": "asset_brightwell_loans_v1",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_v1_06",
+      "name": "Brightwell Loans \u00b7 always-on \u00b7 lookalike-1pc",
+      "master_id": "brightwell_loans_v1",
+      "asset_id": "asset_brightwell_loans_v1",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_brightwell_loans_v1_07",
+      "name": "Brightwell Loans \u00b7 q4-push \u00b7 existing-customers",
+      "master_id": "brightwell_loans_v1",
+      "asset_id": "asset_brightwell_loans_v1",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v2_00",
+      "name": "Northfield Card \u00b7 always-on \u00b7 north-west",
+      "master_id": "northfield_card_v2",
+      "asset_id": "asset_northfield_card_v2",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v2_01",
+      "name": "Northfield Card \u00b7 brand \u00b7 existing-customers",
+      "master_id": "northfield_card_v2",
+      "asset_id": "asset_northfield_card_v2",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v2_02",
+      "name": "Northfield Card \u00b7 brand \u00b7 existing-customers",
+      "master_id": "northfield_card_v2",
+      "asset_id": "asset_northfield_card_v2",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v2_03",
+      "name": "Northfield Card \u00b7 balance-transfer \u00b7 age-35-54",
+      "master_id": "northfield_card_v2",
+      "asset_id": "asset_northfield_card_v2",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_OUT",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v2_04",
+      "name": "Northfield Card \u00b7 q4-push \u00b7 existing-customers",
+      "master_id": "northfield_card_v2",
+      "asset_id": "asset_northfield_card_v2",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_OUT",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v2_05",
+      "name": "Northfield Card \u00b7 q4-push \u00b7 north-west",
+      "master_id": "northfield_card_v2",
+      "asset_id": "asset_northfield_card_v2",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_OUT",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_northfield_card_v2_06",
+      "name": "Northfield Card \u00b7 always-on \u00b7 existing-customers",
+      "master_id": "northfield_card_v2",
+      "asset_id": "asset_northfield_card_v2",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_crypto_01_00",
+      "name": "Kestrel Invest \u00b7 balance-transfer \u00b7 lookalike-1pc",
+      "master_id": "kestrel_crypto_01",
+      "asset_id": "asset_kestrel_crypto_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_crypto_01_01",
+      "name": "Kestrel Invest \u00b7 brand \u00b7 age-35-54",
+      "master_id": "kestrel_crypto_01",
+      "asset_id": "asset_kestrel_crypto_01",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_crypto_01_02",
+      "name": "Kestrel Invest \u00b7 brand \u00b7 broad-uk",
+      "master_id": "kestrel_crypto_01",
+      "asset_id": "asset_kestrel_crypto_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_crypto_01_03",
+      "name": "Kestrel Invest \u00b7 q4-push \u00b7 broad-uk",
+      "master_id": "kestrel_crypto_01",
+      "asset_id": "asset_kestrel_crypto_01",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_nrrs_01_00",
+      "name": "Kestrel Invest \u00b7 brand \u00b7 north-west",
+      "master_id": "kestrel_nrrs_01",
+      "asset_id": "asset_kestrel_nrrs_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_nrrs_01_01",
+      "name": "Kestrel Invest \u00b7 always-on \u00b7 north-west",
+      "master_id": "kestrel_nrrs_01",
+      "asset_id": "asset_kestrel_nrrs_01",
+      "placement": "stories",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_nrrs_01_02",
+      "name": "Kestrel Invest \u00b7 always-on \u00b7 age-25-34",
+      "master_id": "kestrel_nrrs_01",
+      "asset_id": "asset_kestrel_nrrs_01",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_nrrs_01_03",
+      "name": "Kestrel Invest \u00b7 brand \u00b7 retargeting-site",
+      "master_id": "kestrel_nrrs_01",
+      "asset_id": "asset_kestrel_nrrs_01",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_p2p_v1_00",
+      "name": "Kestrel Invest \u00b7 balance-transfer \u00b7 age-35-54",
+      "master_id": "kestrel_p2p_v1",
+      "asset_id": "asset_kestrel_p2p_v1",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_p2p_v1_01",
+      "name": "Kestrel Invest \u00b7 balance-transfer \u00b7 retargeting-site",
+      "master_id": "kestrel_p2p_v1",
+      "asset_id": "asset_kestrel_p2p_v1",
+      "placement": "stories",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_p2p_v1_02",
+      "name": "Kestrel Invest \u00b7 always-on \u00b7 london",
+      "master_id": "kestrel_p2p_v1",
+      "asset_id": "asset_kestrel_p2p_v1",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_OUT",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_p2p_v1_03",
+      "name": "Kestrel Invest \u00b7 balance-transfer \u00b7 age-25-34",
+      "master_id": "kestrel_p2p_v1",
+      "asset_id": "asset_kestrel_p2p_v1",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_p2p_v1_04",
+      "name": "Kestrel Invest \u00b7 brand \u00b7 age-35-54",
+      "master_id": "kestrel_p2p_v1",
+      "asset_id": "asset_kestrel_p2p_v1",
+      "placement": "feed",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_p2p_v1_05",
+      "name": "Kestrel Invest \u00b7 q4-push \u00b7 existing-customers",
+      "master_id": "kestrel_p2p_v1",
+      "asset_id": "asset_kestrel_p2p_v1",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_IN",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_IN"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_ltaf_v1_00",
+      "name": "Kestrel Invest \u00b7 brand \u00b7 broad-uk",
+      "master_id": "kestrel_ltaf_v1",
+      "asset_id": "asset_kestrel_ltaf_v1",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_IN",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_ltaf_v1_01",
+      "name": "Kestrel Invest \u00b7 always-on \u00b7 retargeting-site",
+      "master_id": "kestrel_ltaf_v1",
+      "asset_id": "asset_kestrel_ltaf_v1",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_OUT",
+        "image_background_gen": "OPT_IN",
+        "image_animation": "OPT_OUT",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_OUT",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    },
+    {
+      "ad_id": "ad_kestrel_ltaf_v1_02",
+      "name": "Kestrel Invest \u00b7 balance-transfer \u00b7 age-25-34",
+      "master_id": "kestrel_ltaf_v1",
+      "asset_id": "asset_kestrel_ltaf_v1",
+      "placement": "reels",
+      "status": "ACTIVE",
+      "enrolments": {
+        "image_touchups": "OPT_IN",
+        "image_background_gen": "OPT_OUT",
+        "image_animation": "OPT_IN",
+        "text_optimizations": "OPT_IN",
+        "text_translation": "OPT_IN",
+        "adapt_to_placement": "OPT_OUT",
+        "music_generation": "OPT_OUT",
+        "video_highlights": "OPT_IN",
+        "translate_voiceover": "OPT_OUT"
+      }
+    }
+  ]
+}

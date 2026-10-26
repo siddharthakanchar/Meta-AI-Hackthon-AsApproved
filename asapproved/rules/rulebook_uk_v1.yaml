@@ -2,7 +2,7 @@
 #
 # STATUS: draft, scaffolded in Phase 0 from playbook §9. Thresholds and logic are
 # wired up in Phase 5. Every `citation` must be re-checked against the live FCA
-# handbook before the benchmark is scored, and the check logged in DECISIONS.md.
+# handbook before the benchmark is scored, and the check logged in docs/DECISIONS.md.
 #
 # `paraphrase` is deliberately a paraphrase, never verbatim legal text. Findings
 # are flagged for compliance review. This is not legal advice.
@@ -17,7 +17,7 @@ defaults:
   not_legal_advice: true
 
 # Prescribed risk-warning wording, COBS 4.12A.11R, verified against the FCA handbook
-# on 26 Oct 2026 (DECISIONS.md D-007). VERBATIM — do not reword, reflow or "fix" the
+# on 26 Oct 2026 (docs/DECISIONS.md D-007). VERBATIM — do not reword, reflow or "fix" the
 # punctuation. R11 selects by the `investment_type` declared on the master.
 #
 # Note how little separates cryptoassets from non_readily_realisable_securities:

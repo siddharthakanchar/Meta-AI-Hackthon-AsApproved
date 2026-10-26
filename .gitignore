@@ -1,0 +1,48 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets.toml
+.streamlit/secrets.toml
+
+# Signing keys — the private key lives here; the .pub does not match *.key
+data/keys/
+
+# Generated data (regenerable; keep the repo light)
+data/cache/
+data/evidence/
+data/runs/
+data/masters/
+data/variants/
+costs.jsonl
+*.sqlite
+*.sqlite3
+*.db
+
+# Keep committed fixtures / labels (explicitly re-included)
+!data/labels/
+!data/fixtures/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+
+# Scratch
+scratch/
+*.tmp

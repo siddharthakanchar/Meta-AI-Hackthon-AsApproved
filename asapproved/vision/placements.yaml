@@ -1,0 +1,66 @@
+# Placement UI overlay zones — the areas where the platform's own chrome (captions,
+# CTA button, profile row, action rail) can sit on top of the creative.
+#
+# Why this file exists: FG24/1 para 1.5 says a prescribed warning must not be
+# "obscured or truncated by a design feature of the social media platform". R12
+# fires when warning or APR pixels fall inside one of these zones.
+#
+# ---------------------------------------------------------------------------
+# PROVISIONAL — status: unverified (V11, DECISIONS.md)
+# These percentages come from secondary 2026 spec round-ups, NOT from Meta's own
+# published guidance, which we could not reach directly. They are data, not code,
+# precisely so that swapping in Meta's official numbers is a one-file edit with no
+# retest of the measurement engine.
+#
+# Until `status` reads `verified`, every R12 finding is labelled "zone figures
+# unverified" in the UI, and R12 must not be presented as a measured regulatory
+# breach — only as a flag for review. Do not quote these numbers in the demo video
+# or the README as if Meta published them.
+# ---------------------------------------------------------------------------
+
+status: unverified
+source: secondary spec round-ups, checked 26 Oct 2026
+verify_against: Meta's own Reels/Stories ad spec pages
+
+# Fractions of frame height/width reserved for platform UI.
+placements:
+  feed:
+    description: >
+      Feed renders the creative largely unobstructed; the surrounding chrome sits
+      outside the asset rather than over it. Kept at zero so that a Feed run is a
+      meaningful control against Reels and Stories rather than a vacuous pass.
+    top: 0.0
+    bottom: 0.0
+    left: 0.0
+    right: 0.0
+
+  stories:
+    description: >
+      Profile row and close control at the top; reply bar and CTA at the bottom.
+      Smaller bottom zone than Reels because the chrome is lighter.
+    top: 0.14
+    bottom: 0.20
+    left: 0.06
+    right: 0.06
+
+  reels:
+    description: >
+      The heaviest chrome: caption block, audio attribution and CTA at the bottom,
+      action rail on the right. A single asset built to the Reels spec is safe in
+      Stories too.
+    top: 0.14
+    bottom: 0.35
+    left: 0.06
+    right: 0.06
+
+# Secondary sources state that a Reels ad carrying a disclaimer grows the bottom
+# clear zone to 40%. That is exactly our case — a financial promotion with a
+# prescribed warning is a disclaimer — so it is the variant we evaluate when the
+# master declares a warning region. Also unverified.
+variants:
+  reels_with_disclaimer:
+    applies_when: creative carries a prescribed warning or disclaimer
+    top: 0.14
+    bottom: 0.40
+    left: 0.06
+    right: 0.06

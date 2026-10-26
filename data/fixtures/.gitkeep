@@ -1,0 +1,2 @@
+# Recorded Meta API responses, committed so the demo and tests run without credentials.
+# Strip personal IDs (user ids, page ids, ad account ids, tokens) before committing anything here.

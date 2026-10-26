@@ -1,0 +1,206 @@
+# AsApproved rulebook — UK consumer credit + high-risk investments
+#
+# STATUS: draft, scaffolded in Phase 0 from playbook §9. Thresholds and logic are
+# wired up in Phase 5. Every `citation` must be re-checked against the live FCA
+# handbook before the benchmark is scored, and the check logged in DECISIONS.md.
+#
+# `paraphrase` is deliberately a paraphrase, never verbatim legal text. Findings
+# are flagged for compliance review. This is not legal advice.
+
+version: uk_v1
+status: draft
+jurisdiction: UK
+sources_checked: null   # set to an ISO date once R1-R12 citations are verified
+
+defaults:
+  severity: review
+  not_legal_advice: true
+
+# Prescribed risk-warning wording, COBS 4.12A.11R, verified against the FCA handbook
+# on 26 Oct 2026 (DECISIONS.md D-007). VERBATIM — do not reword, reflow or "fix" the
+# punctuation. R11 selects by the `investment_type` declared on the master.
+#
+# Note how little separates cryptoassets from non_readily_realisable_securities:
+# "you should not expect to be protected" vs "you are unlikely to be protected".
+# Comparing against a single prescribed string would fire on a correct crypto
+# warning and miss an altered one. Hence the per-type table.
+prescribed_texts:
+  non_readily_realisable_securities: >-
+    Don't invest unless you're prepared to lose all the money you invest. This is a
+    high-risk investment and you are unlikely to be protected if something goes wrong.
+  p2p_agreements: >-
+    Don't invest unless you're prepared to lose money. This is a high-risk investment.
+    You may not be able to access your money easily and are unlikely to be protected
+    if something goes wrong.
+  long_term_asset_fund: >-
+    This is a high-risk investment, and assets may take a long time to buy and sell.
+    Only invest if you can wait (possibly several years) to get your money back. You
+    do not have protection against poor performance.
+  cryptoassets: >-
+    Don't invest unless you're prepared to lose all the money you invest. This is a
+    high-risk investment and you should not expect to be protected if something goes
+    wrong.
+
+rules:
+  - id: R1
+    title: Delivered variant materially changed a claim region of the approved master
+    citation: FG24/1 para 4.14
+    paraphrase: >
+      A firm remains responsible for a financial promotion throughout its life, so a
+      delivered variant that materially alters an approved claim or warning region
+      needs re-approval.
+    inputs: [changed_mask, claim_mask, warning_mask]
+    logic: intersection_area_ratio
+    threshold: 0.02          # changed area n claim/warning mask > 2% of mask area
+    severity: review
+
+  - id: R2
+    title: An enhancement is ON that was OFF at approval (settings drift)
+    citation: FG24/1 para 4.14
+    paraphrase: >
+      Responsibility for the promotion persists, so an enhancement enabled after
+      approval puts un-approved creative into delivery.
+    inputs: [live_enroll_status, manifest_enroll_status]
+    logic: status_regression        # live OPT_IN while manifest says OPT_OUT
+    threshold: null
+    severity: block
+
+  - id: R3
+    title: Warning present on master but clipped, removed or reduced in variant
+    citation: COBS 4.12A.38R
+    paraphrase: >
+      Nothing may have the intent or effect of reducing the visibility of a required
+      risk warning.
+    inputs: [warning_mask_master, warning_mask_variant, frame_bounds]
+    logic: warning_not_fully_visible
+    threshold: null
+    severity: block
+
+  - id: R4
+    title: "Short-form video: warning not on screen throughout"
+    citation: FG24/1 Table 1
+    paraphrase: >
+      For short-form video promotions the required warning should be on screen
+      throughout the promotion.
+    inputs: [visible_frame_ratio]
+    logic: ratio_below
+    threshold: 0.98
+    severity: block
+
+  - id: R5
+    title: Warning not clearly legible, bordered, bold and underlined
+    citation: COBS 4.12A.36R
+    paraphrase: >
+      The risk warning must be prominent given the content, size and orientation, and
+      clearly legible, contained within its own border, with bold and underlined text.
+    inputs: [warning_region, border_detected, bold_detected, underline_detected]
+    logic: presentation_checks       # three sub-checks, reported individually
+    sub_checks: [border, bold, underline]
+    threshold: null
+    severity: review
+    note: >
+      The rule text requires border AND bold AND underline, not border alone (D-007).
+      Bold and underline detection from pixels is unreliable in the general case: any
+      sub-check we cannot measure confidently reports `inconclusive` and says so in the
+      UI. We never assert a finding we cannot measure. See V14.
+
+  - id: R6
+    title: Warning contrast too low
+    citation: COBS 4.12A (prominence and legibility)
+    paraphrase: >
+      The warning must be legible and prominent; insufficient contrast against its
+      background undermines both.
+    inputs: [contrast_ratio]
+    logic: value_below
+    threshold: 4.5           # design threshold (WCAG AA for normal text), configurable
+    threshold_note: >
+      4.5:1 is our engineering proxy for "legible", not a figure the FCA prescribes.
+      Stated as such in the UI and the README.
+    severity: review
+
+  - id: R7
+    title: Warning text smaller than the ad's main body text
+    citation: COBS 4.12A (prominence guidance)
+    paraphrase: >
+      A warning set smaller than the surrounding body copy is not presented
+      prominently.
+    inputs: [warning_text_height, median_body_text_height]
+    logic: height_below_median
+    threshold: 1.0
+    severity: review
+
+  - id: R8
+    title: Representative APR less prominent than its trigger
+    citation: CONC 3.5.7R
+    paraphrase: >
+      The representative APR must be given no less prominence than the trigger
+      feature that required it (for example "0% for 12 months").
+    inputs: [apr_seconds, trigger_seconds, apr_text_height, trigger_text_height, positions]
+    logic: prominence_parity
+    threshold: null
+    severity: block
+
+  - id: R9
+    title: Trigger spoken but representative APR not spoken
+    citation: CONC 3.5.7R (as applied in ASA / Clearcast practice)
+    paraphrase: >
+      Where the trigger is delivered in speech, the representative APR should be too,
+      or prominence parity fails in the audio channel.
+    inputs: [transcript_turns, trigger_phrases, apr_phrases]
+    logic: spoken_parity
+    threshold: null
+    severity: review
+
+  - id: R10
+    title: A cost-of-credit figure appears without a representative example
+    citation: CONC 3.5.5R    # VERIFY exact rule reference
+    paraphrase: >
+      Where a promotion includes an amount or rate relating to the cost of credit, a
+      representative example must be included.
+    inputs: [claims, representative_example_present]
+    logic: example_missing
+    threshold: null
+    severity: review
+
+  - id: R11
+    title: A translation or text rewrite changed the prescribed warning wording
+    citation: COBS 4.12A.11R
+    paraphrase: >
+      The prescribed high-risk investment warning must appear in its prescribed
+      wording; a rewrite or machine translation breaks it.
+    inputs: [warning_text_variant, investment_type]
+    logic: prescribed_text_mismatch     # looks up prescribed_texts[investment_type]
+    threshold: null
+    severity: block
+    note: >
+      Verified 26 Oct 2026: the wording is prescribed by 4.12A.11R and there are four
+      variants by investment type, held in `prescribed_texts` above (D-007). The master
+      declares its `investment_type`; comparing against the wrong variant would both
+      false-positive on correct crypto warnings and miss real alterations.
+      Normalisation may fix whitespace and case only — never punctuation or wording.
+
+  - id: R12
+    title: Warning or APR inside a placement UI overlay zone
+    citation: FG24/1 para 1.5
+    paraphrase: >
+      A prescribed warning must not be obscured or truncated by a design feature of
+      the social media platform.
+    inputs: [warning_mask, apr_mask, placement_overlay_mask]
+    logic: occlusion_pixels_above
+    threshold: 0            # any occluded pixel in any frame
+    severity: block
+
+  - id: B1
+    title: "Benchmark only: super shown for less than the Clearcast TV hold time"
+    citation: Clearcast guidance (UK TV clearance)
+    paraphrase: >
+      Clearcast's TV hold-time calculator allows 0.2s per word plus 2s, with a further
+      3s for supers of 10 words or more.
+    inputs: [word_count, seconds_visible]
+    logic: hold_time_shortfall
+    threshold: null
+    severity: info
+    benchmark_only: true
+    note: >
+      A TV clearance convention, not the legal test for online promotions. Labelled
+      "TV benchmark" wherever it is shown.

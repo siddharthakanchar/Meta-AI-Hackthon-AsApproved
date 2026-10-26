@@ -1,7 +1,7 @@
 # STATUS
 
 Path: **undecided** (A/B/C decided after the Phase 1 Marketing API spike, due Tue 27 Oct 23:00 IST)
-Hours: used 4.0 / planned 40–45
+Hours: used 7.5 / planned 40–45
 Updated: Mon 26 Oct 2026
 
 ## Phases

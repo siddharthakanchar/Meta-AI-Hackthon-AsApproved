@@ -7,15 +7,14 @@
   "sampled_fps": 5,
   "frame_count": 75,
   "summary": {
-    "fail": 3,
+    "fail": 2,
     "blocking": 1,
-    "pass": 5,
+    "pass": 6,
     "inconclusive": 4,
     "not_applicable": 1,
     "failed_rules": [
       "R1",
-      "R4",
-      "R5"
+      "R4"
     ],
     "inconclusive_rules": [
       "R2",
@@ -112,10 +111,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "fail",
+      "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Warning presentation fails on: border.",
+      "detail": "Measured checks pass (border); could not measure: bold, underline.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -130,7 +129,7 @@
         ]
       },
       "sub_results": {
-        "border": "fail",
+        "border": "pass",
         "bold": "inconclusive",
         "underline": "inconclusive"
       },
@@ -147,9 +146,9 @@
       "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A (prominence and legibility)",
-      "detail": "Warning text contrast is 12.45:1.",
-      "measured": 1245,
-      "measured_display": "12.45:1",
+      "detail": "Warning text contrast is 19.68:1.",
+      "measured": 1968,
+      "measured_display": "19.68:1",
       "threshold": 450,
       "threshold_display": "4.5:1",
       "units": "ratio_x100",
@@ -174,15 +173,15 @@
       "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A (prominence guidance)",
-      "detail": "Warning text is 33px against body copy at 23px.",
-      "measured": 33,
-      "measured_display": "33px",
-      "threshold": 23,
-      "threshold_display": "23px",
+      "detail": "Warning text is 29px against body copy at 22px.",
+      "measured": 29,
+      "measured_display": "29px",
+      "threshold": 22,
+      "threshold_display": "22px",
       "units": "none",
       "evidence": {
-        "warning_px": 33,
-        "body_px": 23
+        "warning_px": 29,
+        "body_px": 22
       },
       "sub_results": {},
       "caveats": [],
@@ -310,13 +309,16 @@
       "not_legal_advice": true
     }
   ],
-  "notes": [],
+  "notes": [
+    "region 'warning' first appears at sampled frame 54; measured at frame 56 once settled"
+  ],
   "label": {
     "benign": false,
     "transform": "warning_appears_late",
     "enhancement": "video_highlights",
     "description": "Warning is held back until the closing seconds of the clip.",
     "violated_rules": [
+      "R1",
       "R4"
     ],
     "requires_audio": false
@@ -611,6 +613,6 @@
     ]
   },
   "sample_fps": 5.0,
-  "note": "3 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 99.9% of the 'warning' region changed from the approved master (threshold 2%).\n- R4 (FG24/1 Table 1): The warning is on screen for 28.0% of frames, below the 98% the guidance expects. Longest continuous absence: 10.8s.\n- R5 (COBS 4.12A.36R): Warning presentation fails on: border.\n  Caveat: bold not measurable\n  Caveat: underline not measurable\n4 rule(s) could not be assessed: R2, R9, R10, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 5.04
+  "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 99.9% of the 'warning' region changed from the approved master (threshold 2%).\n- R4 (FG24/1 Table 1): The warning is on screen for 28.0% of frames, below the 98% the guidance expects. Longest continuous absence: 10.8s.\n4 rule(s) could not be assessed: R2, R9, R10, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 6.41
 }

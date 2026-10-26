@@ -28,7 +28,7 @@ from asapproved.measure import measure_region, measure_track
 from asapproved.rules.engine import Context, Finding, evaluate, summarise
 from asapproved.vision.align import Alignment, align_to_master
 from asapproved.vision.diff import DiffResult, changed_in_region, diff_pair
-from asapproved.vision.ocr import OcrResult, read_text, text_in_box
+from asapproved.vision.ocr import OcrResult, locate_text_region, read_text, text_in_box
 from asapproved.vision.overlays import occlusion
 from asapproved.vision.track import (
     RegionTrack,
@@ -235,6 +235,11 @@ def check_variant(
     if not variant_ocr.available:
         notes.append("OCR unavailable: text-dependent rules report inconclusive")
 
+    master_text: dict[str, str] = {}
+    if master_ocr.available:
+        for label in watched:
+            master_text[label] = text_in_box(master_ocr, tuple(master.regions[label])).text()
+
     master_regions: dict[str, dict[str, Any]] = {}
     variant_regions: dict[str, dict[str, Any]] = {}
     changed_bp: dict[str, int] = {}
@@ -258,6 +263,28 @@ def check_variant(
         v_box = track.first_box() if track else None
         located_by = "template"
 
+        # Appearance (contrast, border) is measured on a frame where the region
+        # is actually present. Always using frame zero inspected an empty strip
+        # on any variant that holds the warning back to an end card, and then
+        # reported no border and unmeasurable contrast for a warning that was
+        # perfectly fine three seconds later.
+        appearance_frame = variant_frame
+        appearance_ocr = variant_ocr
+        if track is not None and master.is_video:
+            first_visible = next((i for i, ok in enumerate(track.visible) if ok), None)
+            if first_visible is not None and first_visible > 0:
+                # A couple of frames past the reveal, not the first frame of it:
+                # catching a warning mid-reveal gives OCR a partial read, and a
+                # partial read of correct wording looks exactly like altered
+                # wording to R11.
+                settled = min(first_visible + 2, len(variant_frames) - 1)
+                appearance_frame = variant_frames[settled]
+                appearance_ocr = read_text(appearance_frame)
+                notes.append(
+                    f"region '{label}' first appears at sampled frame {first_visible}; "
+                    f"measured at frame {settled} once settled"
+                )
+
         if v_box is None:
             # Appearance matching failed. That is NOT the same as the region
             # being gone: a warning set grey-on-grey, shrunk or reworded stops
@@ -265,18 +292,39 @@ def check_variant(
             # we called that "absent", R3 would fire on every one of those and
             # R6/R7/R11 would never get the chance — every appearance breach
             # would be reported as a removal.
+            # First try to find it by its TEXT, which survives both restyling and
+            # reflow. Only then fall back to the position alignment predicts,
+            # which assumes the region has not moved — false for any variant that
+            # reflows the layout.
+            reference = master_text.get(label, "")
+            by_text = (
+                locate_text_region(
+                    variant_ocr,
+                    reference,
+                    exclude=[
+                        tuple(r["bbox"])
+                        for k, r in variant_regions.items()
+                        if k != label and isinstance(r, dict) and r.get("bbox")
+                    ],
+                )
+                if reference
+                else None
+            )
+
             fallback = expected.get(label)
             inside = inside_fraction(fallback, variant_frame.shape) if fallback else 0.0
-            has_text = False
-            if fallback and inside >= 0.5 and variant_ocr.available:
-                has_text = bool(text_in_box(variant_ocr, fallback).boxes)
 
-            if fallback and inside >= 0.5 and has_text:
+            if by_text is not None:
+                v_box = by_text
+                located_by = "text"
+                notes.append(
+                    f"region '{label}' did not match its master template; located by its text"
+                )
+            elif fallback and inside >= 0.5 and variant_ocr.available and text_in_box(variant_ocr, fallback).boxes:
                 v_box = fallback
                 located_by = "alignment"
                 notes.append(
-                    f"region '{label}' did not match its master template; measured at the "
-                    "position the alignment predicts"
+                    f"region '{label}' located at the position the alignment predicts"
                 )
             else:
                 variant_regions[label] = {"present": False, "bbox": None}
@@ -285,11 +333,11 @@ def check_variant(
                     longest_gap[label] = len(variant_frames) * stride
                 continue
 
-        v_mask = _mask_from_box(v_box, variant_frame.shape)
+        v_mask = _mask_from_box(v_box, appearance_frame.shape)
         v_meas = measure_region(
-            variant_frame, v_mask, label, placement=_placement_key(master.placement)
+            appearance_frame, v_mask, label, placement=_placement_key(master.placement)
         )
-        region = _region_dict(v_meas, _median_text_height(variant_ocr, v_box))
+        region = _region_dict(v_meas, _median_text_height(appearance_ocr, v_box))
         region["located_by"] = located_by
         variant_regions[label] = region
 
@@ -299,10 +347,22 @@ def check_variant(
             if occ.caveat and occ.caveat not in occlusion_caveats:
                 occlusion_caveats.append(occ.caveat)
 
-        if master.is_video and track:
-            t = measure_track(track.visible, max(1.0, src_fps / stride), label)
-            visible_bp[label] = t.visible_ratio_bp
-            longest_gap[label] = t.longest_gap_frames * stride
+        if master.is_video:
+            # Track the VARIANT's own appearance, not the master's. A warning
+            # that has been restyled — border dropped, set grey-on-grey,
+            # reworded — never matches the master's template in any frame, so
+            # visibility read 0% and R4 reported "not on screen throughout" for
+            # a warning that was on screen the whole time. Re-cutting the
+            # template from the variant at the frame where we found it tracks
+            # the thing that is actually there.
+            if located_by != "template":
+                own = region_template(variant_frame, tuple(v_box), None)
+                track = track_region(own, variant_frames, label, near=v_box) if own is not None else track
+                tracks[label] = track or tracks.get(label)
+            if track:
+                t = measure_track(track.visible, max(1.0, src_fps / stride), label)
+                visible_bp[label] = t.visible_ratio_bp
+                longest_gap[label] = t.longest_gap_frames * stride
 
     if "body" in master.regions:
         # Measured wherever the variant actually put it, not where the master had

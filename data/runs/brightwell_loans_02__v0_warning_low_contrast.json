@@ -7,14 +7,13 @@
   "sampled_fps": 5,
   "frame_count": 1,
   "summary": {
-    "fail": 3,
+    "fail": 2,
     "blocking": 0,
-    "pass": 4,
+    "pass": 5,
     "inconclusive": 2,
     "not_applicable": 4,
     "failed_rules": [
       "R1",
-      "R5",
       "R6"
     ],
     "inconclusive_rules": [
@@ -107,10 +106,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "fail",
+      "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Warning presentation fails on: border.",
+      "detail": "Measured checks pass (border); could not measure: bold, underline.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -125,7 +124,7 @@
         ]
       },
       "sub_results": {
-        "border": "fail",
+        "border": "pass",
         "bold": "inconclusive",
         "underline": "inconclusive"
       },
@@ -304,7 +303,7 @@
     }
   ],
   "notes": [
-    "region 'warning' did not match its master template; measured at the position the alignment predicts"
+    "region 'warning' located at the position the alignment predicts"
   ],
   "label": {
     "benign": false,
@@ -312,6 +311,7 @@
     "enhancement": "image_background_gen",
     "description": "Background generation leaves the warning grey-on-grey.",
     "violated_rules": [
+      "R1",
       "R6"
     ],
     "requires_audio": false
@@ -384,6 +384,6 @@
     ]
   },
   "sample_fps": 0.0,
-  "note": "3 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 100.0% of the 'warning' region changed from the approved master (threshold 2%).\n- R5 (COBS 4.12A.36R): Warning presentation fails on: border.\n  Caveat: bold not measurable\n  Caveat: underline not measurable\n- R6 (COBS 4.12A (prominence and legibility)): Warning text contrast is 1.37:1, below the 4.5:1 design threshold.\n  Caveat: 4.5:1 is an engineering proxy for legibility (WCAG AA), not a figure the FCA prescribes.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 2.93
+  "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 100.0% of the 'warning' region changed from the approved master (threshold 2%).\n- R6 (COBS 4.12A (prominence and legibility)): Warning text contrast is 1.37:1, below the 4.5:1 design threshold.\n  Caveat: 4.5:1 is an engineering proxy for legibility (WCAG AA), not a figure the FCA prescribes.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 2.91
 }

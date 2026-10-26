@@ -15,6 +15,10 @@
       "description": "Warning text reflowed smaller than the body copy.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R7"
+      ],
+      "intended_rules": [
         "R7"
       ],
       "touched_regions": [
@@ -133,6 +137,10 @@
       "description": "Warning repositioned under the platform's caption and CTA block.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R12"
+      ],
+      "intended_rules": [
         "R12"
       ],
       "touched_regions": [
@@ -251,6 +259,7 @@
       "description": "Background recoloured; claim and warning regions untouched.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -365,6 +374,7 @@
       "description": "Global brightness and contrast lift.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -479,6 +489,10 @@
       "description": "Background generation leaves the warning grey-on-grey.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R6"
+      ],
+      "intended_rules": [
         "R6"
       ],
       "touched_regions": [
@@ -597,6 +611,11 @@
       "description": "Cost-of-credit figures remain; the representative example is dropped.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R3",
+        "R10"
+      ],
+      "intended_rules": [
         "R10",
         "R3"
       ],
@@ -700,6 +719,7 @@
       "description": "Background recoloured; claim and warning regions untouched.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -814,6 +834,7 @@
       "description": "Global brightness and contrast lift.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -928,13 +949,17 @@
       "description": "Warning redrawn without its own border.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R5"
+      ],
+      "intended_rules": [
         "R5"
       ],
       "touched_regions": [
         "warning"
       ],
       "requires_audio": false,
-      "notes": "Removes two of R5's three sub-checks; bold is retained.",
+      "notes": "Drops the outline, the underline AND the panel. Removing only the outline leaves a white box whose edge reads as a container, which makes the variant ambiguous against COBS 4.12A.36R.",
       "kind": "video",
       "size": [
         720,
@@ -1035,7 +1060,7 @@
         "trigger": 10000
       },
       "file": "brightwell_loans_v1__v0_warning_border_removed.mp4",
-      "sha256": "05888fec2fc8d578b2c681451046fdfe68bed8d16cdbc1bb56f7588e7da2df51"
+      "sha256": "2fc9708fc0e58e783453f78ae148a72882185b27226dcd87cc9387978fbc073d"
     },
     {
       "variant_id": "brightwell_loans_v1__v1_voiceover_drops_apr",
@@ -1046,6 +1071,9 @@
       "description": "Voiceover states the trigger but no longer states the APR.",
       "benign": false,
       "violated_rules": [
+        "R9"
+      ],
+      "intended_rules": [
         "R9"
       ],
       "touched_regions": [],
@@ -1162,6 +1190,7 @@
       "description": "Background recoloured; claim and warning regions untouched.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -1276,6 +1305,7 @@
       "description": "Global brightness and contrast lift.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -1391,6 +1421,11 @@
       "benign": false,
       "violated_rules": [
         "R1",
+        "R3",
+        "R12"
+      ],
+      "intended_rules": [
+        "R1",
         "R3"
       ],
       "touched_regions": [
@@ -1499,6 +1534,10 @@
       "description": "Prescribed wording rewritten into a softer paraphrase.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R11"
+      ],
+      "intended_rules": [
         "R11"
       ],
       "touched_regions": [
@@ -1617,6 +1656,7 @@
       "description": "Background recoloured; claim and warning regions untouched.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -1731,6 +1771,7 @@
       "description": "Global brightness and contrast lift.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -1845,6 +1886,10 @@
       "description": "Warning is held back until the closing seconds of the clip.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R4"
+      ],
+      "intended_rules": [
         "R4"
       ],
       "touched_regions": [
@@ -1963,6 +2008,10 @@
       "description": "Background generation leaves the warning grey-on-grey.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R6"
+      ],
+      "intended_rules": [
         "R6"
       ],
       "touched_regions": [
@@ -2081,6 +2130,7 @@
       "description": "Background recoloured; claim and warning regions untouched.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -2195,6 +2245,7 @@
       "description": "Global brightness and contrast lift.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -2312,6 +2363,10 @@
         "R1",
         "R3"
       ],
+      "intended_rules": [
+        "R1",
+        "R3"
+      ],
       "touched_regions": [
         "warning"
       ],
@@ -2418,13 +2473,17 @@
       "description": "Warning redrawn without its own border.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R5"
+      ],
+      "intended_rules": [
         "R5"
       ],
       "touched_regions": [
         "warning"
       ],
       "requires_audio": false,
-      "notes": "Removes two of R5's three sub-checks; bold is retained.",
+      "notes": "Drops the outline, the underline AND the panel. Removing only the outline leaves a white box whose edge reads as a container, which makes the variant ambiguous against COBS 4.12A.36R.",
       "kind": "still",
       "size": [
         720,
@@ -2525,7 +2584,7 @@
         "trigger": 10000
       },
       "file": "kestrel_nrrs_01__v1_warning_border_removed.png",
-      "sha256": "ee7cc893be63b1cba3fe7642dd8ad2ae99b3e569de0cc9f99737fc121cd54d9d"
+      "sha256": "5c61479095d044494f97e0057bdc48b656b096a262f56ef35d91a2c04a3a0b43"
     },
     {
       "variant_id": "kestrel_nrrs_01__v2_background_hue_shift",
@@ -2536,6 +2595,7 @@
       "description": "Background recoloured; claim and warning regions untouched.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -2650,6 +2710,7 @@
       "description": "Global brightness and contrast lift.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -2764,6 +2825,10 @@
       "description": "Prescribed wording rewritten into a softer paraphrase.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R11"
+      ],
+      "intended_rules": [
         "R11"
       ],
       "touched_regions": [
@@ -2882,6 +2947,10 @@
       "description": "Warning is held back until the closing seconds of the clip.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R4"
+      ],
+      "intended_rules": [
         "R4"
       ],
       "touched_regions": [
@@ -3000,6 +3069,7 @@
       "description": "Re-encoded at lower quality for delivery.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -3114,6 +3184,7 @@
       "description": "Background recoloured; claim and warning regions untouched.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -3228,6 +3299,11 @@
       "description": "Cost-of-credit figures remain; the representative example is dropped.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R3",
+        "R10"
+      ],
+      "intended_rules": [
         "R10",
         "R3"
       ],
@@ -3331,13 +3407,17 @@
       "description": "Warning redrawn without its own border.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R5"
+      ],
+      "intended_rules": [
         "R5"
       ],
       "touched_regions": [
         "warning"
       ],
       "requires_audio": false,
-      "notes": "Removes two of R5's three sub-checks; bold is retained.",
+      "notes": "Drops the outline, the underline AND the panel. Removing only the outline leaves a white box whose edge reads as a container, which makes the variant ambiguous against COBS 4.12A.36R.",
       "kind": "still",
       "size": [
         720,
@@ -3438,7 +3518,7 @@
         "trigger": 10000
       },
       "file": "northfield_card_01__v1_warning_border_removed.png",
-      "sha256": "d97fa4ee7e38285d03100af2ea54c4ff40e3d5ac07e8dee25615b6b060ec81d5"
+      "sha256": "73e8f4fff81b20cda7663659e19f03d7d64c3069a122cf2c6f02a12871f067f4"
     },
     {
       "variant_id": "northfield_card_01__v2_margin_trim",
@@ -3449,6 +3529,7 @@
       "description": "A sliver of empty margin trimmed; no claim region affected.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -3563,6 +3644,7 @@
       "description": "Background recoloured; claim and warning regions untouched.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -3677,6 +3759,10 @@
       "description": "Warning repositioned under the platform's caption and CTA block.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R12"
+      ],
+      "intended_rules": [
         "R12"
       ],
       "touched_regions": [
@@ -3795,6 +3881,10 @@
       "description": "Background generation leaves the warning grey-on-grey.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R6"
+      ],
+      "intended_rules": [
         "R6"
       ],
       "touched_regions": [
@@ -3913,6 +4003,7 @@
       "description": "Saturation and sharpening pass.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -4027,6 +4118,7 @@
       "description": "Background recoloured; claim and warning regions untouched.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -4141,6 +4233,10 @@
       "description": "Representative APR set much smaller than the trigger it qualifies.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R8"
+      ],
+      "intended_rules": [
         "R8"
       ],
       "touched_regions": [
@@ -4260,6 +4356,10 @@
       "description": "Warning text reflowed smaller than the body copy.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R7"
+      ],
+      "intended_rules": [
         "R7"
       ],
       "touched_regions": [
@@ -4378,6 +4478,7 @@
       "description": "Global brightness and contrast lift.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -4492,6 +4593,7 @@
       "description": "Background recoloured; claim and warning regions untouched.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -4608,6 +4710,9 @@
       "violated_rules": [
         "R9"
       ],
+      "intended_rules": [
+        "R9"
+      ],
       "touched_regions": [],
       "requires_audio": true,
       "notes": "Audio-only: visually identical to the master by design.",
@@ -4722,6 +4827,10 @@
       "description": "Warning is held back until the closing seconds of the clip.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R4"
+      ],
+      "intended_rules": [
         "R4"
       ],
       "touched_regions": [
@@ -4840,6 +4949,7 @@
       "description": "Background recoloured; claim and warning regions untouched.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -4954,6 +5064,7 @@
       "description": "Global brightness and contrast lift.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -5068,6 +5179,10 @@
       "description": "APR holds for about a second, then slides out of frame for the rest.",
       "benign": false,
       "violated_rules": [
+        "R1",
+        "R8"
+      ],
+      "intended_rules": [
         "R8"
       ],
       "touched_regions": [
@@ -5187,6 +5302,12 @@
       "benign": false,
       "violated_rules": [
         "R1",
+        "R3",
+        "R4",
+        "R12"
+      ],
+      "intended_rules": [
+        "R1",
         "R3"
       ],
       "touched_regions": [
@@ -5295,6 +5416,7 @@
       "description": "Backing track replaced; spoken content unchanged.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": true,
       "notes": "",
@@ -5409,6 +5531,7 @@
       "description": "Background recoloured; claim and warning regions untouched.",
       "benign": true,
       "violated_rules": [],
+      "intended_rules": [],
       "touched_regions": [],
       "requires_audio": false,
       "notes": "",
@@ -5515,5 +5638,5 @@
       "sha256": "7cc3cb2133e3c9683dca026674f311ef5e49bb3e065f244955a96858579d6d80"
     }
   ],
-  "labels_sha256": "a5438e9388b45e81f79aa3c8b1819b47dbea09bb02f24bf742e333e869819dc9"
+  "labels_sha256": "ee290d4b0052186be096d5f3bd54eb0591437db80efc76852a418e0377d00195"
 }

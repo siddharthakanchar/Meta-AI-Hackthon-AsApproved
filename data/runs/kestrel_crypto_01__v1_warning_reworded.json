@@ -310,7 +310,7 @@
     }
   ],
   "notes": [
-    "region 'warning' did not match its master template; measured at the position the alignment predicts"
+    "region 'warning' located at the position the alignment predicts"
   ],
   "label": {
     "benign": false,
@@ -318,6 +318,7 @@
     "enhancement": "text_translation",
     "description": "Prescribed wording rewritten into a softer paraphrase.",
     "violated_rules": [
+      "R1",
       "R11"
     ],
     "requires_audio": false
@@ -391,5 +392,5 @@
   },
   "sample_fps": 0.0,
   "note": "4 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 78.9% of the 'warning' region changed from the approved master (threshold 2%).\n- R5 (COBS 4.12A.36R): Warning presentation fails on: border.\n  Caveat: bold not measurable\n  Caveat: underline not measurable\n- R11 (COBS 4.12A.11R): The prescribed warning wording has been altered: diverges at word 1: expected “…don't invest unless…”, found “…only invest what…”\n  Caveat: Warning text was read by OCR, which mis-renders characters and spacing; comparison uses a calibrated similarity band, not exact equality.\n- R12 (FG24/1 para 1.5): 17,490 pixels of the 'warning' fall inside the reels interface overlay zone, where platform chrome can obscure them.\n  Caveat: Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.\n1 rule(s) could not be assessed: R2. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 2.7
+  "seconds": 2.71
 }

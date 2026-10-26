@@ -9,12 +9,13 @@
   "summary": {
     "fail": 0,
     "blocking": 0,
-    "pass": 8,
-    "inconclusive": 3,
+    "pass": 7,
+    "inconclusive": 4,
     "not_applicable": 2,
     "failed_rules": [],
     "inconclusive_rules": [
       "R2",
+      "R5",
       "R9",
       "B1"
     ]
@@ -107,10 +108,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "pass",
+      "status": "inconclusive",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Measured checks pass (border); could not measure: bold, underline.",
+      "detail": "None of the presentation checks could be measured: border, bold, underline.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -125,11 +126,12 @@
         ]
       },
       "sub_results": {
-        "border": "pass",
+        "border": "inconclusive",
         "bold": "inconclusive",
         "underline": "inconclusive"
       },
       "caveats": [
+        "border not measurable",
         "bold not measurable",
         "underline not measurable"
       ],
@@ -610,6 +612,6 @@
     ]
   },
   "sample_fps": 5.0,
-  "note": "No rule in rulebook uk_v1 failed for this variant.\n3 rule(s) could not be assessed: R2, R9, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 4.63
+  "note": "No rule in rulebook uk_v1 failed for this variant.\n4 rule(s) could not be assessed: R2, R5, R9, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 5.14
 }

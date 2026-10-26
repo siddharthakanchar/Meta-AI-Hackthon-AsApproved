@@ -65,6 +65,11 @@ class Layout:
     warning_height: float = 0.165
     warning_scale: float = 1.0  # multiplier on warning text size (R7 lever)
     warning_border: bool = True  # R5 lever
+    # Removing only the drawn outline leaves the white panel, whose edge
+    # against a dark ad is indistinguishable from a border — and arguably IS
+    # a container for the purposes of COBS 4.12A.36R. A variant meant to
+    # breach that rule has to drop the panel too, or it is ambiguous.
+    warning_fill: bool = True
     warning_underline: bool = True  # R5 lever
     warning_bg: tuple[int, int, int] | None = None  # None = white (R6 lever)
     warning_ink: tuple[int, int, int] | None = None  # None = near-black
@@ -428,7 +433,13 @@ def _draw_warning(
     bg = layout.warning_bg or (255, 255, 255)
     ink = layout.warning_ink or (10, 10, 10)
 
-    draw.rectangle([box_x, box_y, box_x + box_w, box_y + box_h], fill=bg)
+    if layout.warning_fill:
+        draw.rectangle([box_x, box_y, box_x + box_w, box_y + box_h], fill=bg)
+    else:
+        # No panel: the warning sits directly on the creative. Use the brand's
+        # own ink so the text stays legible — otherwise this would breach R6 as
+        # well and the two rules could not be told apart in the benchmark.
+        ink = brand.ink
     if layout.warning_border:
         draw.rectangle(
             [box_x, box_y, box_x + box_w, box_y + box_h],

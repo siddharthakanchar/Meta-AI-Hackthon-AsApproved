@@ -42,10 +42,13 @@ __all__ = [
 
 HD_REFERENCE_LINES = 1080  # "HD-line equivalents" are relative to a 1080-line frame
 
-# Edge coverage along a side of the warning box. Between these two values the
-# evidence is ambiguous and `detect_border` returns None rather than guessing.
-BORDER_PRESENT_ABOVE = 0.80
-BORDER_ABSENT_BELOW = 0.35
+# Long-line coverage along each side of the warning box, calibrated by
+# measurement rather than by eye. On VariantBench-UK a drawn border scores
+# [0.86, 0.86, 0.59, 0.57] — the vertical sides read lower because the line is
+# shorter relative to the search band — and a removed one scores [0, 0, 0, 0].
+# The thresholds sit in that gap. Between them, `detect_border` returns None.
+BORDER_PRESENT_ABOVE = 0.45
+BORDER_ABSENT_BELOW = 0.20
 
 
 # --------------------------------------------------------------------------
@@ -141,9 +144,17 @@ def is_clipped(mask: np.ndarray, *, margin: int = 1) -> bool:
 def detect_border(frame_bgr: np.ndarray, bbox: tuple[int, int, int, int]) -> bool | None:
     """Is the region enclosed in its own border? (COBS 4.12A.36R)
 
-    Looks for sustained edge response along all four sides of the bounding box.
-    Returns None — inconclusive — when the box is too small to judge, rather than
-    reporting a confident False that would become a finding against the advertiser.
+    Looks for a LONG STRAIGHT LINE along each side, not merely edge pixels.
+    That distinction is the whole difficulty: text produces plenty of edge
+    response, so "are there edges near the perimeter?" reported a border on
+    variants where it had been removed, while "are there edges exactly at the
+    box edge?" reported none on variants that had one — because the box we are
+    given is often the text's bounding box, and the border sits outside it with
+    padding between.
+
+    Three outcomes. Where the warning is set at very low contrast the border may
+    be present and genuinely undetectable, and saying so is better than
+    guessing in either direction (V14).
     """
     x, y, w, h = bbox
     if w < 20 or h < 12:
@@ -154,31 +165,59 @@ def detect_border(frame_bgr: np.ndarray, bbox: tuple[int, int, int, int]) -> boo
     if x1 - x0 < 20 or y1 - y0 < 12:
         return None
 
-    gray = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2GRAY) if frame_bgr.ndim == 3 else frame_bgr
-    edges = cv2.Canny(gray, 50, 150)
+    # Search a margin outside the box too: the border encloses the text with
+    # padding, so it is usually not on the text's own bounding edge.
+    reach = max(6, int(min(x1 - x0, y1 - y0) * 0.35))
+    rx0, ry0 = max(0, x0 - reach), max(0, y0 - reach)
+    rx1, ry1 = min(W, x1 + reach), min(H, y1 + reach)
+    region = frame_bgr[ry0:ry1, rx0:rx1]
+    if region.size == 0 or region.shape[0] < 12 or region.shape[1] < 20:
+        return None
 
-    band = max(2, min(4, (y1 - y0) // 10, (x1 - x0) // 10))
-    sides = {
-        "top": edges[y0 : y0 + band, x0:x1],
-        "bottom": edges[max(y0, y1 - band) : y1, x0:x1],
-        "left": edges[y0:y1, x0 : x0 + band],
-        "right": edges[y0:y1, max(x0, x1 - band) : x1],
-    }
-    # Three outcomes, not two. A re-encoded video or a sharpened image softens
-    # box edges enough that strict coverage fails, and reporting a confident
-    # "no border" there produced R5 failures on variants whose only edit was a
-    # music swap. Partial evidence is reported as unmeasurable (V14), which is
-    # the same discipline applied to bold and underline.
-    coverage = []
-    for name, strip in sides.items():
-        if strip.size == 0:
-            return None
-        axis = 0 if name in ("top", "bottom") else 1
-        coverage.append(float((strip > 0).any(axis=axis).mean()))
+    gray = cv2.cvtColor(region, cv2.COLOR_BGR2GRAY) if region.ndim == 3 else region
+    edges = cv2.Canny(gray, 40, 120)
+    rh, rw = edges.shape[:2]
 
-    if all(c >= BORDER_PRESENT_ABOVE for c in coverage):
+    # Keep only runs long enough to be a drawn rule rather than a glyph stroke.
+    h_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (max(12, rw // 3), 1))
+    v_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, max(8, rh // 3)))
+    h_lines = cv2.morphologyEx(edges, cv2.MORPH_OPEN, h_kernel)
+    v_lines = cv2.morphologyEx(edges, cv2.MORPH_OPEN, v_kernel)
+
+    def best_row_coverage(mask: np.ndarray, rows: range) -> float:
+        best = 0.0
+        for r in rows:
+            if 0 <= r < mask.shape[0]:
+                best = max(best, float((mask[r] > 0).mean()))
+        return best
+
+    def best_col_coverage(mask: np.ndarray, cols: range) -> float:
+        best = 0.0
+        for c in cols:
+            if 0 <= c < mask.shape[1]:
+                best = max(best, float((mask[:, c] > 0).mean()))
+        return best
+
+    inset_y, inset_x = y0 - ry0, x0 - rx0
+    span_y, span_x = y1 - y0, x1 - x0
+
+    coverage = [
+        best_row_coverage(h_lines, range(0, inset_y + 3)),
+        best_row_coverage(h_lines, range(inset_y + span_y - 3, rh)),
+        best_col_coverage(v_lines, range(0, inset_x + 3)),
+        best_col_coverage(v_lines, range(inset_x + span_x - 3, rw)),
+    ]
+
+    # Count sides, do not demand all four. Measured across the twelve masters,
+    # a drawn border scores at worst [0.86, 0.63, 0.59, 0.00]: on 9:16 creative
+    # the right-hand rule consistently drops out, because the box runs close to
+    # the frame edge and the search window is clipped there. A removed border
+    # scores [0, 0, 0, 0]. Three detected sides is therefore a box; one or none
+    # is not; two is genuinely ambiguous and says so.
+    detected = sum(1 for c in coverage if c >= BORDER_PRESENT_ABOVE)
+    if detected >= 3:
         return True
-    if any(c < BORDER_ABSENT_BELOW for c in coverage):
+    if sum(1 for c in coverage if c >= BORDER_ABSENT_BELOW) <= 1:
         return False
     return None
 

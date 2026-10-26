@@ -28,7 +28,8 @@ from PIL import Image
 
 from asapproved.canonical import sha256_file
 from asapproved.synth.build import compliant_layout, write_video
-from asapproved.synth.render import RenderedFrame, draw_frame
+from asapproved.synth.derive import derive_violations
+from asapproved.synth.render import Layout, RenderedFrame, draw_frame
 from asapproved.synth.specs import MasterSpec
 from asapproved.synth.transforms import FrameCtx, Transform, VariantPlan
 
@@ -86,13 +87,23 @@ def _bbox_of_mask(mask: np.ndarray) -> tuple[int, int, int, int] | None:
     return int(xs.min()), int(ys.min()), int(xs.max() - xs.min() + 1), int(ys.max() - ys.min() + 1)
 
 
+def variant_layout(spec: MasterSpec, transform: Transform) -> tuple[Layout, str]:
+    """The layout and warning text this variant is drawn with.
+
+    Exposed so ground truth can be derived from what was DRAWN rather than from
+    what was intended — see synth/derive.py.
+    """
+    base_layout = compliant_layout(spec)
+    layout = transform.layout_fn(spec, base_layout) if transform.layout_fn else base_layout
+    warning_text = transform.text_fn(spec) if transform.text_fn else spec.warning_text
+    return layout, warning_text
+
+
 def _render_variant_frame(
     spec: MasterSpec, transform: Transform, frame_index: int
 ) -> RenderedFrame:
     """Render the variant's base frame, applying any layout/text lever."""
-    base_layout = compliant_layout(spec)
-    layout = transform.layout_fn(spec, base_layout) if transform.layout_fn else base_layout
-    warning_text = transform.text_fn(spec) if transform.text_fn else spec.warning_text
+    layout, warning_text = variant_layout(spec, transform)
     w, h = spec.size
     phase = (frame_index / max(1, spec.total_frames)) * 2.0
     return draw_frame(
@@ -180,6 +191,22 @@ def build_variant(plan: VariantPlan, out_dir: Path, *, progress=None) -> Variant
         plan, transform.text_fn(spec) if transform.text_fn else spec.warning_text
     )
 
+    layout, warning_text = variant_layout(spec, transform)
+    derived = (
+        []
+        if transform.benign
+        else derive_violations(
+            spec,
+            transform,
+            layout,
+            {k: v for k, v in final_boxes.items() if v},
+            warning_text,
+            visible_ratio_bp,
+            {k: (v is not None) for k, v in final_boxes.items()},
+            rendered_regions=dict(base_regions),
+        )
+    )
+
     label = {
         "variant_id": plan.variant_id,
         "master_id": spec.id,
@@ -188,7 +215,11 @@ def build_variant(plan: VariantPlan, out_dir: Path, *, progress=None) -> Variant
         "enhancement": transform.enhancement,
         "description": transform.description,
         "benign": transform.benign,
-        "violated_rules": list(transform.rules),
+        # Every rule this variant actually breaks, derived from what was drawn.
+        # The transform's own declaration is kept alongside so a reader can see
+        # what was intended versus what resulted.
+        "violated_rules": derived,
+        "intended_rules": list(transform.rules),
         "touched_regions": list(transform.regions),
         "requires_audio": transform.requires_audio,
         "notes": transform.notes,

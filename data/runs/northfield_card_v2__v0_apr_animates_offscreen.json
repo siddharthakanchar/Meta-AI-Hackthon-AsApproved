@@ -7,13 +7,12 @@
   "sampled_fps": 5,
   "frame_count": 75,
   "summary": {
-    "fail": 2,
+    "fail": 1,
     "blocking": 1,
-    "pass": 6,
+    "pass": 7,
     "inconclusive": 4,
     "not_applicable": 1,
     "failed_rules": [
-      "R5",
       "R8"
     ],
     "inconclusive_rules": [
@@ -111,10 +110,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "fail",
+      "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Warning presentation fails on: border.",
+      "detail": "Measured checks pass (border); could not measure: bold, underline.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -129,7 +128,7 @@
         ]
       },
       "sub_results": {
-        "border": "fail",
+        "border": "pass",
         "bold": "inconclusive",
         "underline": "inconclusive"
       },
@@ -321,6 +320,7 @@
     "enhancement": "image_animation",
     "description": "APR holds for about a second, then slides out of frame for the rest.",
     "violated_rules": [
+      "R1",
       "R8"
     ],
     "requires_audio": false
@@ -615,6 +615,6 @@
     ]
   },
   "sample_fps": 5.0,
-  "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R5 (COBS 4.12A.36R): Warning presentation fails on: border.\n  Caveat: bold not measurable\n  Caveat: underline not measurable\n- R8 (CONC 3.5.7R): The representative APR is less prominent than its trigger: APR is on screen for 6.7% of frames against the trigger's 100.0%.\n4 rule(s) could not be assessed: R2, R9, R10, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 4.42
+  "note": "1 rule(s) failed for this variant against rulebook uk_v1.\n- R8 (CONC 3.5.7R): The representative APR is less prominent than its trigger: APR is on screen for 6.7% of frames against the trigger's 100.0%.\n4 rule(s) could not be assessed: R2, R9, R10, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 5.07
 }

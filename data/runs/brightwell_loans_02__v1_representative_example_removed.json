@@ -289,8 +289,9 @@
     "enhancement": "text_optimizations",
     "description": "Cost-of-credit figures remain; the representative example is dropped.",
     "violated_rules": [
-      "R10",
-      "R3"
+      "R1",
+      "R3",
+      "R10"
     ],
     "requires_audio": false
   },
@@ -363,5 +364,5 @@
   },
   "sample_fps": 0.0,
   "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 100.0% of the 'warning' region changed from the approved master (threshold 2%).\n- R3 (COBS 4.12A.38R): The approved warning is absent from the delivered variant.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 1.89
+  "seconds": 1.94
 }

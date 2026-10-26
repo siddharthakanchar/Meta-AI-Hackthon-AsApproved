@@ -393,8 +393,13 @@ TRANSFORMS: list[Transform] = [
             safe_bottom=lay.safe_bottom,
             warning_border=False,
             warning_underline=False,
+            warning_fill=False,
         ),
-        notes="Removes two of R5's three sub-checks; bold is retained.",
+        notes=(
+            "Drops the outline, the underline AND the panel. Removing only the "
+            "outline leaves a white box whose edge reads as a container, which "
+            "makes the variant ambiguous against COBS 4.12A.36R."
+        ),
     ),
     Transform(
         name="warning_low_contrast",

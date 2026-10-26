@@ -7,14 +7,12 @@
   "sampled_fps": 5,
   "frame_count": 75,
   "summary": {
-    "fail": 1,
+    "fail": 0,
     "blocking": 0,
-    "pass": 7,
+    "pass": 8,
     "inconclusive": 4,
     "not_applicable": 1,
-    "failed_rules": [
-      "R5"
-    ],
+    "failed_rules": [],
     "inconclusive_rules": [
       "R2",
       "R9",
@@ -110,10 +108,10 @@
     {
       "rule_id": "R5",
       "rulebook_version": "uk_v1",
-      "status": "fail",
+      "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A.36R",
-      "detail": "Warning presentation fails on: border.",
+      "detail": "Measured checks pass (border); could not measure: bold, underline.",
       "measured": null,
       "measured_display": "",
       "threshold": null,
@@ -128,7 +126,7 @@
         ]
       },
       "sub_results": {
-        "border": "fail",
+        "border": "pass",
         "bold": "inconclusive",
         "underline": "inconclusive"
       },
@@ -609,6 +607,6 @@
     ]
   },
   "sample_fps": 5.0,
-  "note": "1 rule(s) failed for this variant against rulebook uk_v1.\n- R5 (COBS 4.12A.36R): Warning presentation fails on: border.\n  Caveat: bold not measurable\n  Caveat: underline not measurable\n4 rule(s) could not be assessed: R2, R9, R10, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 4.73
+  "note": "No rule in rulebook uk_v1 failed for this variant.\n4 rule(s) could not be assessed: R2, R9, R10, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 5.34
 }

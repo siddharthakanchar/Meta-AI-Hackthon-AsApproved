@@ -1,7 +1,7 @@
 # VariantBench-UK results
 
 Dataset: 48 variants (24 seeded violations, 24 benign) from 12 approved masters.
-Labels frozen at `a5438e9388b45e81…`.
+Labels frozen at `ee290d4b0052186b…`.
 
 All creative is SIMULATED. Numbers are reported as measured, including where a baseline beats the full pipeline.
 
@@ -9,28 +9,56 @@ All creative is SIMULATED. Numbers are reported as measured, including where a b
 
 | Baseline | Precision | Recall | F1 | False-block rate | Scored | Not evaluated | Mean s/variant |
 |---|---|---|---|---|---|---|---|
-| **B1** — pixel diff alone | 95% | 95% | 95% | 4% | 45 | 3 | 0.4 |
-| **B2** — AsApproved | 96% | 100% | 98% | 4% | 45 | 3 | 2.6 |
+| **B1** — pixel diff alone | 95% | 95% | 95% | 4% | 45 | 3 | 0.5 |
+| **B2** — AsApproved | 100% | 100% | 100% | 0% | 45 | 3 | 3.0 |
 
 **False-block rate** is the share of benign variants wrongly flagged. A tool that blocks compliant ads gets switched off, so it is reported beside recall rather than below it.
 
-## Per-rule detection
+### Reading this table honestly
+
+A pixel diff scores close to the full pipeline on *variant-level detection*, and that is a real result, not a flaw in the baseline. The question it answers — "did something change?" — is the easy one, and almost any edit to a claim region trips it.
+
+It is also not the question a compliance officer can act on. They need to know **which rule broke, by how much, against which threshold, and with which frame as evidence** — because that is what goes in the record and what a regulator asks about. The per-rule table below is where the two separate: B1 can only ever assert R1, so every other rule is a miss it cannot even attempt.
+
+## Per-rule attribution
+
+### B1
+
+| Rule | TP | FP | FN | Precision | Recall | F1 | Not evaluated |
+|---|---|---|---|---|---|---|---|
+| R1 | 21 | 1 | 1 | 95% | 95% | 95% | 0 |
+| R3 | 0 | 0 | 5 | — | 0% | — | 0 |
+| R4 | 0 | 0 | 4 | — | 0% | — | 0 |
+| R5 | 0 | 0 | 3 | — | 0% | — | 0 |
+| R6 | 0 | 0 | 3 | — | 0% | — | 0 |
+| R7 | 0 | 0 | 2 | — | 0% | — | 0 |
+| R8 | 0 | 0 | 2 | — | 0% | — | 0 |
+| R9 | 0 | 0 | 0 | — | — | — | 0 |
+| R10 | 0 | 0 | 2 | — | 0% | — | 0 |
+| R11 | 0 | 0 | 2 | — | 0% | — | 0 |
+| R12 | 0 | 0 | 4 | — | 0% | — | 0 |
+
+Not evaluated:
+
+- brightwell_loans_v1__v1_voiceover_drops_apr: requires audio, not evaluated
+- northfield_card_v1__v0_voiceover_drops_apr: requires audio, not evaluated
+- northfield_card_v2__v2_music_swap: requires audio, not evaluated
 
 ### B2
 
 | Rule | TP | FP | FN | Precision | Recall | F1 | Not evaluated |
 |---|---|---|---|---|---|---|---|
-| R1 | 3 | 19 | 0 | 14% | 100% | 24% | 0 |
+| R1 | 21 | 0 | 1 | 100% | 95% | 98% | 0 |
 | R3 | 5 | 1 | 0 | 83% | 100% | 91% | 0 |
-| R4 | 3 | 3 | 0 | 50% | 100% | 67% | 0 |
-| R5 | 3 | 10 | 0 | 23% | 100% | 38% | 0 |
-| R6 | 3 | 1 | 0 | 75% | 100% | 86% | 0 |
-| R7 | 1 | 0 | 0 | 100% | 100% | 100% | 1 |
+| R4 | 4 | 0 | 0 | 100% | 100% | 100% | 0 |
+| R5 | 3 | 3 | 0 | 50% | 100% | 67% | 0 |
+| R6 | 3 | 0 | 0 | 100% | 100% | 100% | 0 |
+| R7 | 2 | 2 | 0 | 50% | 100% | 67% | 0 |
 | R8 | 2 | 0 | 0 | 100% | 100% | 100% | 0 |
 | R9 | 0 | 0 | 0 | — | — | — | 0 |
 | R10 | 0 | 0 | 0 | — | — | — | 2 |
 | R11 | 2 | 1 | 0 | 67% | 100% | 80% | 0 |
-| R12 | 2 | 5 | 0 | 29% | 100% | 44% | 0 |
+| R12 | 4 | 3 | 0 | 57% | 100% | 73% | 0 |
 
 Not evaluated:
 

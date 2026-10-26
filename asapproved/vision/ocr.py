@@ -110,3 +110,105 @@ def text_in_box(result: OcrResult, box: tuple[int, int, int, int], *, min_overla
         if area and (ox * oy) / area >= min_overlap:
             kept.append(tb)
     return OcrResult(boxes=kept, engine=result.engine)
+
+
+def locate_text_region(
+    result: OcrResult,
+    reference_text: str,
+    *,
+    min_word_overlap: float = 0.4,
+    exclude: list[tuple[int, int, int, int]] | None = None,
+) -> tuple[int, int, int, int] | None:
+    """Find where a known block of text ended up, by its words.
+
+    Why this exists. Two earlier locators each failed on a case the other
+    handled: template matching dies when a variant restyles the warning
+    (grey-on-grey, shrunk, reworded), and falling back to "wherever the master
+    had it" dies when a variant REFLOWS the layout — shrinking the warning moves
+    everything below it, so the fallback measured empty background and reported
+    no border, no contrast, and an occlusion that belonged to a different part
+    of the frame.
+
+    Text survives both. A warning that has been restyled or moved is still built
+    from the same words, so the region is found by matching words rather than
+    pixels or coordinates.
+
+    Returns the union box of the matching lines, or None when too little of the
+    reference text is found to be confident it is there at all.
+    """
+    if not result.available or not reference_text.strip():
+        return None
+
+    import re
+
+    def words(text: str) -> set[str]:
+        return {w for w in re.findall(r"[a-z0-9£%.]+", text.casefold()) if len(w) > 3}
+
+    reference = words(reference_text)
+    if not reference:
+        return None
+
+    excluded = exclude or []
+
+    def overlaps_excluded(box) -> bool:
+        x, y, w, h = box
+        for ex, ey, ew, eh in excluded:
+            ox = max(0, min(ex + ew, x + w) - max(ex, x))
+            oy = max(0, min(ey + eh, y + h) - max(ey, y))
+            if (w * h) and (ox * oy) / (w * h) >= 0.5:
+                return True
+        return False
+
+    matched: list[TextBox] = []
+    for tb in result.boxes:
+        if overlaps_excluded(tb.box):
+            continue
+        tokens = words(tb.text)
+        if not tokens:
+            continue
+        overlap = len(tokens & reference) / len(tokens)
+        if overlap >= min_word_overlap:
+            matched.append(tb)
+
+    if not matched:
+        return None
+
+    # Require a reasonable share of the reference text to be accounted for, so a
+    # single incidental word elsewhere in the creative cannot resurrect a
+    # warning that was genuinely removed.
+    # Keep only a vertically contiguous block, not every scattered match.
+    # Words like "invest" and "money" also appear in body copy and small print,
+    # so a plain union returned a box 499px tall for a 117px warning — and a box
+    # that is not the box has no border at its perimeter, which is exactly how
+    # R5 came to report "no border" on ten variants that plainly had one.
+    matched.sort(key=lambda b: b.box[1])
+    median_h = sorted(b.box[3] for b in matched)[len(matched) // 2]
+    max_gap = max(8, int(median_h * 1.8))
+
+    clusters: list[list[TextBox]] = [[matched[0]]]
+    for tb in matched[1:]:
+        previous = clusters[-1][-1]
+        gap = tb.box[1] - (previous.box[1] + previous.box[3])
+        if gap <= max_gap:
+            clusters[-1].append(tb)
+        else:
+            clusters.append([tb])
+
+    def cluster_score(cluster: list[TextBox]) -> tuple[int, int]:
+        covered = set()
+        for tb in cluster:
+            covered |= words(tb.text) & reference
+        return (len(covered), len(cluster))
+
+    best = max(clusters, key=cluster_score)
+    covered = set()
+    for tb in best:
+        covered |= words(tb.text) & reference
+    if len(covered) / len(reference) < 0.35:
+        return None
+
+    xs0 = min(b.box[0] for b in best)
+    ys0 = min(b.box[1] for b in best)
+    xs1 = max(b.box[0] + b.box[2] for b in best)
+    ys1 = max(b.box[1] + b.box[3] for b in best)
+    return (xs0, ys0, xs1 - xs0, ys1 - ys0)

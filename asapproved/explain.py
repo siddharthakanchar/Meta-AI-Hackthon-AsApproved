@@ -91,8 +91,15 @@ def evidence_bundle(findings: list[Finding], extra: dict[str, Any] | None = None
         # "the APR appears for 0.4 seconds" passed as evidence-backed.
         for value in (f.evidence or {}).values():
             _collect(value, numbers, quotes)
-        if f.detail:
-            for m in _NUMBER_RE.finditer(f.detail):
+        # A finding's own detail and caveats are evidence. Omitting the caveats
+        # meant the deterministic template — which quotes them verbatim — failed
+        # the very validator that produced it, because one caveat carries the
+        # date the safe-zone figures were checked.
+        for text in [f.detail, *(f.caveats or [])]:
+            if not text:
+                continue
+            quotes.add(text.strip().casefold())
+            for m in _NUMBER_RE.finditer(text):
                 numbers.add(_canon_number(m.group(1)))
 
     for value in (extra or {}).values():

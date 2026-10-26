@@ -1,5 +1,5 @@
 {
-  "labels_sha256": "a5438e9388b45e81f79aa3c8b1819b47dbea09bb02f24bf742e333e869819dc9",
+  "labels_sha256": "ee290d4b0052186be096d5f3bd54eb0591437db80efc76852a418e0377d00195",
   "reports": [
     {
       "name": "B1",
@@ -13,102 +13,102 @@
       "per_rule": {
         "R1": {
           "rule_id": "R1",
-          "tp": 0,
-          "fp": 0,
-          "fn": 0,
+          "tp": 21,
+          "fp": 1,
+          "fn": 1,
           "not_evaluated": 0,
-          "precision": null,
-          "recall": null,
-          "f1": null
+          "precision": 0.9545454545454546,
+          "recall": 0.9545454545454546,
+          "f1": 0.9545454545454546
         },
         "R10": {
           "rule_id": "R10",
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 2,
           "not_evaluated": 0,
           "precision": null,
-          "recall": null,
+          "recall": 0.0,
           "f1": null
         },
         "R11": {
           "rule_id": "R11",
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 2,
           "not_evaluated": 0,
           "precision": null,
-          "recall": null,
+          "recall": 0.0,
           "f1": null
         },
         "R12": {
           "rule_id": "R12",
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 4,
           "not_evaluated": 0,
           "precision": null,
-          "recall": null,
+          "recall": 0.0,
           "f1": null
         },
         "R3": {
           "rule_id": "R3",
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 5,
           "not_evaluated": 0,
           "precision": null,
-          "recall": null,
+          "recall": 0.0,
           "f1": null
         },
         "R4": {
           "rule_id": "R4",
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 4,
           "not_evaluated": 0,
           "precision": null,
-          "recall": null,
+          "recall": 0.0,
           "f1": null
         },
         "R5": {
           "rule_id": "R5",
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 3,
           "not_evaluated": 0,
           "precision": null,
-          "recall": null,
+          "recall": 0.0,
           "f1": null
         },
         "R6": {
           "rule_id": "R6",
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 3,
           "not_evaluated": 0,
           "precision": null,
-          "recall": null,
+          "recall": 0.0,
           "f1": null
         },
         "R7": {
           "rule_id": "R7",
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 2,
           "not_evaluated": 0,
           "precision": null,
-          "recall": null,
+          "recall": 0.0,
           "f1": null
         },
         "R8": {
           "rule_id": "R8",
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 2,
           "not_evaluated": 0,
           "precision": null,
-          "recall": null,
+          "recall": 0.0,
           "f1": null
         },
         "R9": {
@@ -122,7 +122,7 @@
           "f1": null
         }
       },
-      "mean_seconds": 0.42397358152601455,
+      "mean_seconds": 0.49231662220425076,
       "errors": [],
       "notes": [
         "brightwell_loans_v1__v1_voiceover_drops_apr: requires audio, not evaluated",
@@ -140,19 +140,19 @@
       "variants_scored": 45,
       "variants_skipped": 3,
       "tp": 22,
-      "fp": 1,
-      "tn": 22,
+      "fp": 0,
+      "tn": 23,
       "fn": 0,
       "per_rule": {
         "R1": {
           "rule_id": "R1",
-          "tp": 3,
-          "fp": 19,
-          "fn": 0,
+          "tp": 21,
+          "fp": 0,
+          "fn": 1,
           "not_evaluated": 0,
-          "precision": 0.13636363636363635,
-          "recall": 1.0,
-          "f1": 0.24000000000000002
+          "precision": 1.0,
+          "recall": 0.9545454545454546,
+          "f1": 0.9767441860465117
         },
         "R10": {
           "rule_id": "R10",
@@ -176,13 +176,13 @@
         },
         "R12": {
           "rule_id": "R12",
-          "tp": 2,
-          "fp": 5,
+          "tp": 4,
+          "fp": 3,
           "fn": 0,
           "not_evaluated": 0,
-          "precision": 0.2857142857142857,
+          "precision": 0.5714285714285714,
           "recall": 1.0,
-          "f1": 0.4444444444444445
+          "f1": 0.7272727272727273
         },
         "R3": {
           "rule_id": "R3",
@@ -196,6 +196,16 @@
         },
         "R4": {
           "rule_id": "R4",
+          "tp": 4,
+          "fp": 0,
+          "fn": 0,
+          "not_evaluated": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "R5": {
+          "rule_id": "R5",
           "tp": 3,
           "fp": 3,
           "fn": 0,
@@ -204,35 +214,25 @@
           "recall": 1.0,
           "f1": 0.6666666666666666
         },
-        "R5": {
-          "rule_id": "R5",
-          "tp": 3,
-          "fp": 10,
-          "fn": 0,
-          "not_evaluated": 0,
-          "precision": 0.23076923076923078,
-          "recall": 1.0,
-          "f1": 0.375
-        },
         "R6": {
           "rule_id": "R6",
           "tp": 3,
-          "fp": 1,
-          "fn": 0,
-          "not_evaluated": 0,
-          "precision": 0.75,
-          "recall": 1.0,
-          "f1": 0.8571428571428571
-        },
-        "R7": {
-          "rule_id": "R7",
-          "tp": 1,
           "fp": 0,
           "fn": 0,
-          "not_evaluated": 1,
+          "not_evaluated": 0,
           "precision": 1.0,
           "recall": 1.0,
           "f1": 1.0
+        },
+        "R7": {
+          "rule_id": "R7",
+          "tp": 2,
+          "fp": 2,
+          "fn": 0,
+          "not_evaluated": 0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6666666666666666
         },
         "R8": {
           "rule_id": "R8",
@@ -255,17 +255,17 @@
           "f1": null
         }
       },
-      "mean_seconds": 2.6028667449951173,
+      "mean_seconds": 2.98232397503323,
       "errors": [],
       "notes": [
         "brightwell_loans_v1__v1_voiceover_drops_apr: requires audio, not evaluated",
         "northfield_card_v1__v0_voiceover_drops_apr: requires audio, not evaluated",
         "northfield_card_v2__v2_music_swap: requires audio, not evaluated"
       ],
-      "precision": 0.9565217391304348,
+      "precision": 1.0,
       "recall": 1.0,
-      "f1": 0.9777777777777777,
-      "false_block_rate": 0.043478260869565216
+      "f1": 1.0,
+      "false_block_rate": 0.0
     }
   ]
 }

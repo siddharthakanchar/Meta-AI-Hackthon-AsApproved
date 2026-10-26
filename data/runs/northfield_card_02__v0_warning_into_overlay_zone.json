@@ -7,14 +7,13 @@
   "sampled_fps": 5,
   "frame_count": 1,
   "summary": {
-    "fail": 3,
+    "fail": 2,
     "blocking": 1,
-    "pass": 3,
+    "pass": 5,
     "inconclusive": 2,
-    "not_applicable": 5,
+    "not_applicable": 4,
     "failed_rules": [
       "R1",
-      "R7",
       "R12"
     ],
     "inconclusive_rules": [
@@ -166,18 +165,18 @@
     {
       "rule_id": "R7",
       "rulebook_version": "uk_v1",
-      "status": "fail",
+      "status": "pass",
       "severity": "review",
       "citation": "COBS 4.12A (prominence guidance)",
-      "detail": "Warning text is 32px against body copy at 36px — smaller than the surrounding copy.",
+      "detail": "Warning text is 32px against body copy at 32px.",
       "measured": 32,
       "measured_display": "32px",
-      "threshold": 36,
-      "threshold_display": "36px",
+      "threshold": 32,
+      "threshold_display": "32px",
       "units": "none",
       "evidence": {
         "warning_px": 32,
-        "body_px": 36
+        "body_px": 32
       },
       "sub_results": {},
       "caveats": [],
@@ -187,14 +186,14 @@
     {
       "rule_id": "R8",
       "rulebook_version": "uk_v1",
-      "status": "not_applicable",
+      "status": "pass",
       "severity": "block",
       "citation": "CONC 3.5.7R",
-      "detail": "No trigger feature present.",
-      "measured": null,
-      "measured_display": "",
-      "threshold": null,
-      "threshold_display": "—",
+      "detail": "Representative APR is at least as prominent as its trigger (38px vs 37px).",
+      "measured": 38,
+      "measured_display": "38px",
+      "threshold": 37,
+      "threshold_display": "37px",
       "units": "none",
       "evidence": {},
       "sub_results": {},
@@ -273,7 +272,8 @@
       "evidence": {
         "placement": "stories",
         "per_region_px": {
-          "warning": 61281
+          "warning": 61281,
+          "apr": 0
         }
       },
       "sub_results": {},
@@ -302,13 +302,17 @@
       "not_legal_advice": true
     }
   ],
-  "notes": [],
+  "notes": [
+    "region 'apr' did not match its master template; located by its text",
+    "region 'trigger' did not match its master template; located by its text"
+  ],
   "label": {
     "benign": false,
     "transform": "warning_into_overlay_zone",
     "enhancement": "adapt_to_placement",
     "description": "Warning repositioned under the platform's caption and CTA block.",
     "violated_rules": [
+      "R1",
       "R12"
     ],
     "requires_audio": false
@@ -381,6 +385,6 @@
     ]
   },
   "sample_fps": 0.0,
-  "note": "3 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 73.6% of the 'apr' region changed from the approved master (threshold 2%).\n- R7 (COBS 4.12A (prominence guidance)): Warning text is 32px against body copy at 36px — smaller than the surrounding copy.\n- R12 (FG24/1 para 1.5): 61,281 pixels of the 'warning' fall inside the stories interface overlay zone, where platform chrome can obscure them.\n  Caveat: Safe-zone figures for 'stories' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 3.14
+  "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 73.6% of the 'apr' region changed from the approved master (threshold 2%).\n- R12 (FG24/1 para 1.5): 61,281 pixels of the 'warning' fall inside the stories interface overlay zone, where platform chrome can obscure them.\n  Caveat: Safe-zone figures for 'stories' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 3.34
 }

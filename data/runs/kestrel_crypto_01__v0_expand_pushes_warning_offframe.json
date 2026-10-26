@@ -245,16 +245,16 @@
       "status": "fail",
       "severity": "block",
       "citation": "FG24/1 para 1.5",
-      "detail": "66,816 pixels of the 'risk_note' fall inside the reels interface overlay zone, where platform chrome can obscure them.",
-      "measured": 66816,
-      "measured_display": "66,816px",
+      "detail": "57,600 pixels of the 'risk_note' fall inside the reels interface overlay zone, where platform chrome can obscure them.",
+      "measured": 57600,
+      "measured_display": "57,600px",
       "threshold": 0,
       "threshold_display": "0",
       "units": "count",
       "evidence": {
         "placement": "reels",
         "per_region_px": {
-          "risk_note": 66816
+          "risk_note": 57600
         }
       },
       "sub_results": {},
@@ -284,8 +284,8 @@
     }
   ],
   "notes": [
-    "region 'risk_note' did not match its master template; measured at the position the alignment predicts",
-    "region 'trigger' did not match its master template; measured at the position the alignment predicts"
+    "region 'risk_note' did not match its master template; located by its text",
+    "region 'trigger' did not match its master template; located by its text"
   ],
   "label": {
     "benign": false,
@@ -294,7 +294,8 @@
     "description": "Canvas expanded; content pushed until the warning leaves the frame.",
     "violated_rules": [
       "R1",
-      "R3"
+      "R3",
+      "R12"
     ],
     "requires_audio": false
   },
@@ -366,6 +367,6 @@
     ]
   },
   "sample_fps": 0.0,
-  "note": "3 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 100.0% of the 'warning' region changed from the approved master (threshold 2%).\n- R3 (COBS 4.12A.38R): The approved warning is absent from the delivered variant.\n- R12 (FG24/1 para 1.5): 66,816 pixels of the 'risk_note' fall inside the reels interface overlay zone, where platform chrome can obscure them.\n  Caveat: Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.\n2 rule(s) could not be assessed: R2, R11. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 2.64
+  "note": "3 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 100.0% of the 'warning' region changed from the approved master (threshold 2%).\n- R3 (COBS 4.12A.38R): The approved warning is absent from the delivered variant.\n- R12 (FG24/1 para 1.5): 57,600 pixels of the 'risk_note' fall inside the reels interface overlay zone, where platform chrome can obscure them.\n  Caveat: Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.\n2 rule(s) could not be assessed: R2, R11. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 2.71
 }

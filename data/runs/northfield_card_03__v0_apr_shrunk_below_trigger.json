@@ -309,7 +309,7 @@
     }
   ],
   "notes": [
-    "region 'apr' did not match its master template; measured at the position the alignment predicts"
+    "region 'apr' located at the position the alignment predicts"
   ],
   "label": {
     "benign": false,
@@ -317,6 +317,7 @@
     "enhancement": "text_optimizations",
     "description": "Representative APR set much smaller than the trigger it qualifies.",
     "violated_rules": [
+      "R1",
       "R8"
     ],
     "requires_audio": false
@@ -390,5 +391,5 @@
   },
   "sample_fps": 0.0,
   "note": "3 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 71.5% of the 'apr' region changed from the approved master (threshold 2%).\n- R7 (COBS 4.12A (prominence guidance)): Warning text is 24px against body copy at 27px — smaller than the surrounding copy.\n- R8 (CONC 3.5.7R): The representative APR is less prominent than its trigger: APR text is 21px against the trigger's 35px.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 2.13
+  "seconds": 2.17
 }

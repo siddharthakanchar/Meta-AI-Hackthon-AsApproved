@@ -244,6 +244,14 @@ def score(
         if truth.get("requires_audio"):
             report.variants_skipped += 1
             report.notes.append(f"{pred.variant_id}: requires audio, not evaluated")
+            # Record the rules they WOULD have tested as not-evaluated. Skipping
+            # outright made R9's two seeded violations vanish from every
+            # denominator — including the "not evaluated" column that this
+            # project promises they appear in. A rule with no evidence must be
+            # visible as such, not absent from the table.
+            for rule_id in set(truth["violated_rules"]) - NON_PIXEL_RULES:
+                if rule_id in report.per_rule:
+                    report.per_rule[rule_id].not_evaluated += 1
             continue
 
         report.variants_scored += 1

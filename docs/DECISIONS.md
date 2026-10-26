@@ -172,46 +172,35 @@ be measured on the first real calls before committing to a card.
 presumably issued against a registered participant account, so it may need the registration email
 to match, or may simply not have been distributed yet on day 1.
 
-### D-008a · Resolved by the organisers' blast — Mon 26 Oct 2026
-An event blast arrived and settles both halves of D-008. Verbatim terms that matter:
+### D-008a · Model API access: how it actually works — Mon 26 Oct 2026
+The organisers' guidance (paraphrased, not reproduced) settles both halves of D-008:
 
-- **The credit must be claimed through an application form**; it is not applied automatically to
-  an accepted participant's account. That is why billing showed nothing — not a fault, and not
-  something the Discord would have fixed.
-- **"In order to use your credits & make an API call, a credit card must be applied to your
-  account."** So the disabled *Create API key* button is the documented design, not a bug. My
-  Phase 1 reading — that the card requirement was an obstacle worth questioning — was wrong.
-- **"Credits will be distributed in batches"**, so there is an unknown lag between applying and
-  the credit appearing. This is the scheduling risk, not the card.
-- A **Spend Limit** can be set on the Billing page — but read the wording carefully. Both the
-  blast and the Billing page itself call it a *notification*: "Set a monthly amount to get email
-  alerts as you approach it." **It alerts; it does not stop spending.** Treating it as a hard cap
-  would be exactly the kind of assumed-safety this whole project exists to argue against.
-- **"If granted credits are not yet applied, your credit card will be charged on any API calls."**
-  So the card and the credit are independent: adding the card enables billing immediately, while
-  the credit arrives separately within 2 business days. Any call made in that window is real
-  personal spend.
-- **Deadline to claim: Wed 4 Nov, 21:00 ET** — the same instant as the submission deadline
-  (Thu 5 Nov, 07:30 IST). Claiming late is indistinguishable from not claiming.
-- **"Each participant … must claim their own credits individually. Credits cannot be claimed on
-  someone else's behalf."** Siddhartha submits the form himself; I do not, and this is now an
-  explicit event rule on top of the general prohibition on account actions.
+- The hackathon credit is **claimed through an application form**; it is not applied
+  automatically to an accepted participant's account. That is why billing showed nothing — not a
+  fault, and not something the Discord would have resolved.
+- **A payment method on the account is required by design** before any API call. The disabled
+  "Create API key" button is documented behaviour, not a bug. My Phase 1 reading — that the card
+  requirement was an obstacle worth questioning — was wrong.
+- **Credits are distributed in batches**, so there is a lag between applying and the credit
+  appearing. That lag, not the card, is the scheduling risk.
+- The Billing page offers a **spend-limit notification**. Read the wording: it is an *alert*, not
+  a cap. Treating it as a hard ceiling would be exactly the assumed-safety this project exists to
+  argue against.
+- Until the credit is applied, calls bill the payment method directly. So the operating rule
+  below is about sequencing, not thrift.
+- Each participant claims their own credit; it cannot be delegated. The form was submitted on
+  26 Oct.
 
-**Plan impact.** The card is expected rather than optional, so the open question is no longer
-*whether* to add one but *when*, and the batch lag makes "early" the answer. Phase 4 (SAM, Spark,
-Voice Transcribe) remains the first hard dependency, Thu 29 Oct. The build order stands: Phases 2
-and 3 are done without a key, and Phase 5 (rules engine, review UI) can also proceed keyless if
-the credit is slow.
+**Plan impact.** The card is expected rather than optional, so the question is *when*, not
+*whether*, and the batch lag makes "early" the answer. Phase 4 (SAM, Spark, Voice Transcribe)
+remains the first hard dependency. Phases 2, 3 and 5 were all completed without a key.
 
-**Operating rule until the credit shows under "free credits":** make no live model calls.
-`ASAPPROVED_MODE=demo` already enforces this at the code level — a cache miss raises instead of
-reaching the network (D-003) — so the default posture is safe and going live is a deliberate act
-rather than an accident. The Phase 1 spike is a handful of calls worth cents, not dollars, but
-"cents on a personal card for no reason" is still the wrong default when waiting two days costs
-nothing. Form submitted Mon 26 Oct; credits expected by Wed 28 Oct.
+**Operating rule until the credit is visible:** make no live model calls.
+`ASAPPROVED_MODE=demo` enforces this in code — a cache miss raises rather than reaching the
+network (D-003) — so the safe posture is the default and going live is a deliberate act.
 
-## D-009 · Phase 3: seven bugs the dataset found in itself — Mon 26 Oct 2026
-Building the masters and variants surfaced four defects, each of which would have
+## D-009 · Phase 3: seven defects the dataset found in itself — Mon 26 Oct 2026
+Building the masters and variants surfaced seven defects, each of which would have
 corrupted the benchmark silently rather than loudly. Recorded because the *way* they were
 caught is the design point: the generator checks itself against the Phase 2 measurement
 primitives, so a label that the pixels do not support is an error, not a quiet wrong answer.
@@ -307,28 +296,30 @@ and the whole 60-asset set stays small enough to regenerate in about two minutes
 | V11 | Meta's current published safe-zone percentages for Feed / Stories / Reels (C9, R12) | Phase 7 | unverified |
 | V12 | Official hackathon rules: submission fields, video length limit, repo/licence rules, judging criteria, prior-work and track rules | after 22:30 IST kickoff tonight | pending |
 
-## Frozen artefacts
-| Artefact | Hash | Frozen |
-|---|---|---|
-| VariantBench-UK labels | `d1eef8b19dbce4cd33b501023807c7e643b07f2fc775090efc704930da7fca8c` | **not yet** — current build, 26 Oct |
+## VariantBench-UK coverage (48 variants, build of 26 Oct)
 
-The label hash above is recorded, not frozen. Audio (USER INPUT 3.1) will add tracks to four
-variants and change it. The freeze happens in Phase 6, **before the first scored run**, and the
-hash current at that moment is the one that governs every published number.
+Ground truth is DERIVED — every rule a variant actually breaks, computed from what the generator
+drew. The transform's own declaration is kept as `intended_rules` so the difference is visible.
 
-**On reproducibility, honestly:** the generator is deterministic — no RNG, fixed seeds, fixed
-allocation — so the same code produces the same creative on the same machine. The per-asset
-`sha256` values in the label file are NOT guaranteed to reproduce across machines, because PNG
-and libx264 encoders differ between versions and platforms. What reproduces is the content and
-the labels; byte-identical files are not claimed. The assets are gitignored and regenerated from
-`make_masters.py` / `make_variants.py`, which takes about seven minutes.
+| | R1 | R3 | R4 | R5 | R6 | R7 | R8 | R9 | R10 | R11 | R12 |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| **derived** (ground truth) | 22 | 5 | 4 | 3 | 3 | 2 | 2 | 2 | 2 | 2 | 4 |
+| **intended** (by design) | 3 | 5 | 3 | 3 | 3 | 2 | 2 | 2 | 2 | 2 | 2 |
 
-## VariantBench-UK coverage (26 Oct build)
-24 seeded violations across 11 rules, every rule on at least two variants:
+The gap on R1 is not an error: any seeded edit to a claim region materially changes it, so R1 is
+true by construction on 22 of 24 violations while only 3 were
+designed to test it. That is why the per-rule table, not the variant-level score, is the honest
+measure — and why the README leads with it.
 
-| R1 | R3 | R4 | R5 | R6 | R7 | R8 | R9 | R10 | R11 | R12 |
-|---|---|---|---|---|---|---|---|---|---|---|
-| 3 | 5 | 2 | 3 | 3 | 2 | 3 | 3 | 2 | 2 | 3 |
+3 variants require voiceover audio that does not exist yet. They are reported as
+**not evaluated**, never as passes, and their rules appear in the not-evaluated column rather
+than vanishing from the table.
 
-Four variants (three `voiceover_drops_apr`, one `music_swap`) require audio and are reported as
-**not evaluated** until voiceovers exist. They are never counted as passes.
+Label hash for this build: `ee290d4b0052186be096d5f3bd54eb0591437db80efc76852a418e0377d00195`.
+
+**The labels are NOT frozen, and that matters.** They and the detector were both changed during
+development — commits `6964c96`, `bee1941`, `ca67041` touch the label derivation and the
+detector together. Roughly half the "detector failures" in this build turned out to be defects in
+the benchmark itself, which is a good argument for deriving labels and a bad argument for
+treating these numbers as a held-out evaluation. The rulebook also remains `status: draft` with
+`sources_checked: null`. Published results are development-set results and the README says so.

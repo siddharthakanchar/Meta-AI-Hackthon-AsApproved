@@ -9,8 +9,8 @@ All creative is SIMULATED. Numbers are reported as measured, including where a b
 
 | Baseline | Precision | Recall | F1 | False-block rate | Scored | Not evaluated | Mean s/variant |
 |---|---|---|---|---|---|---|---|
-| **B1** — pixel diff alone | 95% | 95% | 95% | 4% | 45 | 3 | 0.5 |
-| **B2** — AsApproved | 100% | 100% | 100% | 0% | 45 | 3 | 3.0 |
+| **B1** — pixel diff alone | 95% | 95% | 95% | 4% | 45 | 3 | 1.0 |
+| **B2** — AsApproved | 100% | 100% | 100% | 0% | 45 | 3 | 5.3 |
 
 **False-block rate** is the share of benign variants wrongly flagged. A tool that blocks compliant ads gets switched off, so it is reported beside recall rather than below it.
 
@@ -33,7 +33,7 @@ It is also not the question a compliance officer can act on. They need to know *
 | R6 | 0 | 0 | 3 | — | 0% | — | 0 |
 | R7 | 0 | 0 | 2 | — | 0% | — | 0 |
 | R8 | 0 | 0 | 2 | — | 0% | — | 0 |
-| R9 | 0 | 0 | 0 | — | — | — | 0 |
+| R9 | 0 | 0 | 0 | — | — | — | 2 |
 | R10 | 0 | 0 | 2 | — | 0% | — | 0 |
 | R11 | 0 | 0 | 2 | — | 0% | — | 0 |
 | R12 | 0 | 0 | 4 | — | 0% | — | 0 |
@@ -55,7 +55,7 @@ Not evaluated:
 | R6 | 3 | 0 | 0 | 100% | 100% | 100% | 0 |
 | R7 | 2 | 2 | 0 | 50% | 100% | 67% | 0 |
 | R8 | 2 | 0 | 0 | 100% | 100% | 100% | 0 |
-| R9 | 0 | 0 | 0 | — | — | — | 0 |
+| R9 | 0 | 0 | 0 | — | — | — | 2 |
 | R10 | 0 | 0 | 0 | — | — | — | 2 |
 | R11 | 2 | 1 | 0 | 67% | 100% | 80% | 0 |
 | R12 | 4 | 3 | 0 | 57% | 100% | 73% | 0 |

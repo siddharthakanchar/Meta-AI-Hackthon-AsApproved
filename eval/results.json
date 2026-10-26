@@ -116,13 +116,13 @@
           "tp": 0,
           "fp": 0,
           "fn": 0,
-          "not_evaluated": 0,
+          "not_evaluated": 2,
           "precision": null,
           "recall": null,
           "f1": null
         }
       },
-      "mean_seconds": 0.49231662220425076,
+      "mean_seconds": 1.033305009206136,
       "errors": [],
       "notes": [
         "brightwell_loans_v1__v1_voiceover_drops_apr: requires audio, not evaluated",
@@ -249,13 +249,13 @@
           "tp": 0,
           "fp": 0,
           "fn": 0,
-          "not_evaluated": 0,
+          "not_evaluated": 2,
           "precision": null,
           "recall": null,
           "f1": null
         }
       },
-      "mean_seconds": 2.98232397503323,
+      "mean_seconds": 5.316961012946235,
       "errors": [],
       "notes": [
         "brightwell_loans_v1__v1_voiceover_drops_apr: requires audio, not evaluated",

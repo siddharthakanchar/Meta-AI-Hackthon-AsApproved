@@ -353,7 +353,13 @@ def _plan(
         body_lines = [] if drop_body else _wrap(draw, body, load_font(body_size), content_w)
         body_h = (len(body_lines) * int(body_size * 1.3) + gap) if body_lines else 0
 
-        warning_size = max(8, int(height * 0.0205 * layout.warning_scale * scale))
+        # The warning must not be set smaller than the ad's own body copy
+        # (COBS 4.12A prominence, our R7). It was: 0.0205 of frame height against
+        # the body's 0.022, so every "compliant" master carried a standing R7
+        # breach and the pipeline rightly flagged it on first run. The warning now
+        # leads the body, and `warning_scale` is the lever a variant uses to break
+        # that deliberately.
+        warning_size = max(8, int(height * 0.030 * layout.warning_scale * scale))
         pad = int(content_w * 0.035)
         warning_lines = _wrap(
             draw, warning_text, load_font(warning_size, bold=True), content_w - 2 * pad

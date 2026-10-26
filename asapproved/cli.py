@@ -6,6 +6,9 @@ commands; each one raises a clear "not built yet (Phase N)" message until then.
 
 from __future__ import annotations
 
+import json
+import sys
+import time
 from pathlib import Path
 
 import typer
@@ -182,9 +185,67 @@ def verify_log(path: str = typer.Argument(...)) -> None:
 
 
 @app.command()
-def check(variant: str = typer.Argument(..., help="Path to a variant asset.")) -> None:
-    """Run the full pipeline on one variant and emit findings JSON (Phase 4)."""
-    _todo("Phase 4", "the end-to-end variant check")
+def check(
+    variant: str = typer.Argument(..., help="Path to a variant asset."),
+    master: str = typer.Option(None, "--master", help="Master id. Inferred from the filename."),
+    json_out: str = typer.Option(None, "--json", help="Write the full findings record here."),
+) -> None:
+    """Run the deterministic pipeline on one variant and report findings."""
+    from asapproved.explain import template_note
+    from asapproved.pipeline import check_variant, load_master
+
+    path = Path(variant)
+    if not path.exists():
+        console.print(f"[red]no such variant:[/] {path}")
+        raise typer.Exit(code=1)
+
+    master_id = master or path.stem.split("__")[0]
+    try:
+        ref = load_master(master_id, settings.masters_dir)
+    except FileNotFoundError:
+        console.print(
+            f"[red]no master sidecar for[/] {master_id} in {settings.masters_dir}\n"
+            "Run scripts/make_masters.py, or pass --master."
+        )
+        raise typer.Exit(code=1) from None
+
+    result = check_variant(path, ref)
+    s = result.summary
+
+    t = Table(title=f"{path.name}  vs  {master_id}")
+    t.add_column("rule", style="cyan", no_wrap=True)
+    t.add_column("status")
+    t.add_column("measured", justify="right")
+    t.add_column("threshold", justify="right")
+    t.add_column("detail", max_width=60)
+    colour = {"fail": "red", "pass": "green", "inconclusive": "yellow", "not_applicable": "dim"}
+    for f in result.findings:
+        t.add_row(
+            f.rule_id,
+            f"[{colour[f.status]}]{f.status}[/]",
+            f.measured_display or "—",
+            f.threshold_display or "—",
+            f.detail,
+        )
+    console.print(t)
+
+    console.print(
+        f"\n[bold]{s['fail']}[/] failing · [yellow]{s['inconclusive']}[/] inconclusive · "
+        f"{s['pass']} passing · {s['not_applicable']} n/a"
+    )
+    console.print(f"[dim]regions: {result.region_source} · text: {result.text_source}[/]")
+    for note in result.notes:
+        console.print(f"[dim]note: {note}[/]")
+    console.print()
+    console.print(template_note(result.findings))
+
+    if json_out:
+        out = Path(json_out)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(json.dumps(result.to_record(), indent=2, ensure_ascii=False), encoding="utf-8")
+        console.print(f"\n[green]wrote[/] {out}")
+
+    raise typer.Exit(code=1 if result.blocking else 0)
 
 
 @app.command()
@@ -200,15 +261,59 @@ def blast_radius(finding: str = typer.Argument(...)) -> None:
 
 
 @app.command()
-def bench() -> None:
-    """Run VariantBench-UK: B0 vs B1 vs B2 (D5, Phase 6)."""
-    _todo("Phase 6", "the benchmark harness")
+def bench(
+    limit: int = typer.Option(None, help="Score only the first N variants."),
+    baselines: str = typer.Option("b1,b2", help="Which baselines to run."),
+) -> None:
+    """Run VariantBench-UK and write eval/report.md."""
+    import subprocess
+
+    cmd = [sys.executable, str(Path(__file__).resolve().parent.parent / "scripts" / "run_bench.py")]
+    if limit:
+        cmd += ["--limit", str(limit)]
+    cmd += ["--baselines", baselines]
+    raise typer.Exit(code=subprocess.call(cmd))
 
 
 @app.command()
 def demo() -> None:
-    """Replay the hero case entirely from cache — no keys, no network (quality gate §13)."""
-    _todo("Phase 7", "the cached hero-case demo")
+    """Replay the hero case from cache — no keys, no network (quality gate §13)."""
+    runs = settings.data_dir / "runs"
+    index_path = runs / "index.json"
+    if not index_path.exists():
+        console.print(
+            "[red]no cached runs[/] — build them with:\n"
+            "  python scripts/make_masters.py\n"
+            "  python scripts/make_variants.py\n"
+            "  python scripts/precompute.py"
+        )
+        raise typer.Exit(code=1)
+
+    started = time.perf_counter()
+    index = json.loads(index_path.read_text(encoding="utf-8"))
+    hero = next(
+        (r for r in index["runs"] if "apr_animates" in r["variant_id"]),
+        next((r for r in index["runs"] if r["fail"]), None),
+    )
+    if hero is None:
+        console.print("[yellow]no failing variant in the cache[/]")
+        raise typer.Exit(code=1)
+
+    run = json.loads((runs / f"{hero['variant_id']}.json").read_text(encoding="utf-8"))
+    elapsed = time.perf_counter() - started
+
+    console.print(f"[bold]{run['variant_id']}[/]")
+    console.print(f"[dim]{run['label']['description']}[/]\n")
+    for f in run["findings"]:
+        if f["status"] == "fail":
+            console.print(
+                f"  [red]FAIL[/] {f['rule_id']} ({f['citation']}): {f['detail']}"
+            )
+    for f in run["findings"]:
+        if f["status"] == "inconclusive":
+            console.print(f"  [yellow]can't tell[/] {f['rule_id']}: {f['detail']}")
+    console.print(f"\n[green]loaded from cache in {elapsed * 1000:.0f} ms[/] — no API key used")
+    console.print(f"[dim]regions: {run['region_source']} · text: {run['text_source']}[/]")
 
 
 if __name__ == "__main__":

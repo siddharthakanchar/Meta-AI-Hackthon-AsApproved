@@ -193,21 +193,61 @@ def _warning_visibility_none(spec: MasterSpec) -> dict[str, list[list[int]]]:
     return {"warning": []}
 
 
-def _reword_warning(spec: MasterSpec) -> str:
-    """A plausible machine rewrite: softer, shorter, still 'about' risk (R11).
+# A plausible machine rewrite per investment type: it keeps the gist, loses the
+# prescribed wording. Written per type rather than by string replacement because
+# a replace-based rewrite silently did NOTHING to the long-term-asset-fund text —
+# none of its target phrases occur there — leaving a variant labelled as an R11
+# violation while being byte-identical to a compliant master. The benchmark would
+# have marked the detector wrong for correctly passing it.
+_REWORDINGS: dict[str, str] = {
+    "cryptoassets": (
+        "Only invest what you can comfortably afford to lose. Crypto is a high-risk "
+        "investment and you may not be covered if things go wrong."
+    ),
+    "non_readily_realisable_securities": (
+        "Only invest what you can comfortably afford to lose. This is a high-risk "
+        "investment and you may not be covered if things go wrong."
+    ),
+    "p2p_agreements": (
+        "Only lend what you can comfortably afford to lose. This is a high-risk "
+        "investment, your money may be tied up, and you may not be covered if things "
+        "go wrong."
+    ),
+    "long_term_asset_fund": (
+        "A high-risk, long-term investment. Your money may be tied up for years and "
+        "returns are not guaranteed."
+    ),
+}
 
-    Modelled on what text_optimizations or translate_voiceover would do — it
-    keeps the gist and loses the prescribed wording, which is precisely the
+
+def _reword_warning(spec: MasterSpec) -> str:
+    """A softer paraphrase that loses the prescribed wording (R11).
+
+    Models what text_optimizations or translate_voiceover plausibly does — the
     failure mode that makes R11 necessary rather than pedantic.
+
+    Raises if the rewrite leaves the text unchanged. A no-op rewrite produces a
+    variant labelled as a violation that does not violate anything, which
+    poisons the benchmark in the least visible way possible.
     """
-    if spec.investment_type:
-        base = prescribed_text(spec.investment_type)
-        return (
-            base.replace("Don't invest unless you're prepared to", "Only invest what you can afford to")
-            .replace("should not expect to be protected", "may not be protected")
-            .replace("are unlikely to be protected", "may not be protected")
+    if not spec.investment_type:
+        return "Representative APR applies. Credit subject to status."
+
+    rewritten = _REWORDINGS.get(spec.investment_type)
+    if rewritten is None:
+        raise KeyError(
+            f"no rewording defined for investment type {spec.investment_type!r}; "
+            "R11 cannot be seeded without one"
         )
-    return "Representative APR applies. Credit subject to status."
+
+    from asapproved.text_norm import same_prescribed_text
+
+    if same_prescribed_text(rewritten, prescribed_text(spec.investment_type)):
+        raise AssertionError(
+            f"{spec.id}: the R11 rewrite is identical to the prescribed wording, so the "
+            "variant would be labelled a violation while being perfectly compliant"
+        )
+    return rewritten
 
 
 # ---------------------------------------------------------------------------

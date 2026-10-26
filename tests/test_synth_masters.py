@@ -186,3 +186,41 @@ def test_small_print_also_stays_out_of_the_overlay_zone(spec):
     mask = _mask_for(rendered.regions["small_print"], spec.size)
     placement = "reels_with_disclaimer" if spec.placement == "reels" else spec.placement
     assert occlusion(mask, placement).occluded_pixels == 0, f"{spec.id}: small print is occluded"
+
+
+@pytest.mark.parametrize("spec", ONE_FRAME, ids=lambda s: s.id)
+def test_warning_text_is_not_smaller_than_body_copy(spec):
+    """R7 on the baseline, measured from the rendered pixels via OCR.
+
+    This was a real defect: the renderer set the warning at 0.0205 of frame
+    height and the body at 0.022, so every "compliant" master carried a standing
+    R7 breach. The end-to-end pipeline flagged it on its first run against a
+    master. Asserting it in render-space alone would not have caught it, because
+    the bug was in the constants.
+    """
+    from asapproved.vision.ocr import ocr_available, read_text, text_in_box
+
+    if not ocr_available():
+        pytest.skip("OCR engine unavailable")
+
+    rendered = render_master_frame(spec)
+    frame = rendered.to_bgr()
+    ocr = read_text(frame)
+
+    warning_h = text_in_box(ocr, rendered.regions["warning"]).median_height()
+    if "body" not in rendered.regions:
+        pytest.skip(f"{spec.id} has no body copy in this layout")
+    body_h = text_in_box(ocr, rendered.regions["body"]).median_height()
+    if warning_h is None or body_h is None:
+        pytest.skip("OCR did not resolve both regions")
+
+    # Asserted against the rule as the rulebook defines it, tolerance included —
+    # not against a stricter bar invented for the test. A baseline that has to
+    # clear a higher hurdle than the rule would make the rule untestable here.
+    from asapproved.rules.engine import R7_TOLERANCE
+
+    assert warning_h >= int(body_h * R7_TOLERANCE), (
+        f"{spec.id}: warning text {warning_h}px against body copy {body_h}px fails R7 "
+        f"(tolerance {R7_TOLERANCE}) — the master breaches the rule it is the clean "
+        "baseline for"
+    )

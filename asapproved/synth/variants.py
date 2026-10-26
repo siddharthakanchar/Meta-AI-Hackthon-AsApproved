@@ -176,6 +176,9 @@ def build_variant(plan: VariantPlan, out_dir: Path, *, progress=None) -> Variant
     }
 
     _cross_check(plan, visible_frames)
+    _cross_check_text(
+        plan, transform.text_fn(spec) if transform.text_fn else spec.warning_text
+    )
 
     label = {
         "variant_id": plan.variant_id,
@@ -252,3 +255,28 @@ def write_labels(labels: list[dict], path: Path) -> Path:
     doc["labels_sha256"] = sha256_obj(doc["labels"])
     path.write_text(json.dumps(doc, indent=2, ensure_ascii=False), encoding="utf-8")
     return path
+
+
+def _cross_check_text(plan: VariantPlan, warning_text: str) -> None:
+    """A variant labelled R11 must actually differ from the prescribed wording.
+
+    Caught a real defect: the replace-based rewrite was a no-op on the
+    long-term-asset-fund warning, so that variant claimed an R11 violation while
+    being byte-identical to a compliant master. The benchmark would have scored
+    the detector WRONG for correctly passing it — the most expensive kind of
+    label bug, because it looks like a detector failure.
+    """
+    if "R11" not in plan.transform.rules:
+        return
+    itype = plan.master.investment_type
+    if not itype:
+        raise AssertionError(f"{plan.variant_id}: R11 seeded on a non-investment master")
+
+    from asapproved.synth.specs import prescribed_text
+    from asapproved.text_norm import same_prescribed_text
+
+    if same_prescribed_text(warning_text, prescribed_text(itype)):
+        raise AssertionError(
+            f"{plan.variant_id}: labelled R11 (wording altered) but the warning text is "
+            "identical to the prescribed wording"
+        )

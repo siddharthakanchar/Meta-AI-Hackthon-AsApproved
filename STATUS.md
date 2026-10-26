@@ -85,13 +85,15 @@ Updated: Mon 26 Oct 2026
   key works, settle V13 (`meta-sam-parser`), and measure real latency and cost.
 
 **Risks**
-- **Model API key is blocked (D-008).** `Create API key` is hard-disabled until a payment method
-  is on file, and the $150 hackathon credit is **not** on the account — billing shows no credits
-  section and no transactions. Not actioned: card entry is Siddhartha's call, and without the
-  credit it is real personal spend. Chase the credit on the hackathon Discord.
-  Mitigation: **Phases 2 and 3 need no key**, so the build order flips — deterministic core
-  first, model spike when a key exists. Real deadline for the key is **Thu 29 Oct** (Phase 4),
-  not today.
+- **Model API key: now actionable, and on a clock (D-008a).** The organisers' blast confirms the
+  credit must be **claimed via a form** (not automatic), that **a credit card on the account is
+  required by design** to make any API call, and that **credits arrive in batches** — so there is
+  an unknown lag between applying and being able to build. Claim deadline is **Wed 4 Nov 21:00
+  ET**, the same moment as the submission deadline, so late ≈ never.
+  **Action on Siddhartha, today:** submit the claim form (event rules require each participant to
+  claim their own — it cannot be delegated), then set a Spend Limit on the Billing page.
+  Mitigation if the batch is slow: Phases 2 and 3 are done keyless, and **Phase 5 (rules engine +
+  review UI) can also run keyless**, so Phase 4 can slip without stalling the build.
 - Docker is not installed. Installing Docker Desktop needs admin + WSL2 + a reboot; Neo4j Aura
   Free is the lower-friction path and the hosted demo needs a precomputed graph JSON regardless
   (§16). Leaning Aura — see `DECISIONS.md` D-004, confirm at USER INPUT 6.1.
@@ -101,8 +103,9 @@ Updated: Mon 26 Oct 2026
 
 **Inputs needed from Siddhartha**
 1. ~~GitHub username~~ — `siddharthakvss`, wired into `pyproject.toml` and the README.
-2. **Model API access (D-008)** — chase the $150 credit on the hackathon Discord; decide
-   separately whether to put a personal card on file if the credit never lands. Needed by
-   **Thu 29 Oct**, not today.
+2. **Claim the $150 credit (D-008a) — today.** Submit the claim form yourself (cannot be
+   delegated under event rules), then add the card and set a Spend Limit on the Billing page.
+   Credits arrive in batches, so the lag is the risk; the hard claim deadline is Wed 4 Nov
+   21:00 ET and Phase 4 wants the key by Thu 29 Oct.
 3. Docker: install it, or go with Neo4j Aura Free? Needed by Phase 6 (Sun 1 Nov).
 4. Tonight after kickoff: the Official Rules link or paste.

@@ -172,6 +172,44 @@ be measured on the first real calls before committing to a card.
 presumably issued against a registered participant account, so it may need the registration email
 to match, or may simply not have been distributed yet on day 1.
 
+### D-008a · Resolved by the organisers' blast — Mon 26 Oct 2026
+An event blast arrived and settles both halves of D-008. Verbatim terms that matter:
+
+- **The credit must be claimed through an application form**; it is not applied automatically to
+  an accepted participant's account. That is why billing showed nothing — not a fault, and not
+  something the Discord would have fixed.
+- **"In order to use your credits & make an API call, a credit card must be applied to your
+  account."** So the disabled *Create API key* button is the documented design, not a bug. My
+  Phase 1 reading — that the card requirement was an obstacle worth questioning — was wrong.
+- **"Credits will be distributed in batches"**, so there is an unknown lag between applying and
+  the credit appearing. This is the scheduling risk, not the card.
+- A **Spend Limit** can be set on the Billing page — but read the wording carefully. Both the
+  blast and the Billing page itself call it a *notification*: "Set a monthly amount to get email
+  alerts as you approach it." **It alerts; it does not stop spending.** Treating it as a hard cap
+  would be exactly the kind of assumed-safety this whole project exists to argue against.
+- **"If granted credits are not yet applied, your credit card will be charged on any API calls."**
+  So the card and the credit are independent: adding the card enables billing immediately, while
+  the credit arrives separately within 2 business days. Any call made in that window is real
+  personal spend.
+- **Deadline to claim: Wed 4 Nov, 21:00 ET** — the same instant as the submission deadline
+  (Thu 5 Nov, 07:30 IST). Claiming late is indistinguishable from not claiming.
+- **"Each participant … must claim their own credits individually. Credits cannot be claimed on
+  someone else's behalf."** Siddhartha submits the form himself; I do not, and this is now an
+  explicit event rule on top of the general prohibition on account actions.
+
+**Plan impact.** The card is expected rather than optional, so the open question is no longer
+*whether* to add one but *when*, and the batch lag makes "early" the answer. Phase 4 (SAM, Spark,
+Voice Transcribe) remains the first hard dependency, Thu 29 Oct. The build order stands: Phases 2
+and 3 are done without a key, and Phase 5 (rules engine, review UI) can also proceed keyless if
+the credit is slow.
+
+**Operating rule until the credit shows under "free credits":** make no live model calls.
+`ASAPPROVED_MODE=demo` already enforces this at the code level — a cache miss raises instead of
+reaching the network (D-003) — so the default posture is safe and going live is a deliberate act
+rather than an accident. The Phase 1 spike is a handful of calls worth cents, not dollars, but
+"cents on a personal card for no reason" is still the wrong default when waiting two days costs
+nothing. Form submitted Mon 26 Oct; credits expected by Wed 28 Oct.
+
 ## D-009 · Phase 3: seven bugs the dataset found in itself — Mon 26 Oct 2026
 Building the masters and variants surfaced four defects, each of which would have
 corrupted the benchmark silently rather than loudly. Recorded because the *way* they were

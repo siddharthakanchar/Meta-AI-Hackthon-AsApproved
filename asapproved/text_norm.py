@@ -108,3 +108,69 @@ def diff_summary(observed: str, prescribed: str) -> str:
     if len(o_words) < len(p_words):
         return f"truncated: {len(p_words) - len(o_words)} words missing from the end"
     return f"extended: {len(o_words) - len(p_words)} extra words at the end"
+
+
+# ---------------------------------------------------------------------------
+# comparing against prescribed wording when the text came from OCR
+# ---------------------------------------------------------------------------
+
+import difflib  # noqa: E402
+
+PrescribedVerdict = str  # "match" | "altered" | "uncertain"
+
+# Calibrated by measurement, not by eye: scripts/calibrate_ocr_bands.py reads the
+# warning out of every investment master and its reworded variant and reports the
+# two populations. On the 26 Oct build, correct warnings scored 1.0000 and
+# rewrites scored 0.33-0.63, a separation of +0.37. The bands sit in that gap.
+#
+# Caveat worth stating where someone will read it: that calibration is on
+# synthetic creative, where OCR is near-perfect. On real advertiser creative the
+# "correct" population would sit lower and closer to the rewrites, which is
+# exactly what the `uncertain` band is for. Recalibrate before claiming R11
+# accuracy on anything but this dataset.
+OCR_MATCH_ABOVE = 0.87
+OCR_ALTERED_BELOW = 0.75
+
+
+def _collapsed(text: str) -> str:
+    """Normalised, with ALL whitespace removed.
+
+    RapidOCR drops inter-word spaces on dense text — it reads "Representative
+    example:" as "Representativeexample:". Collapsing whitespace on both sides
+    makes the comparison insensitive to that artefact while leaving every actual
+    character difference visible.
+    """
+    return "".join(normalise(text).split())
+
+
+def similarity(observed: str, prescribed: str) -> float:
+    """Character-level similarity of the two strings, 0..1."""
+    return difflib.SequenceMatcher(None, _collapsed(observed), _collapsed(prescribed)).ratio()
+
+
+def compare_prescribed(observed: str, prescribed: str, *, source: str = "exact") -> tuple[PrescribedVerdict, float]:
+    """Decide whether `observed` is the prescribed wording.
+
+    `source="exact"` — the text is trusted (structured model extraction, or our
+    own generator): byte equality after typographic normalisation, because an
+    exact claim can be made about exact input.
+
+    `source="ocr"` — the text is a *reading* of the creative. Demanding exact
+    equality would flag correct advertisers for the OCR engine's own mistakes,
+    and loosening it indefinitely would wave through real rewrites. So three
+    outcomes, with an explicit middle: close enough to be OCR noise, far enough
+    to be a rewrite, or in between — where the honest answer is that we cannot
+    tell, and R11 reports `inconclusive` rather than guessing in either
+    direction.
+    """
+    if source != "ocr":
+        return ("match" if same_prescribed_text(observed, prescribed) else "altered"), (
+            1.0 if same_prescribed_text(observed, prescribed) else similarity(observed, prescribed)
+        )
+
+    ratio = similarity(observed, prescribed)
+    if ratio >= OCR_MATCH_ABOVE:
+        return "match", ratio
+    if ratio < OCR_ALTERED_BELOW:
+        return "altered", ratio
+    return "uncertain", ratio

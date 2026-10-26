@@ -1,7 +1,7 @@
 # STATUS
 
 Path: **undecided** (A/B/C decided after the Phase 1 Marketing API spike, due Tue 27 Oct 23:00 IST)
-Hours: used 7.5 / planned 40–45
+Hours: used 13.0 / planned 40–45
 Updated: Mon 26 Oct 2026
 
 ## Phases
@@ -13,9 +13,12 @@ Updated: Mon 26 Oct 2026
 - [x] Phase 3 — Synthetic masters and variants (**pulled forward**, needed no key) · 12 masters,
       48 variants, ground truth generated not hand-written; audio pending USER INPUT 3.1
 - [ ] Phase 4 — Meta models in the pipeline (Thu 29 – Fri 30 Oct, ~5 h)
-- [ ] Phase 5 — Rules, explanations, review UI (Sat 31 Oct, ~9–10 h)
-- [ ] Phase 6 — Graph, Act/Prove, precedents, benchmark (Sun 1 Nov, ~9–10 h)
-- [ ] Phase 7 — Polish, hosting, stretch (Mon 2 – Tue 3 Nov, ~5 h)
+- [x] Phase 5 — Rules, explanations, review UI (**pulled forward**, keyless) · engine,
+      validator, pipeline, UI, benchmark harness
+- [~] Phase 6 — Graph, Act/Prove, precedents, benchmark · all keyless parts done;
+      Neo4j load and live Act await USER INPUT 6.1 / Marketing API
+- [~] Phase 7 — Polish, hosting · README, ARCHITECTURE, DEPLOY, submission copy written;
+      deploy awaits a GitHub push
 - [ ] Phase 8 — Demo video and submission (Tue 3 – Wed 4 Nov, ~4 h)
 
 ## Today — Mon 26 Oct

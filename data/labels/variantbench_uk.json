@@ -1955,19 +1955,21 @@
       "sha256": "3d0663ac6cdec8eb3dbbee27c8bfc6a81b126ab8531f653d384d5c4ab1eb7f53"
     },
     {
-      "variant_id": "kestrel_ltaf_v1__v1_voiceover_drops_apr",
+      "variant_id": "kestrel_ltaf_v1__v1_warning_low_contrast",
       "master_id": "kestrel_ltaf_v1",
       "source": "SIMULATED",
-      "transform": "voiceover_drops_apr",
-      "enhancement": "translate_voiceover",
-      "description": "Voiceover states the trigger but no longer states the APR.",
+      "transform": "warning_low_contrast",
+      "enhancement": "image_background_gen",
+      "description": "Background generation leaves the warning grey-on-grey.",
       "benign": false,
       "violated_rules": [
-        "R9"
+        "R6"
       ],
-      "touched_regions": [],
-      "requires_audio": true,
-      "notes": "Audio-only: visually identical to the master by design.",
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "",
       "kind": "video",
       "size": [
         720,
@@ -2067,8 +2069,8 @@
         "risk_note": 10000,
         "trigger": 10000
       },
-      "file": "kestrel_ltaf_v1__v1_voiceover_drops_apr.mp4",
-      "sha256": "e86477a7b3d6bb86db358508d1f7f2e729ba3c4bf623455634213b87f2403d5b"
+      "file": "kestrel_ltaf_v1__v1_warning_low_contrast.mp4",
+      "sha256": "330600e0007dcada424be0ef9c6401e28891f69e1db413bc42baaebe7840d85f"
     },
     {
       "variant_id": "kestrel_ltaf_v1__v2_background_hue_shift",
@@ -2872,21 +2874,21 @@
       "sha256": "8a2054c6976594d1ba01f558ff859b247bc6ad9ca709f70002f0b6e31782c373"
     },
     {
-      "variant_id": "kestrel_p2p_v1__v1_apr_animates_offscreen",
+      "variant_id": "kestrel_p2p_v1__v1_warning_appears_late",
       "master_id": "kestrel_p2p_v1",
       "source": "SIMULATED",
-      "transform": "apr_animates_offscreen",
-      "enhancement": "image_animation",
-      "description": "APR holds for about a second, then slides out of frame for the rest.",
+      "transform": "warning_appears_late",
+      "enhancement": "video_highlights",
+      "description": "Warning is held back until the closing seconds of the clip.",
       "benign": false,
       "violated_rules": [
-        "R8"
+        "R4"
       ],
       "touched_regions": [
-        "apr"
+        "warning"
       ],
       "requires_audio": false,
-      "notes": "The hero case: frame zero previews clean, delivery does not.",
+      "notes": "FG24/1 Table 1 expects the warning on screen throughout short-form video.",
       "kind": "video",
       "size": [
         720,
@@ -2943,9 +2945,9 @@
       },
       "regions": {
         "risk_note": [
-          0,
+          50,
           342,
-          36,
+          203,
           37
         ],
         "trigger": [
@@ -2964,14 +2966,14 @@
       "visible_frames": {
         "warning": [
           [
-            0,
+            270,
             374
           ]
         ],
         "risk_note": [
           [
             0,
-            29
+            374
           ]
         ],
         "trigger": [
@@ -2982,12 +2984,12 @@
         ]
       },
       "visible_ratio_bp": {
-        "warning": 10000,
-        "risk_note": 800,
+        "warning": 2800,
+        "risk_note": 10000,
         "trigger": 10000
       },
-      "file": "kestrel_p2p_v1__v1_apr_animates_offscreen.mp4",
-      "sha256": "c96db39477e6686214bea9f5529fdf3ffe92f1a683a0c7c08772a840ae358700"
+      "file": "kestrel_p2p_v1__v1_warning_appears_late.mp4",
+      "sha256": "3b066e8a566eafd3b226789f07be6f38d54508b4e2ccb433b784bb23ebb0250e"
     },
     {
       "variant_id": "kestrel_p2p_v1__v2_recompressed",
@@ -5513,5 +5515,5 @@
       "sha256": "7cc3cb2133e3c9683dca026674f311ef5e49bb3e065f244955a96858579d6d80"
     }
   ],
-  "labels_sha256": "3bb937ece6d266de4371ae715776a9c6ea38ddfa3a70364658b374182f75fbfb"
+  "labels_sha256": "a5438e9388b45e81f79aa3c8b1819b47dbea09bb02f24bf742e333e869819dc9"
 }

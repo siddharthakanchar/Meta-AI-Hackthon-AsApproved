@@ -1,0 +1,871 @@
+{
+  "generated_at": "2026-10-26T13:19:59Z",
+  "labels_sha256": "a5438e9388b45e81f79aa3c8b1819b47dbea09bb02f24bf742e333e869819dc9",
+  "count": 48,
+  "runs": [
+    {
+      "variant_id": "brightwell_loans_01__v0_warning_shrunk",
+      "master_id": "brightwell_loans_01",
+      "benign": false,
+      "transform": "warning_shrunk",
+      "enhancement": "text_optimizations",
+      "kind": "still",
+      "placement": "reels",
+      "fail": 3,
+      "blocking": 1,
+      "inconclusive": 3,
+      "failed_rules": [
+        "R1",
+        "R5",
+        "R12"
+      ],
+      "expected_rules": [
+        "R7"
+      ],
+      "seconds": 4.1
+    },
+    {
+      "variant_id": "brightwell_loans_01__v1_warning_into_overlay_zone",
+      "master_id": "brightwell_loans_01",
+      "benign": false,
+      "transform": "warning_into_overlay_zone",
+      "enhancement": "adapt_to_placement",
+      "kind": "still",
+      "placement": "reels",
+      "fail": 2,
+      "blocking": 1,
+      "inconclusive": 2,
+      "failed_rules": [
+        "R1",
+        "R12"
+      ],
+      "expected_rules": [
+        "R12"
+      ],
+      "seconds": 2.4
+    },
+    {
+      "variant_id": "brightwell_loans_01__v2_background_hue_shift",
+      "master_id": "brightwell_loans_01",
+      "benign": true,
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "kind": "still",
+      "placement": "reels",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 2.59
+    },
+    {
+      "variant_id": "brightwell_loans_01__v3_brightness_lift",
+      "master_id": "brightwell_loans_01",
+      "benign": true,
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "kind": "still",
+      "placement": "reels",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 1.96
+    },
+    {
+      "variant_id": "brightwell_loans_02__v0_warning_low_contrast",
+      "master_id": "brightwell_loans_02",
+      "benign": false,
+      "transform": "warning_low_contrast",
+      "enhancement": "image_background_gen",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 3,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [
+        "R1",
+        "R5",
+        "R6"
+      ],
+      "expected_rules": [
+        "R6"
+      ],
+      "seconds": 2.76
+    },
+    {
+      "variant_id": "brightwell_loans_02__v1_representative_example_removed",
+      "master_id": "brightwell_loans_02",
+      "benign": false,
+      "transform": "representative_example_removed",
+      "enhancement": "text_optimizations",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 2,
+      "blocking": 1,
+      "inconclusive": 2,
+      "failed_rules": [
+        "R1",
+        "R3"
+      ],
+      "expected_rules": [
+        "R10",
+        "R3"
+      ],
+      "seconds": 1.85
+    },
+    {
+      "variant_id": "brightwell_loans_02__v2_background_hue_shift",
+      "master_id": "brightwell_loans_02",
+      "benign": true,
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 2.0
+    },
+    {
+      "variant_id": "brightwell_loans_02__v3_brightness_lift",
+      "master_id": "brightwell_loans_02",
+      "benign": true,
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 1.69
+    },
+    {
+      "variant_id": "brightwell_loans_v1__v0_warning_border_removed",
+      "master_id": "brightwell_loans_v1",
+      "benign": false,
+      "transform": "warning_border_removed",
+      "enhancement": "text_optimizations",
+      "kind": "video",
+      "placement": "feed",
+      "fail": 2,
+      "blocking": 0,
+      "inconclusive": 4,
+      "failed_rules": [
+        "R1",
+        "R5"
+      ],
+      "expected_rules": [
+        "R5"
+      ],
+      "seconds": 3.69
+    },
+    {
+      "variant_id": "brightwell_loans_v1__v1_voiceover_drops_apr",
+      "master_id": "brightwell_loans_v1",
+      "benign": false,
+      "transform": "voiceover_drops_apr",
+      "enhancement": "translate_voiceover",
+      "kind": "video",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 4,
+      "failed_rules": [],
+      "expected_rules": [
+        "R9"
+      ],
+      "seconds": 3.08
+    },
+    {
+      "variant_id": "brightwell_loans_v1__v2_background_hue_shift",
+      "master_id": "brightwell_loans_v1",
+      "benign": true,
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "kind": "video",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 4,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 3.08
+    },
+    {
+      "variant_id": "brightwell_loans_v1__v3_brightness_lift",
+      "master_id": "brightwell_loans_v1",
+      "benign": true,
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "kind": "video",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 4,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 3.11
+    },
+    {
+      "variant_id": "kestrel_crypto_01__v0_expand_pushes_warning_offframe",
+      "master_id": "kestrel_crypto_01",
+      "benign": false,
+      "transform": "expand_pushes_warning_offframe",
+      "enhancement": "image_background_gen",
+      "kind": "still",
+      "placement": "reels",
+      "fail": 3,
+      "blocking": 2,
+      "inconclusive": 2,
+      "failed_rules": [
+        "R1",
+        "R3",
+        "R12"
+      ],
+      "expected_rules": [
+        "R1",
+        "R3"
+      ],
+      "seconds": 2.61
+    },
+    {
+      "variant_id": "kestrel_crypto_01__v1_warning_reworded",
+      "master_id": "kestrel_crypto_01",
+      "benign": false,
+      "transform": "warning_reworded",
+      "enhancement": "text_translation",
+      "kind": "still",
+      "placement": "reels",
+      "fail": 4,
+      "blocking": 2,
+      "inconclusive": 2,
+      "failed_rules": [
+        "R1",
+        "R5",
+        "R11",
+        "R12"
+      ],
+      "expected_rules": [
+        "R11"
+      ],
+      "seconds": 2.53
+    },
+    {
+      "variant_id": "kestrel_crypto_01__v2_background_hue_shift",
+      "master_id": "kestrel_crypto_01",
+      "benign": true,
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "kind": "still",
+      "placement": "reels",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 1,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 2.4
+    },
+    {
+      "variant_id": "kestrel_crypto_01__v3_brightness_lift",
+      "master_id": "kestrel_crypto_01",
+      "benign": true,
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "kind": "still",
+      "placement": "reels",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 1,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 2.05
+    },
+    {
+      "variant_id": "kestrel_ltaf_v1__v0_warning_appears_late",
+      "master_id": "kestrel_ltaf_v1",
+      "benign": false,
+      "transform": "warning_appears_late",
+      "enhancement": "video_highlights",
+      "kind": "video",
+      "placement": "feed",
+      "fail": 4,
+      "blocking": 1,
+      "inconclusive": 5,
+      "failed_rules": [
+        "R1",
+        "R4",
+        "R5",
+        "R6"
+      ],
+      "expected_rules": [
+        "R4"
+      ],
+      "seconds": 3.6
+    },
+    {
+      "variant_id": "kestrel_ltaf_v1__v1_warning_low_contrast",
+      "master_id": "kestrel_ltaf_v1",
+      "benign": false,
+      "transform": "warning_low_contrast",
+      "enhancement": "image_background_gen",
+      "kind": "video",
+      "placement": "feed",
+      "fail": 3,
+      "blocking": 1,
+      "inconclusive": 3,
+      "failed_rules": [
+        "R1",
+        "R4",
+        "R6"
+      ],
+      "expected_rules": [
+        "R6"
+      ],
+      "seconds": 3.93
+    },
+    {
+      "variant_id": "kestrel_ltaf_v1__v2_background_hue_shift",
+      "master_id": "kestrel_ltaf_v1",
+      "benign": true,
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "kind": "video",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 3,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 3.1
+    },
+    {
+      "variant_id": "kestrel_ltaf_v1__v3_brightness_lift",
+      "master_id": "kestrel_ltaf_v1",
+      "benign": true,
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "kind": "video",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 3,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 3.13
+    },
+    {
+      "variant_id": "kestrel_nrrs_01__v0_crop_removes_warning",
+      "master_id": "kestrel_nrrs_01",
+      "benign": false,
+      "transform": "crop_removes_warning",
+      "enhancement": "adapt_to_placement",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 2,
+      "blocking": 1,
+      "inconclusive": 2,
+      "failed_rules": [
+        "R1",
+        "R3"
+      ],
+      "expected_rules": [
+        "R1",
+        "R3"
+      ],
+      "seconds": 2.47
+    },
+    {
+      "variant_id": "kestrel_nrrs_01__v1_warning_border_removed",
+      "master_id": "kestrel_nrrs_01",
+      "benign": false,
+      "transform": "warning_border_removed",
+      "enhancement": "text_optimizations",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 2,
+      "blocking": 0,
+      "inconclusive": 1,
+      "failed_rules": [
+        "R1",
+        "R5"
+      ],
+      "expected_rules": [
+        "R5"
+      ],
+      "seconds": 1.88
+    },
+    {
+      "variant_id": "kestrel_nrrs_01__v2_background_hue_shift",
+      "master_id": "kestrel_nrrs_01",
+      "benign": true,
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 1,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 1.51
+    },
+    {
+      "variant_id": "kestrel_nrrs_01__v3_brightness_lift",
+      "master_id": "kestrel_nrrs_01",
+      "benign": true,
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 1,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 1.51
+    },
+    {
+      "variant_id": "kestrel_p2p_v1__v0_warning_reworded",
+      "master_id": "kestrel_p2p_v1",
+      "benign": false,
+      "transform": "warning_reworded",
+      "enhancement": "text_translation",
+      "kind": "video",
+      "placement": "reels",
+      "fail": 6,
+      "blocking": 4,
+      "inconclusive": 4,
+      "failed_rules": [
+        "R1",
+        "R3",
+        "R4",
+        "R5",
+        "R11",
+        "R12"
+      ],
+      "expected_rules": [
+        "R11"
+      ],
+      "seconds": 5.21
+    },
+    {
+      "variant_id": "kestrel_p2p_v1__v1_warning_appears_late",
+      "master_id": "kestrel_p2p_v1",
+      "benign": false,
+      "transform": "warning_appears_late",
+      "enhancement": "video_highlights",
+      "kind": "video",
+      "placement": "reels",
+      "fail": 4,
+      "blocking": 2,
+      "inconclusive": 3,
+      "failed_rules": [
+        "R1",
+        "R4",
+        "R5",
+        "R11"
+      ],
+      "expected_rules": [
+        "R4"
+      ],
+      "seconds": 4.56
+    },
+    {
+      "variant_id": "kestrel_p2p_v1__v2_recompressed",
+      "master_id": "kestrel_p2p_v1",
+      "benign": true,
+      "transform": "recompressed",
+      "enhancement": "adapt_to_placement",
+      "kind": "video",
+      "placement": "reels",
+      "fail": 1,
+      "blocking": 0,
+      "inconclusive": 3,
+      "failed_rules": [
+        "R1"
+      ],
+      "expected_rules": [],
+      "seconds": 4.23
+    },
+    {
+      "variant_id": "kestrel_p2p_v1__v3_background_hue_shift",
+      "master_id": "kestrel_p2p_v1",
+      "benign": true,
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "kind": "video",
+      "placement": "reels",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 3,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 4.55
+    },
+    {
+      "variant_id": "northfield_card_01__v0_representative_example_removed",
+      "master_id": "northfield_card_01",
+      "benign": false,
+      "transform": "representative_example_removed",
+      "enhancement": "text_optimizations",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 2,
+      "blocking": 1,
+      "inconclusive": 2,
+      "failed_rules": [
+        "R1",
+        "R3"
+      ],
+      "expected_rules": [
+        "R10",
+        "R3"
+      ],
+      "seconds": 2.15
+    },
+    {
+      "variant_id": "northfield_card_01__v1_warning_border_removed",
+      "master_id": "northfield_card_01",
+      "benign": false,
+      "transform": "warning_border_removed",
+      "enhancement": "text_optimizations",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 2,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [
+        "R1",
+        "R5"
+      ],
+      "expected_rules": [
+        "R5"
+      ],
+      "seconds": 2.39
+    },
+    {
+      "variant_id": "northfield_card_01__v2_margin_trim",
+      "master_id": "northfield_card_01",
+      "benign": true,
+      "transform": "margin_trim",
+      "enhancement": "adapt_to_placement",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 2.39
+    },
+    {
+      "variant_id": "northfield_card_01__v3_background_hue_shift",
+      "master_id": "northfield_card_01",
+      "benign": true,
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 1.71
+    },
+    {
+      "variant_id": "northfield_card_02__v0_warning_into_overlay_zone",
+      "master_id": "northfield_card_02",
+      "benign": false,
+      "transform": "warning_into_overlay_zone",
+      "enhancement": "adapt_to_placement",
+      "kind": "still",
+      "placement": "stories",
+      "fail": 2,
+      "blocking": 1,
+      "inconclusive": 2,
+      "failed_rules": [
+        "R1",
+        "R12"
+      ],
+      "expected_rules": [
+        "R12"
+      ],
+      "seconds": 3.08
+    },
+    {
+      "variant_id": "northfield_card_02__v1_warning_low_contrast",
+      "master_id": "northfield_card_02",
+      "benign": false,
+      "transform": "warning_low_contrast",
+      "enhancement": "image_background_gen",
+      "kind": "still",
+      "placement": "stories",
+      "fail": 3,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [
+        "R1",
+        "R5",
+        "R6"
+      ],
+      "expected_rules": [
+        "R6"
+      ],
+      "seconds": 2.47
+    },
+    {
+      "variant_id": "northfield_card_02__v2_image_touchup",
+      "master_id": "northfield_card_02",
+      "benign": true,
+      "transform": "image_touchup",
+      "enhancement": "image_touchups",
+      "kind": "still",
+      "placement": "stories",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 3,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 2.01
+    },
+    {
+      "variant_id": "northfield_card_02__v3_background_hue_shift",
+      "master_id": "northfield_card_02",
+      "benign": true,
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "kind": "still",
+      "placement": "stories",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 1.99
+    },
+    {
+      "variant_id": "northfield_card_03__v0_apr_shrunk_below_trigger",
+      "master_id": "northfield_card_03",
+      "benign": false,
+      "transform": "apr_shrunk_below_trigger",
+      "enhancement": "text_optimizations",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 2,
+      "blocking": 1,
+      "inconclusive": 3,
+      "failed_rules": [
+        "R1",
+        "R8"
+      ],
+      "expected_rules": [
+        "R8"
+      ],
+      "seconds": 2.02
+    },
+    {
+      "variant_id": "northfield_card_03__v1_warning_shrunk",
+      "master_id": "northfield_card_03",
+      "benign": false,
+      "transform": "warning_shrunk",
+      "enhancement": "text_optimizations",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 3,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [
+        "R1",
+        "R5",
+        "R7"
+      ],
+      "expected_rules": [
+        "R7"
+      ],
+      "seconds": 1.8
+    },
+    {
+      "variant_id": "northfield_card_03__v2_brightness_lift",
+      "master_id": "northfield_card_03",
+      "benign": true,
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 1.71
+    },
+    {
+      "variant_id": "northfield_card_03__v3_background_hue_shift",
+      "master_id": "northfield_card_03",
+      "benign": true,
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "kind": "still",
+      "placement": "feed",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 2,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 1.69
+    },
+    {
+      "variant_id": "northfield_card_v1__v0_voiceover_drops_apr",
+      "master_id": "northfield_card_v1",
+      "benign": false,
+      "transform": "voiceover_drops_apr",
+      "enhancement": "translate_voiceover",
+      "kind": "video",
+      "placement": "reels",
+      "fail": 1,
+      "blocking": 0,
+      "inconclusive": 4,
+      "failed_rules": [
+        "R5"
+      ],
+      "expected_rules": [
+        "R9"
+      ],
+      "seconds": 4.73
+    },
+    {
+      "variant_id": "northfield_card_v1__v1_warning_appears_late",
+      "master_id": "northfield_card_v1",
+      "benign": false,
+      "transform": "warning_appears_late",
+      "enhancement": "video_highlights",
+      "kind": "video",
+      "placement": "reels",
+      "fail": 3,
+      "blocking": 1,
+      "inconclusive": 4,
+      "failed_rules": [
+        "R1",
+        "R4",
+        "R5"
+      ],
+      "expected_rules": [
+        "R4"
+      ],
+      "seconds": 5.04
+    },
+    {
+      "variant_id": "northfield_card_v1__v2_background_hue_shift",
+      "master_id": "northfield_card_v1",
+      "benign": true,
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "kind": "video",
+      "placement": "reels",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 4,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 4.45
+    },
+    {
+      "variant_id": "northfield_card_v1__v3_brightness_lift",
+      "master_id": "northfield_card_v1",
+      "benign": true,
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "kind": "video",
+      "placement": "reels",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 4,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 4.42
+    },
+    {
+      "variant_id": "northfield_card_v2__v0_apr_animates_offscreen",
+      "master_id": "northfield_card_v2",
+      "benign": false,
+      "transform": "apr_animates_offscreen",
+      "enhancement": "image_animation",
+      "kind": "video",
+      "placement": "reels",
+      "fail": 2,
+      "blocking": 1,
+      "inconclusive": 4,
+      "failed_rules": [
+        "R5",
+        "R8"
+      ],
+      "expected_rules": [
+        "R8"
+      ],
+      "seconds": 4.42
+    },
+    {
+      "variant_id": "northfield_card_v2__v1_zoom_drops_warning",
+      "master_id": "northfield_card_v2",
+      "benign": false,
+      "transform": "zoom_drops_warning",
+      "enhancement": "image_animation",
+      "kind": "video",
+      "placement": "reels",
+      "fail": 4,
+      "blocking": 3,
+      "inconclusive": 4,
+      "failed_rules": [
+        "R1",
+        "R3",
+        "R4",
+        "R12"
+      ],
+      "expected_rules": [
+        "R1",
+        "R3"
+      ],
+      "seconds": 6.42
+    },
+    {
+      "variant_id": "northfield_card_v2__v2_music_swap",
+      "master_id": "northfield_card_v2",
+      "benign": true,
+      "transform": "music_swap",
+      "enhancement": "music_generation",
+      "kind": "video",
+      "placement": "reels",
+      "fail": 1,
+      "blocking": 0,
+      "inconclusive": 4,
+      "failed_rules": [
+        "R5"
+      ],
+      "expected_rules": [],
+      "seconds": 4.4
+    },
+    {
+      "variant_id": "northfield_card_v2__v3_background_hue_shift",
+      "master_id": "northfield_card_v2",
+      "benign": true,
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "kind": "video",
+      "placement": "reels",
+      "fail": 0,
+      "blocking": 0,
+      "inconclusive": 4,
+      "failed_rules": [],
+      "expected_rules": [],
+      "seconds": 4.49
+    }
+  ]
+}

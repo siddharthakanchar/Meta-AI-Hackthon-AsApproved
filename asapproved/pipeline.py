@@ -305,7 +305,11 @@ def check_variant(
             longest_gap[label] = t.longest_gap_frames * stride
 
     if "body" in master.regions:
-        b_height = _median_text_height(variant_ocr, tuple(master.regions["body"]))
+        # Measured wherever the variant actually put it, not where the master had
+        # it. A variant that shrinks the warning reflows everything below it, so
+        # reading at the master's body box found nothing and R7 — the rule that
+        # variant exists to trigger — reported "no body copy to compare against".
+        b_height = _body_text_height(variant_ocr, variant_regions, variant_frame.shape)
         variant_regions["body"] = {"present": b_height is not None, "text_height": b_height}
 
     warning_text = None
@@ -356,3 +360,37 @@ def check_variant(
         variant_sha256=sha256_file(variant_path),
         notes=notes,
     )
+
+
+def _body_text_height(ocr: OcrResult, regions: dict[str, Any], shape) -> int | None:
+    """Median height of the ad's ordinary copy.
+
+    Body copy is whatever text is NOT one of the regions we track separately —
+    found by exclusion rather than by position, because position is exactly what
+    a reflowing variant changes. The small print at the very foot of the frame is
+    excluded too: it is deliberately tiny, and including it would drag the
+    comparator down and make R7 impossible to fail.
+    """
+    if not ocr.available:
+        return None
+    import numpy as np
+
+    height = shape[0]
+    taken = [tuple(r["bbox"]) for r in regions.values() if isinstance(r, dict) and r.get("bbox")]
+
+    heights: list[int] = []
+    for tb in ocr.boxes:
+        x, y, w, h = tb.box
+        if y > height * 0.93:
+            continue  # footer small print
+        overlapped = False
+        for bx, by, bw, bh in taken:
+            ox = max(0, min(bx + bw, x + w) - max(bx, x))
+            oy = max(0, min(by + bh, y + h) - max(by, y))
+            if (w * h) and (ox * oy) / (w * h) >= 0.5:
+                overlapped = True
+                break
+        if not overlapped:
+            heights.append(h)
+
+    return int(np.median(heights)) if heights else None

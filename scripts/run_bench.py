@@ -51,9 +51,10 @@ def main() -> int:
         print("B1 — pixel diff alone ...", flush=True)
         t0 = time.time()
         preds = run_b1(labels, masters, variants)
-        reports.append(
-            score("B1", "pixel diff alone", preds, labels, rule_aware=False)
-        )
+        # Scored rule-aware, like B2. A pixel diff answers "did something
+        # change?" and nothing else, so its per-rule row is the honest measure
+        # of the gap: strong at detection, incapable of attribution.
+        reports.append(score("B1", "pixel diff alone", preds, labels))
         print(f"   done in {time.time() - t0:.0f}s")
 
     if "b2" in wanted:

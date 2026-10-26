@@ -58,9 +58,11 @@ _UNIT_SCALE: dict[str, int] = {
 # smaller by OCR rounding. 0.95 = a 5% shortfall before it counts.
 R7_TOLERANCE = 0.95
 
-# R1 needs both a meaningful fraction AND a meaningful absolute area, so a
-# thin text strip cannot trip it on compression artefacts alone.
-R1_MIN_CHANGED_PIXELS = 600
+# R1 needs a meaningful fraction AND a meaningful absolute area. Measured on
+# VariantBench-UK: a benign re-encode moved 865 pixels of a thin one-line
+# region (11.5% of it), while the smallest genuine seeded change moved
+# 27,234. The floor sits in that gap, well clear of both.
+R1_MIN_CHANGED_PIXELS = 2_500
 
 _RULE_UNITS: dict[str, str] = {
     "R1": "fraction_bp",
@@ -365,9 +367,28 @@ def _r1(rule: Rule, ctx: Context) -> Finding:
     # only edit was re-encoding, purely because the denominator is small. Require
     # a meaningful absolute area as well as a meaningful fraction.
     changed_px = ctx.changed_pixels_in_region.get(worst_label)
-    failed = worst > rule.threshold and (
-        changed_px is None or changed_px >= R1_MIN_CHANGED_PIXELS
-    )
+    over_fraction = worst > rule.threshold
+    below_noise_floor = changed_px is not None and changed_px < R1_MIN_CHANGED_PIXELS
+
+    if over_fraction and below_noise_floor:
+        # Over the rule's threshold as a fraction, but too small in absolute
+        # terms for this detector to tell a real edit from encoder noise. That
+        # is genuinely undecidable, so it is reported as such rather than
+        # resolved in either party's favour.
+        return _finding(
+            rule,
+            ctx_version(ctx),
+            "inconclusive",
+            f"{worst / 100:.1f}% of the '{worst_label}' region differs, but that is only "
+            f"{changed_px:,} pixels — below the {R1_MIN_CHANGED_PIXELS:,}-pixel floor where "
+            "this detector can separate a real edit from re-encoding artefacts.",
+            measured=worst,
+            measured_display=f"{worst / 100:.1f}%",
+            caveats=["change too small to distinguish from compression noise"],
+            evidence={"region": worst_label, "changed_pixels": changed_px},
+        )
+
+    failed = over_fraction
     return _finding(
         rule,
         ctx_version(ctx),

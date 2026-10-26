@@ -1,0 +1,367 @@
+{
+  "variant_id": "kestrel_nrrs_01__v0_crop_removes_warning",
+  "master_id": "kestrel_nrrs_01",
+  "variant_sha256": "8211cf95054c95ccb68cd58c65acb5fdacf5ffa69997d9ec3666154c10e06eea",
+  "region_source": "template_ncc",
+  "text_source": "ocr",
+  "sampled_fps": 5,
+  "frame_count": 1,
+  "summary": {
+    "fail": 2,
+    "blocking": 1,
+    "pass": 1,
+    "inconclusive": 2,
+    "not_applicable": 8,
+    "failed_rules": [
+      "R1",
+      "R3"
+    ],
+    "inconclusive_rules": [
+      "R2",
+      "R11"
+    ]
+  },
+  "findings": [
+    {
+      "rule_id": "R1",
+      "rulebook_version": "uk_v1",
+      "status": "fail",
+      "severity": "review",
+      "citation": "FG24/1 para 4.14",
+      "detail": "100.0% of the 'warning' region changed from the approved master (threshold 2%).",
+      "measured": 10000,
+      "measured_display": "100.0%",
+      "threshold": 200,
+      "threshold_display": "2%",
+      "units": "fraction_bp",
+      "evidence": {
+        "region": "warning",
+        "per_region_bp": {
+          "warning": 10000,
+          "risk_note": 0,
+          "trigger": 0
+        }
+      },
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R2",
+      "rulebook_version": "uk_v1",
+      "status": "inconclusive",
+      "severity": "block",
+      "citation": "FG24/1 para 4.14",
+      "detail": "No enhancement settings were recorded at approval, so drift cannot be computed.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [
+        "no approval-time settings snapshot"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R3",
+      "rulebook_version": "uk_v1",
+      "status": "fail",
+      "severity": "block",
+      "citation": "COBS 4.12A.38R",
+      "detail": "The approved warning is absent from the delivered variant.",
+      "measured": 0,
+      "measured_display": "absent",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {
+        "master_box": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R4",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "block",
+      "citation": "FG24/1 Table 1",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": 9800,
+      "threshold_display": "98%",
+      "units": "fraction_bp",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R5",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "review",
+      "citation": "COBS 4.12A.36R",
+      "detail": "No warning region in the variant to assess.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R6",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "review",
+      "citation": "COBS 4.12A (prominence and legibility)",
+      "detail": "No warning region to measure.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": 450,
+      "threshold_display": "4.5:1",
+      "units": "ratio_x100",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R7",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "review",
+      "citation": "COBS 4.12A (prominence guidance)",
+      "detail": "No warning region to measure.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": 1,
+      "threshold_display": "1",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R8",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "block",
+      "citation": "CONC 3.5.7R",
+      "detail": "Not a consumer-credit promotion, so no representative APR applies.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R9",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "review",
+      "citation": "CONC 3.5.7R (as applied in ASA / Clearcast practice)",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R10",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "review",
+      "citation": "CONC 3.5.5R",
+      "detail": "Not a consumer-credit promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R11",
+      "rulebook_version": "uk_v1",
+      "status": "inconclusive",
+      "severity": "block",
+      "citation": "COBS 4.12A.11R",
+      "detail": "The warning text could not be read from the variant.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [
+        "warning text not extracted"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R12",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "block",
+      "citation": "FG24/1 para 1.5",
+      "detail": "No part of the warning or APR falls inside the feed overlay zone.",
+      "measured": 0,
+      "measured_display": "0px",
+      "threshold": 0,
+      "threshold_display": "0",
+      "units": "count",
+      "evidence": {
+        "placement": "feed",
+        "per_region_px": {
+          "risk_note": 0
+        }
+      },
+      "sub_results": {},
+      "caveats": [
+        "Safe-zone figures for 'feed' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach."
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "B1",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "info",
+      "citation": "Clearcast guidance (UK TV clearance)",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": true,
+      "not_legal_advice": true
+    }
+  ],
+  "notes": [],
+  "label": {
+    "benign": false,
+    "transform": "crop_removes_warning",
+    "enhancement": "adapt_to_placement",
+    "description": "Reframed for a shorter placement; the warning box is cropped away.",
+    "violated_rules": [
+      "R1",
+      "R3"
+    ],
+    "requires_audio": false
+  },
+  "master": {
+    "id": "kestrel_nrrs_01",
+    "placement": "feed",
+    "investment_type": "non_readily_realisable_securities",
+    "kind": "still",
+    "regions": {
+      "body": [
+        50,
+        243,
+        620,
+        19
+      ],
+      "headline": [
+        50,
+        93,
+        620,
+        34
+      ],
+      "logo": [
+        50,
+        41,
+        169,
+        32
+      ],
+      "risk_note": [
+        50,
+        195,
+        243,
+        44
+      ],
+      "small_print": [
+        50,
+        685,
+        620,
+        13
+      ],
+      "trigger": [
+        50,
+        147,
+        294,
+        44
+      ],
+      "warning": [
+        50,
+        511,
+        620,
+        154
+      ]
+    }
+  },
+  "previews": {
+    "master": "kestrel_nrrs_01__v0_crop_removes_warning_master.jpg",
+    "variant": "kestrel_nrrs_01__v0_crop_removes_warning_variant.jpg",
+    "heat": "kestrel_nrrs_01__v0_crop_removes_warning_heat.jpg",
+    "annotated": "kestrel_nrrs_01__v0_crop_removes_warning_annotated.jpg"
+  },
+  "visibility": {
+    "warning": [
+      false
+    ],
+    "risk_note": [
+      true
+    ],
+    "trigger": [
+      true
+    ]
+  },
+  "sample_fps": 0.0,
+  "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 100.0% of the 'warning' region changed from the approved master (threshold 2%).\n- R3 (COBS 4.12A.38R): The approved warning is absent from the delivered variant.\n2 rule(s) could not be assessed: R2, R11. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 2.54
+}

@@ -1,0 +1,392 @@
+{
+  "variant_id": "brightwell_loans_01__v0_warning_shrunk",
+  "master_id": "brightwell_loans_01",
+  "variant_sha256": "2d9cd66bb45d4bbea6ac993cdca98625971fa7f3eed1e7bbd47ed03a1a58b297",
+  "region_source": "template_ncc",
+  "text_source": "ocr",
+  "sampled_fps": 5,
+  "frame_count": 1,
+  "summary": {
+    "fail": 4,
+    "blocking": 1,
+    "pass": 3,
+    "inconclusive": 2,
+    "not_applicable": 4,
+    "failed_rules": [
+      "R1",
+      "R5",
+      "R7",
+      "R12"
+    ],
+    "inconclusive_rules": [
+      "R2",
+      "R10"
+    ]
+  },
+  "findings": [
+    {
+      "rule_id": "R1",
+      "rulebook_version": "uk_v1",
+      "status": "fail",
+      "severity": "review",
+      "citation": "FG24/1 para 4.14",
+      "detail": "87.5% of the 'apr' region changed from the approved master (threshold 2%).",
+      "measured": 8751,
+      "measured_display": "87.5%",
+      "threshold": 200,
+      "threshold_display": "2%",
+      "units": "fraction_bp",
+      "evidence": {
+        "region": "apr",
+        "per_region_bp": {
+          "warning": 7473,
+          "apr": 8751,
+          "trigger": 8320
+        }
+      },
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R2",
+      "rulebook_version": "uk_v1",
+      "status": "inconclusive",
+      "severity": "block",
+      "citation": "FG24/1 para 4.14",
+      "detail": "No enhancement settings were recorded at approval, so drift cannot be computed.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [
+        "no approval-time settings snapshot"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R3",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "block",
+      "citation": "COBS 4.12A.38R",
+      "detail": "The warning is present and fully within frame.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R4",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "block",
+      "citation": "FG24/1 Table 1",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": 9800,
+      "threshold_display": "98%",
+      "units": "fraction_bp",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R5",
+      "rulebook_version": "uk_v1",
+      "status": "fail",
+      "severity": "review",
+      "citation": "COBS 4.12A.36R",
+      "detail": "Warning presentation fails on: border.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {
+        "variant_box": [
+          165,
+          558,
+          514,
+          137
+        ]
+      },
+      "sub_results": {
+        "border": "fail",
+        "bold": "inconclusive",
+        "underline": "inconclusive"
+      },
+      "caveats": [
+        "bold not measurable",
+        "underline not measurable"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R6",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "review",
+      "citation": "COBS 4.12A (prominence and legibility)",
+      "detail": "Warning text contrast is 11.15:1.",
+      "measured": 1115,
+      "measured_display": "11.15:1",
+      "threshold": 450,
+      "threshold_display": "4.5:1",
+      "units": "ratio_x100",
+      "evidence": {
+        "variant_box": [
+          165,
+          558,
+          514,
+          137
+        ]
+      },
+      "sub_results": {},
+      "caveats": [
+        "4.5:1 is an engineering proxy for legibility (WCAG AA), not a figure the FCA prescribes."
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R7",
+      "rulebook_version": "uk_v1",
+      "status": "fail",
+      "severity": "review",
+      "citation": "COBS 4.12A (prominence guidance)",
+      "detail": "Warning text is 24px against body copy at 27px — smaller than the surrounding copy.",
+      "measured": 24,
+      "measured_display": "24px",
+      "threshold": 27,
+      "threshold_display": "27px",
+      "units": "none",
+      "evidence": {
+        "warning_px": 24,
+        "body_px": 27
+      },
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R8",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "block",
+      "citation": "CONC 3.5.7R",
+      "detail": "Representative APR is at least as prominent as its trigger (51px vs 40px).",
+      "measured": 51,
+      "measured_display": "51px",
+      "threshold": 40,
+      "threshold_display": "40px",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R9",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "review",
+      "citation": "CONC 3.5.7R (as applied in ASA / Clearcast practice)",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R10",
+      "rulebook_version": "uk_v1",
+      "status": "inconclusive",
+      "severity": "review",
+      "citation": "CONC 3.5.5R",
+      "detail": "Claim extraction did not establish whether a cost-of-credit figure or a representative example is present.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [
+        "claims not extracted"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R11",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "block",
+      "citation": "COBS 4.12A.11R",
+      "detail": "Not a high-risk investment promotion, so no prescribed wording applies.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R12",
+      "rulebook_version": "uk_v1",
+      "status": "fail",
+      "severity": "block",
+      "citation": "FG24/1 para 1.5",
+      "detail": "411 pixels of the 'warning' fall inside the reels interface overlay zone, where platform chrome can obscure them.",
+      "measured": 411,
+      "measured_display": "411px",
+      "threshold": 0,
+      "threshold_display": "0",
+      "units": "count",
+      "evidence": {
+        "placement": "reels",
+        "per_region_px": {
+          "warning": 411,
+          "apr": 0
+        }
+      },
+      "sub_results": {},
+      "caveats": [
+        "Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach."
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "B1",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "info",
+      "citation": "Clearcast guidance (UK TV clearance)",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": true,
+      "not_legal_advice": true
+    }
+  ],
+  "notes": [
+    "region 'warning' did not match its master template; measured at the position the alignment predicts",
+    "region 'apr' did not match its master template; measured at the position the alignment predicts",
+    "region 'trigger' did not match its master template; measured at the position the alignment predicts"
+  ],
+  "label": {
+    "benign": false,
+    "transform": "warning_shrunk",
+    "enhancement": "text_optimizations",
+    "description": "Warning text reflowed smaller than the body copy.",
+    "violated_rules": [
+      "R7"
+    ],
+    "requires_audio": false
+  },
+  "master": {
+    "id": "brightwell_loans_01",
+    "placement": "reels",
+    "investment_type": null,
+    "kind": "still",
+    "regions": {
+      "apr": [
+        50,
+        354,
+        399,
+        40
+      ],
+      "body": [
+        50,
+        398,
+        620,
+        18
+      ],
+      "headline": [
+        50,
+        268,
+        620,
+        31
+      ],
+      "logo": [
+        50,
+        228,
+        174,
+        29
+      ],
+      "small_print": [
+        50,
+        717,
+        620,
+        12
+      ],
+      "trigger": [
+        50,
+        310,
+        298,
+        40
+      ],
+      "warning": [
+        50,
+        474,
+        620,
+        232
+      ]
+    }
+  },
+  "previews": {
+    "master": "brightwell_loans_01__v0_warning_shrunk_master.jpg",
+    "variant": "brightwell_loans_01__v0_warning_shrunk_variant.jpg",
+    "heat": "brightwell_loans_01__v0_warning_shrunk_heat.jpg",
+    "annotated": "brightwell_loans_01__v0_warning_shrunk_annotated.jpg"
+  },
+  "visibility": {
+    "warning": [
+      false
+    ],
+    "apr": [
+      false
+    ],
+    "trigger": [
+      false
+    ]
+  },
+  "sample_fps": 0.0,
+  "note": "4 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 87.5% of the 'apr' region changed from the approved master (threshold 2%).\n- R5 (COBS 4.12A.36R): Warning presentation fails on: border.\n  Caveat: bold not measurable\n  Caveat: underline not measurable\n- R7 (COBS 4.12A (prominence guidance)): Warning text is 24px against body copy at 27px — smaller than the surrounding copy.\n- R12 (FG24/1 para 1.5): 411 pixels of the 'warning' fall inside the reels interface overlay zone, where platform chrome can obscure them.\n  Caveat: Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 4.23
+}

@@ -1,0 +1,16 @@
+# Streamlit Community Cloud picks this up automatically.
+[theme]
+base = "dark"
+primaryColor = "#e5484d"          # one accent colour, reserved for failures
+backgroundColor = "#0e1117"
+secondaryBackgroundColor = "#1a1d26"
+textColor = "#e8eaed"
+font = "sans serif"
+
+[server]
+headless = true
+enableCORS = false
+enableXsrfProtection = true
+
+[browser]
+gatherUsageStats = false

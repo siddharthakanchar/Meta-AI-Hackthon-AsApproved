@@ -318,7 +318,20 @@ def write_report(reports: list[BaselineReport], out_path: Path, labels: dict) ->
         "blocks compliant ads gets switched off, so it is reported beside recall rather than "
         "below it.",
         "",
-        "## Per-rule detection",
+        "### Reading this table honestly",
+        "",
+        "A pixel diff scores close to the full pipeline on *variant-level detection*, and "
+        "that is a real result, not a flaw in the baseline. The question it answers — "
+        "\"did something change?\" — is the easy one, and almost any edit to a claim region "
+        "trips it.",
+        "",
+        "It is also not the question a compliance officer can act on. They need to know "
+        "**which rule broke, by how much, against which threshold, and with which frame as "
+        "evidence** — because that is what goes in the record and what a regulator asks "
+        "about. The per-rule table below is where the two separate: B1 can only ever "
+        "assert R1, so every other rule is a miss it cannot even attempt.",
+        "",
+        "## Per-rule attribution",
         "",
     ]
     for r in reports:

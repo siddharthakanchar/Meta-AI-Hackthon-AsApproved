@@ -1,0 +1,386 @@
+{
+  "variant_id": "kestrel_crypto_01__v2_background_hue_shift",
+  "master_id": "kestrel_crypto_01",
+  "variant_sha256": "e4853c30e03e35717561cddcc35f2ef0dc0fd1730457edcfcc392094fe0f236b",
+  "region_source": "template_ncc",
+  "text_source": "ocr",
+  "sampled_fps": 5,
+  "frame_count": 1,
+  "summary": {
+    "fail": 0,
+    "blocking": 0,
+    "pass": 7,
+    "inconclusive": 1,
+    "not_applicable": 5,
+    "failed_rules": [],
+    "inconclusive_rules": [
+      "R2"
+    ]
+  },
+  "findings": [
+    {
+      "rule_id": "R1",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "review",
+      "citation": "FG24/1 para 4.14",
+      "detail": "Largest change inside a claim region was 0.0% ('warning'), within the 2% threshold.",
+      "measured": 0,
+      "measured_display": "0.0%",
+      "threshold": 200,
+      "threshold_display": "2%",
+      "units": "fraction_bp",
+      "evidence": {
+        "region": "warning",
+        "per_region_bp": {
+          "warning": 0,
+          "risk_note": 0,
+          "trigger": 0
+        }
+      },
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R2",
+      "rulebook_version": "uk_v1",
+      "status": "inconclusive",
+      "severity": "block",
+      "citation": "FG24/1 para 4.14",
+      "detail": "No enhancement settings were recorded at approval, so drift cannot be computed.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [
+        "no approval-time settings snapshot"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R3",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "block",
+      "citation": "COBS 4.12A.38R",
+      "detail": "The warning is present and fully within frame.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R4",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "block",
+      "citation": "FG24/1 Table 1",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": 9800,
+      "threshold_display": "98%",
+      "units": "fraction_bp",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R5",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "review",
+      "citation": "COBS 4.12A.36R",
+      "detail": "Measured checks pass (border); could not measure: bold, underline.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {
+        "variant_box": [
+          50,
+          474,
+          619,
+          231
+        ]
+      },
+      "sub_results": {
+        "border": "pass",
+        "bold": "inconclusive",
+        "underline": "inconclusive"
+      },
+      "caveats": [
+        "bold not measurable",
+        "underline not measurable"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R6",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "review",
+      "citation": "COBS 4.12A (prominence and legibility)",
+      "detail": "Warning text contrast is 19.80:1.",
+      "measured": 1980,
+      "measured_display": "19.80:1",
+      "threshold": 450,
+      "threshold_display": "4.5:1",
+      "units": "ratio_x100",
+      "evidence": {
+        "variant_box": [
+          50,
+          474,
+          619,
+          231
+        ]
+      },
+      "sub_results": {},
+      "caveats": [
+        "4.5:1 is an engineering proxy for legibility (WCAG AA), not a figure the FCA prescribes."
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R7",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "review",
+      "citation": "COBS 4.12A (prominence guidance)",
+      "detail": "Warning text is 30px against body copy at 21px.",
+      "measured": 30,
+      "measured_display": "30px",
+      "threshold": 21,
+      "threshold_display": "21px",
+      "units": "none",
+      "evidence": {
+        "warning_px": 30,
+        "body_px": 21
+      },
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R8",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "block",
+      "citation": "CONC 3.5.7R",
+      "detail": "Not a consumer-credit promotion, so no representative APR applies.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R9",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "review",
+      "citation": "CONC 3.5.7R (as applied in ASA / Clearcast practice)",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R10",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "review",
+      "citation": "CONC 3.5.5R",
+      "detail": "Not a consumer-credit promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R11",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "block",
+      "citation": "COBS 4.12A.11R",
+      "detail": "The warning matches the prescribed wording for this investment type (100% similarity).",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {
+        "investment_type": "cryptoassets",
+        "observed": "Don't invest unless you're prepared to lose all the money you invest. This is a high-risk investment and you should not expect to be protected if something goes wrong.",
+        "prescribed": "Don't invest unless you're prepared to lose all the money you invest. This is a high-risk investment and you should not expect to be protected if something goes wrong.",
+        "similarity_pct": 100,
+        "text_source": "ocr"
+      },
+      "sub_results": {},
+      "caveats": [
+        "Warning text was read by OCR, which mis-renders characters and spacing; comparison uses a calibrated similarity band, not exact equality."
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R12",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "block",
+      "citation": "FG24/1 para 1.5",
+      "detail": "No part of the warning or APR falls inside the reels overlay zone.",
+      "measured": 0,
+      "measured_display": "0px",
+      "threshold": 0,
+      "threshold_display": "0",
+      "units": "count",
+      "evidence": {
+        "placement": "reels",
+        "per_region_px": {
+          "warning": 0,
+          "risk_note": 0
+        }
+      },
+      "sub_results": {},
+      "caveats": [
+        "Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach."
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "B1",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "info",
+      "citation": "Clearcast guidance (UK TV clearance)",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": true,
+      "not_legal_advice": true
+    }
+  ],
+  "notes": [],
+  "label": {
+    "benign": true,
+    "transform": "background_hue_shift",
+    "enhancement": "image_background_gen",
+    "description": "Background recoloured; claim and warning regions untouched.",
+    "violated_rules": [],
+    "requires_audio": false
+  },
+  "master": {
+    "id": "kestrel_crypto_01",
+    "placement": "reels",
+    "investment_type": "cryptoassets",
+    "kind": "still",
+    "regions": {
+      "body": [
+        50,
+        398,
+        620,
+        18
+      ],
+      "headline": [
+        50,
+        268,
+        620,
+        31
+      ],
+      "logo": [
+        50,
+        228,
+        149,
+        29
+      ],
+      "risk_note": [
+        50,
+        354,
+        221,
+        40
+      ],
+      "small_print": [
+        50,
+        717,
+        620,
+        12
+      ],
+      "trigger": [
+        50,
+        310,
+        227,
+        40
+      ],
+      "warning": [
+        50,
+        474,
+        620,
+        232
+      ]
+    }
+  },
+  "previews": {
+    "master": "kestrel_crypto_01__v2_background_hue_shift_master.jpg",
+    "variant": "kestrel_crypto_01__v2_background_hue_shift_variant.jpg",
+    "heat": "kestrel_crypto_01__v2_background_hue_shift_heat.jpg",
+    "annotated": "kestrel_crypto_01__v2_background_hue_shift_annotated.jpg"
+  },
+  "visibility": {
+    "warning": [
+      true
+    ],
+    "risk_note": [
+      true
+    ],
+    "trigger": [
+      true
+    ]
+  },
+  "sample_fps": 0.0,
+  "note": "No rule in rulebook uk_v1 failed for this variant.\n1 rule(s) could not be assessed: R2. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 2.47
+}

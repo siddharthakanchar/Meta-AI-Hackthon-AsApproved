@@ -1,0 +1,386 @@
+{
+  "variant_id": "northfield_card_02__v0_warning_into_overlay_zone",
+  "master_id": "northfield_card_02",
+  "variant_sha256": "5f6cf7d7d8136dc97247ddc2005d9ae50ea6529baf161f3330ccb17e4b283f2a",
+  "region_source": "template_ncc",
+  "text_source": "ocr",
+  "sampled_fps": 5,
+  "frame_count": 1,
+  "summary": {
+    "fail": 3,
+    "blocking": 1,
+    "pass": 3,
+    "inconclusive": 2,
+    "not_applicable": 5,
+    "failed_rules": [
+      "R1",
+      "R7",
+      "R12"
+    ],
+    "inconclusive_rules": [
+      "R2",
+      "R10"
+    ]
+  },
+  "findings": [
+    {
+      "rule_id": "R1",
+      "rulebook_version": "uk_v1",
+      "status": "fail",
+      "severity": "review",
+      "citation": "FG24/1 para 4.14",
+      "detail": "73.6% of the 'apr' region changed from the approved master (threshold 2%).",
+      "measured": 7359,
+      "measured_display": "73.6%",
+      "threshold": 200,
+      "threshold_display": "2%",
+      "units": "fraction_bp",
+      "evidence": {
+        "region": "apr",
+        "per_region_bp": {
+          "warning": 9,
+          "apr": 7359,
+          "trigger": 6702
+        }
+      },
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R2",
+      "rulebook_version": "uk_v1",
+      "status": "inconclusive",
+      "severity": "block",
+      "citation": "FG24/1 para 4.14",
+      "detail": "No enhancement settings were recorded at approval, so drift cannot be computed.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [
+        "no approval-time settings snapshot"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R3",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "block",
+      "citation": "COBS 4.12A.38R",
+      "detail": "The warning is present and fully within frame.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R4",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "block",
+      "citation": "FG24/1 Table 1",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": 9800,
+      "threshold_display": "98%",
+      "units": "fraction_bp",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R5",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "review",
+      "citation": "COBS 4.12A.36R",
+      "detail": "Measured checks pass (border); could not measure: bold, underline.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {
+        "variant_box": [
+          50,
+          877,
+          619,
+          246
+        ]
+      },
+      "sub_results": {
+        "border": "pass",
+        "bold": "inconclusive",
+        "underline": "inconclusive"
+      },
+      "caveats": [
+        "bold not measurable",
+        "underline not measurable"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R6",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "review",
+      "citation": "COBS 4.12A (prominence and legibility)",
+      "detail": "Warning text contrast is 19.80:1.",
+      "measured": 1980,
+      "measured_display": "19.80:1",
+      "threshold": 450,
+      "threshold_display": "4.5:1",
+      "units": "ratio_x100",
+      "evidence": {
+        "variant_box": [
+          50,
+          877,
+          619,
+          246
+        ]
+      },
+      "sub_results": {},
+      "caveats": [
+        "4.5:1 is an engineering proxy for legibility (WCAG AA), not a figure the FCA prescribes."
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R7",
+      "rulebook_version": "uk_v1",
+      "status": "fail",
+      "severity": "review",
+      "citation": "COBS 4.12A (prominence guidance)",
+      "detail": "Warning text is 32px against body copy at 36px — smaller than the surrounding copy.",
+      "measured": 32,
+      "measured_display": "32px",
+      "threshold": 36,
+      "threshold_display": "36px",
+      "units": "none",
+      "evidence": {
+        "warning_px": 32,
+        "body_px": 36
+      },
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R8",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "block",
+      "citation": "CONC 3.5.7R",
+      "detail": "No trigger feature present.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R9",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "review",
+      "citation": "CONC 3.5.7R (as applied in ASA / Clearcast practice)",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R10",
+      "rulebook_version": "uk_v1",
+      "status": "inconclusive",
+      "severity": "review",
+      "citation": "CONC 3.5.5R",
+      "detail": "Claim extraction did not establish whether a cost-of-credit figure or a representative example is present.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [
+        "claims not extracted"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R11",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "block",
+      "citation": "COBS 4.12A.11R",
+      "detail": "Not a high-risk investment promotion, so no prescribed wording applies.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R12",
+      "rulebook_version": "uk_v1",
+      "status": "fail",
+      "severity": "block",
+      "citation": "FG24/1 para 1.5",
+      "detail": "61,281 pixels of the 'warning' fall inside the stories interface overlay zone, where platform chrome can obscure them.",
+      "measured": 61281,
+      "measured_display": "61,281px",
+      "threshold": 0,
+      "threshold_display": "0",
+      "units": "count",
+      "evidence": {
+        "placement": "stories",
+        "per_region_px": {
+          "warning": 61281
+        }
+      },
+      "sub_results": {},
+      "caveats": [
+        "Safe-zone figures for 'stories' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach."
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "B1",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "info",
+      "citation": "Clearcast guidance (UK TV clearance)",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": true,
+      "not_legal_advice": true
+    }
+  ],
+  "notes": [],
+  "label": {
+    "benign": false,
+    "transform": "warning_into_overlay_zone",
+    "enhancement": "adapt_to_placement",
+    "description": "Warning repositioned under the platform's caption and CTA block.",
+    "violated_rules": [
+      "R12"
+    ],
+    "requires_audio": false
+  },
+  "master": {
+    "id": "northfield_card_02",
+    "placement": "stories",
+    "investment_type": null,
+    "kind": "still",
+    "regions": {
+      "apr": [
+        50,
+        465,
+        613,
+        43
+      ],
+      "body": [
+        50,
+        512,
+        620,
+        58
+      ],
+      "headline": [
+        50,
+        300,
+        620,
+        100
+      ],
+      "logo": [
+        50,
+        235,
+        275,
+        47
+      ],
+      "small_print": [
+        50,
+        965,
+        620,
+        20
+      ],
+      "trigger": [
+        50,
+        418,
+        300,
+        43
+      ],
+      "warning": [
+        50,
+        700,
+        620,
+        247
+      ]
+    }
+  },
+  "previews": {
+    "master": "northfield_card_02__v0_warning_into_overlay_zone_master.jpg",
+    "variant": "northfield_card_02__v0_warning_into_overlay_zone_variant.jpg",
+    "heat": "northfield_card_02__v0_warning_into_overlay_zone_heat.jpg",
+    "annotated": "northfield_card_02__v0_warning_into_overlay_zone_annotated.jpg"
+  },
+  "visibility": {
+    "warning": [
+      true
+    ],
+    "apr": [
+      false
+    ],
+    "trigger": [
+      false
+    ]
+  },
+  "sample_fps": 0.0,
+  "note": "3 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 73.6% of the 'apr' region changed from the approved master (threshold 2%).\n- R7 (COBS 4.12A (prominence guidance)): Warning text is 32px against body copy at 36px — smaller than the surrounding copy.\n- R12 (FG24/1 para 1.5): 61,281 pixels of the 'warning' fall inside the stories interface overlay zone, where platform chrome can obscure them.\n  Caveat: Safe-zone figures for 'stories' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 3.14
+}

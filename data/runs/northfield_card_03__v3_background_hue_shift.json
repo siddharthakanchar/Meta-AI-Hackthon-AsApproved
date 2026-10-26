@@ -1,0 +1,381 @@
+{
+  "variant_id": "northfield_card_03__v3_background_hue_shift",
+  "master_id": "northfield_card_03",
+  "variant_sha256": "2c029c12ceaa8bf0f67345fa244e81928667c147d9be5ce0d3ef2b314e7bd77b",
+  "region_source": "template_ncc",
+  "text_source": "ocr",
+  "sampled_fps": 5,
+  "frame_count": 1,
+  "summary": {
+    "fail": 0,
+    "blocking": 0,
+    "pass": 7,
+    "inconclusive": 2,
+    "not_applicable": 4,
+    "failed_rules": [],
+    "inconclusive_rules": [
+      "R2",
+      "R10"
+    ]
+  },
+  "findings": [
+    {
+      "rule_id": "R1",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "review",
+      "citation": "FG24/1 para 4.14",
+      "detail": "Largest change inside a claim region was 0.0% ('warning'), within the 2% threshold.",
+      "measured": 0,
+      "measured_display": "0.0%",
+      "threshold": 200,
+      "threshold_display": "2%",
+      "units": "fraction_bp",
+      "evidence": {
+        "region": "warning",
+        "per_region_bp": {
+          "warning": 0,
+          "apr": 0,
+          "trigger": 0
+        }
+      },
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R2",
+      "rulebook_version": "uk_v1",
+      "status": "inconclusive",
+      "severity": "block",
+      "citation": "FG24/1 para 4.14",
+      "detail": "No enhancement settings were recorded at approval, so drift cannot be computed.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [
+        "no approval-time settings snapshot"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R3",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "block",
+      "citation": "COBS 4.12A.38R",
+      "detail": "The warning is present and fully within frame.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R4",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "block",
+      "citation": "FG24/1 Table 1",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": 9800,
+      "threshold_display": "98%",
+      "units": "fraction_bp",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R5",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "review",
+      "citation": "COBS 4.12A.36R",
+      "detail": "Measured checks pass (border); could not measure: bold, underline.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {
+        "variant_box": [
+          50,
+          511,
+          619,
+          153
+        ]
+      },
+      "sub_results": {
+        "border": "pass",
+        "bold": "inconclusive",
+        "underline": "inconclusive"
+      },
+      "caveats": [
+        "bold not measurable",
+        "underline not measurable"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R6",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "review",
+      "citation": "COBS 4.12A (prominence and legibility)",
+      "detail": "Warning text contrast is 19.80:1.",
+      "measured": 1980,
+      "measured_display": "19.80:1",
+      "threshold": 450,
+      "threshold_display": "4.5:1",
+      "units": "ratio_x100",
+      "evidence": {
+        "variant_box": [
+          50,
+          511,
+          619,
+          153
+        ]
+      },
+      "sub_results": {},
+      "caveats": [
+        "4.5:1 is an engineering proxy for legibility (WCAG AA), not a figure the FCA prescribes."
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R7",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "review",
+      "citation": "COBS 4.12A (prominence guidance)",
+      "detail": "Warning text is 24px against body copy at 24px.",
+      "measured": 24,
+      "measured_display": "24px",
+      "threshold": 24,
+      "threshold_display": "24px",
+      "units": "none",
+      "evidence": {
+        "warning_px": 24,
+        "body_px": 24
+      },
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R8",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "block",
+      "citation": "CONC 3.5.7R",
+      "detail": "Representative APR is at least as prominent as its trigger (39px vs 35px).",
+      "measured": 39,
+      "measured_display": "39px",
+      "threshold": 35,
+      "threshold_display": "35px",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R9",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "review",
+      "citation": "CONC 3.5.7R (as applied in ASA / Clearcast practice)",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R10",
+      "rulebook_version": "uk_v1",
+      "status": "inconclusive",
+      "severity": "review",
+      "citation": "CONC 3.5.5R",
+      "detail": "Claim extraction did not establish whether a cost-of-credit figure or a representative example is present.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [
+        "claims not extracted"
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R11",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "block",
+      "citation": "COBS 4.12A.11R",
+      "detail": "Not a high-risk investment promotion, so no prescribed wording applies.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "R12",
+      "rulebook_version": "uk_v1",
+      "status": "pass",
+      "severity": "block",
+      "citation": "FG24/1 para 1.5",
+      "detail": "No part of the warning or APR falls inside the feed overlay zone.",
+      "measured": 0,
+      "measured_display": "0px",
+      "threshold": 0,
+      "threshold_display": "0",
+      "units": "count",
+      "evidence": {
+        "placement": "feed",
+        "per_region_px": {
+          "warning": 0,
+          "apr": 0
+        }
+      },
+      "sub_results": {},
+      "caveats": [
+        "Safe-zone figures for 'feed' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach."
+      ],
+      "benchmark_only": false,
+      "not_legal_advice": true
+    },
+    {
+      "rule_id": "B1",
+      "rulebook_version": "uk_v1",
+      "status": "not_applicable",
+      "severity": "info",
+      "citation": "Clearcast guidance (UK TV clearance)",
+      "detail": "Not a video promotion.",
+      "measured": null,
+      "measured_display": "",
+      "threshold": null,
+      "threshold_display": "—",
+      "units": "none",
+      "evidence": {},
+      "sub_results": {},
+      "caveats": [],
+      "benchmark_only": true,
+      "not_legal_advice": true
+    }
+  ],
+  "notes": [],
+  "label": {
+    "benign": true,
+    "transform": "background_hue_shift",
+    "enhancement": "image_background_gen",
+    "description": "Background recoloured; claim and warning regions untouched.",
+    "violated_rules": [],
+    "requires_audio": false
+  },
+  "master": {
+    "id": "northfield_card_03",
+    "placement": "feed",
+    "investment_type": null,
+    "kind": "still",
+    "regions": {
+      "apr": [
+        50,
+        194,
+        613,
+        43
+      ],
+      "body": [
+        50,
+        241,
+        620,
+        19
+      ],
+      "headline": [
+        50,
+        93,
+        620,
+        34
+      ],
+      "logo": [
+        50,
+        41,
+        182,
+        32
+      ],
+      "small_print": [
+        50,
+        685,
+        620,
+        13
+      ],
+      "trigger": [
+        50,
+        147,
+        300,
+        43
+      ],
+      "warning": [
+        50,
+        511,
+        620,
+        154
+      ]
+    }
+  },
+  "previews": {
+    "master": "northfield_card_03__v3_background_hue_shift_master.jpg",
+    "variant": "northfield_card_03__v3_background_hue_shift_variant.jpg",
+    "heat": "northfield_card_03__v3_background_hue_shift_heat.jpg",
+    "annotated": "northfield_card_03__v3_background_hue_shift_annotated.jpg"
+  },
+  "visibility": {
+    "warning": [
+      true
+    ],
+    "apr": [
+      true
+    ],
+    "trigger": [
+      true
+    ]
+  },
+  "sample_fps": 0.0,
+  "note": "No rule in rulebook uk_v1 failed for this variant.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 1.69
+}

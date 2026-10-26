@@ -138,8 +138,8 @@ measure whether it does.
 
 | Baseline | Precision | Recall | F1 | False blocks | s/variant |
 |---|---|---|---|---|---|
-| Pixel diff alone | 95% | 95% | 95% | 1/23 | 0.4 |
-| **AsApproved** | 100% | 100% | 100% | 0/23 | 4.3 |
+| Pixel diff alone | 95% | 95% | 95% | 1/23 | 0.7 |
+| **AsApproved** | 100% | 100% | 100% | 0/23 | 4.6 |
 | Muse Spark alone | not run — needs an API key | | | | |
 
 45 of 48 variants scored; 3 need
@@ -157,6 +157,8 @@ and it should be read that way.
 seeded edit changes a claim region — so it carries most of the variant-level
 recall. Only 3 variants were *designed* to test it. The label file records
 both `intended_rules` and `violated_rules`.
+
+**Deterministic.** Two independent benchmark runs produced identical TP, FP and FN on every rule; only wall-clock time differed. The pipeline has no RNG and no model call, so a judge re-running it gets these exact figures.
 
 **Reproducible.** Regenerating the dataset from a clean clone reproduces the
 committed label digest `d18da5ad90127363…` exactly, so a judge who rebuilds is

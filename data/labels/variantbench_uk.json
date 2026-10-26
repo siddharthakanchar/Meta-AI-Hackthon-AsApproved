@@ -2,10 +2,4599 @@
   "dataset": "VariantBench-UK",
   "source": "SIMULATED",
   "rulebook_version": "uk_v1",
-  "count": 4,
-  "violations": 2,
-  "benign": 2,
+  "count": 48,
+  "violations": 24,
+  "benign": 24,
   "labels": [
+    {
+      "variant_id": "brightwell_loans_01__v0_warning_shrunk",
+      "master_id": "brightwell_loans_01",
+      "source": "SIMULATED",
+      "transform": "warning_shrunk",
+      "enhancement": "text_optimizations",
+      "description": "Warning text reflowed smaller than the body copy.",
+      "benign": false,
+      "violated_rules": [
+        "R7"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "reels",
+      "investment_type": null,
+      "warning_text": "Representative example: borrowing £5,000 over 36 months at 9.9% p.a. fixed. Monthly repayment £160.64. Total amount payable £5,783.04. Representative 9.9% APR.",
+      "master_regions": {
+        "apr": [
+          50,
+          441,
+          532,
+          54
+        ],
+        "body": [
+          50,
+          500,
+          620,
+          23
+        ],
+        "headline": [
+          50,
+          285,
+          620,
+          82
+        ],
+        "logo": [
+          50,
+          232,
+          236,
+          38
+        ],
+        "small_print": [
+          50,
+          713,
+          620,
+          16
+        ],
+        "trigger": [
+          50,
+          382,
+          395,
+          54
+        ],
+        "warning": [
+          50,
+          581,
+          620,
+          117
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          441,
+          532,
+          54
+        ],
+        "trigger": [
+          50,
+          382,
+          395,
+          54
+        ],
+        "warning": [
+          50,
+          581,
+          620,
+          117
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "brightwell_loans_01__v0_warning_shrunk.png",
+      "sha256": "2d9cd66bb45d4bbea6ac993cdca98625971fa7f3eed1e7bbd47ed03a1a58b297"
+    },
+    {
+      "variant_id": "brightwell_loans_01__v1_warning_into_overlay_zone",
+      "master_id": "brightwell_loans_01",
+      "source": "SIMULATED",
+      "transform": "warning_into_overlay_zone",
+      "enhancement": "adapt_to_placement",
+      "description": "Warning repositioned under the platform's caption and CTA block.",
+      "benign": false,
+      "violated_rules": [
+        "R12"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "FG24/1 para 1.5 — obscured by a design feature of the platform.",
+      "kind": "still",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "reels",
+      "investment_type": null,
+      "warning_text": "Representative example: borrowing £5,000 over 36 months at 9.9% p.a. fixed. Monthly repayment £160.64. Total amount payable £5,783.04. Representative 9.9% APR.",
+      "master_regions": {
+        "apr": [
+          50,
+          354,
+          399,
+          40
+        ],
+        "body": [
+          50,
+          398,
+          620,
+          18
+        ],
+        "headline": [
+          50,
+          268,
+          620,
+          31
+        ],
+        "logo": [
+          50,
+          228,
+          174,
+          29
+        ],
+        "small_print": [
+          50,
+          927,
+          620,
+          12
+        ],
+        "trigger": [
+          50,
+          310,
+          298,
+          40
+        ],
+        "warning": [
+          50,
+          684,
+          620,
+          232
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          354,
+          399,
+          40
+        ],
+        "trigger": [
+          50,
+          310,
+          298,
+          40
+        ],
+        "warning": [
+          50,
+          684,
+          620,
+          232
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "brightwell_loans_01__v1_warning_into_overlay_zone.png",
+      "sha256": "3dffc4abcaf8cc2ecbaa6c4d61ad9a469ee6aa695b7c399c1e2f816d7393054d"
+    },
+    {
+      "variant_id": "brightwell_loans_01__v2_background_hue_shift",
+      "master_id": "brightwell_loans_01",
+      "source": "SIMULATED",
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "description": "Background recoloured; claim and warning regions untouched.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "reels",
+      "investment_type": null,
+      "warning_text": "Representative example: borrowing £5,000 over 36 months at 9.9% p.a. fixed. Monthly repayment £160.64. Total amount payable £5,783.04. Representative 9.9% APR.",
+      "master_regions": {
+        "apr": [
+          50,
+          354,
+          399,
+          40
+        ],
+        "body": [
+          50,
+          398,
+          620,
+          18
+        ],
+        "headline": [
+          50,
+          268,
+          620,
+          31
+        ],
+        "logo": [
+          50,
+          228,
+          174,
+          29
+        ],
+        "small_print": [
+          50,
+          717,
+          620,
+          12
+        ],
+        "trigger": [
+          50,
+          310,
+          298,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          354,
+          399,
+          40
+        ],
+        "trigger": [
+          50,
+          310,
+          298,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "brightwell_loans_01__v2_background_hue_shift.png",
+      "sha256": "0f109cf1d18c4b3254993eb8d72da3c60eb0f022fff95b827aba878f4fb0a09d"
+    },
+    {
+      "variant_id": "brightwell_loans_01__v3_brightness_lift",
+      "master_id": "brightwell_loans_01",
+      "source": "SIMULATED",
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "description": "Global brightness and contrast lift.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "reels",
+      "investment_type": null,
+      "warning_text": "Representative example: borrowing £5,000 over 36 months at 9.9% p.a. fixed. Monthly repayment £160.64. Total amount payable £5,783.04. Representative 9.9% APR.",
+      "master_regions": {
+        "apr": [
+          50,
+          354,
+          399,
+          40
+        ],
+        "body": [
+          50,
+          398,
+          620,
+          18
+        ],
+        "headline": [
+          50,
+          268,
+          620,
+          31
+        ],
+        "logo": [
+          50,
+          228,
+          174,
+          29
+        ],
+        "small_print": [
+          50,
+          717,
+          620,
+          12
+        ],
+        "trigger": [
+          50,
+          310,
+          298,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          354,
+          399,
+          40
+        ],
+        "trigger": [
+          50,
+          310,
+          298,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "brightwell_loans_01__v3_brightness_lift.png",
+      "sha256": "25b73f2dc06cee0407778db0da64ba9ac7a53de36474dd9e84fcf89637817be9"
+    },
+    {
+      "variant_id": "brightwell_loans_02__v0_warning_low_contrast",
+      "master_id": "brightwell_loans_02",
+      "source": "SIMULATED",
+      "transform": "warning_low_contrast",
+      "enhancement": "image_background_gen",
+      "description": "Background generation leaves the warning grey-on-grey.",
+      "benign": false,
+      "violated_rules": [
+        "R6"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: borrowing £5,000 over 36 months at 9.9% p.a. fixed. Monthly repayment £160.64. Total amount payable £5,783.04. Representative 9.9% APR.",
+      "master_regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          198,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          354,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          354,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "brightwell_loans_02__v0_warning_low_contrast.png",
+      "sha256": "2172718204327b49b4a1b18ffb4f6117e46429bceb9aab81967c32cca7ee646f"
+    },
+    {
+      "variant_id": "brightwell_loans_02__v1_representative_example_removed",
+      "master_id": "brightwell_loans_02",
+      "source": "SIMULATED",
+      "transform": "representative_example_removed",
+      "enhancement": "text_optimizations",
+      "description": "Cost-of-credit figures remain; the representative example is dropped.",
+      "benign": false,
+      "violated_rules": [
+        "R10",
+        "R3"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: borrowing £5,000 over 36 months at 9.9% p.a. fixed. Monthly repayment £160.64. Total amount payable £5,783.04. Representative 9.9% APR.",
+      "master_regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          198,
+          32
+        ],
+        "small_print": [
+          50,
+          665,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          354,
+          44
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          354,
+          44
+        ],
+        "warning": null
+      },
+      "visible_frames": {
+        "warning": [],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 0,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "brightwell_loans_02__v1_representative_example_removed.png",
+      "sha256": "01476c6fbb062f3ef6a5f805307a546894688ab478bf584679845ca35d7322d4"
+    },
+    {
+      "variant_id": "brightwell_loans_02__v2_background_hue_shift",
+      "master_id": "brightwell_loans_02",
+      "source": "SIMULATED",
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "description": "Background recoloured; claim and warning regions untouched.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: borrowing £5,000 over 36 months at 9.9% p.a. fixed. Monthly repayment £160.64. Total amount payable £5,783.04. Representative 9.9% APR.",
+      "master_regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          198,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          354,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          354,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "brightwell_loans_02__v2_background_hue_shift.png",
+      "sha256": "cd11062b08015f2349ce903ac2b1ad6de0b12c09bfdfa276a390dd4c22ca4afb"
+    },
+    {
+      "variant_id": "brightwell_loans_02__v3_brightness_lift",
+      "master_id": "brightwell_loans_02",
+      "source": "SIMULATED",
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "description": "Global brightness and contrast lift.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: borrowing £5,000 over 36 months at 9.9% p.a. fixed. Monthly repayment £160.64. Total amount payable £5,783.04. Representative 9.9% APR.",
+      "master_regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          198,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          354,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          354,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "brightwell_loans_02__v3_brightness_lift.png",
+      "sha256": "d7299311479a093a9ffa14cd6d6e67f6d749daa0f1784baf99536b91d8f5d2df"
+    },
+    {
+      "variant_id": "brightwell_loans_v1__v0_warning_border_removed",
+      "master_id": "brightwell_loans_v1",
+      "source": "SIMULATED",
+      "transform": "warning_border_removed",
+      "enhancement": "text_optimizations",
+      "description": "Warning redrawn without its own border.",
+      "benign": false,
+      "violated_rules": [
+        "R5"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "Removes two of R5's three sub-checks; bold is retained.",
+      "kind": "video",
+      "size": [
+        720,
+        720
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: borrowing £5,000 over 36 months at 9.9% p.a. fixed. Monthly repayment £160.64. Total amount payable £5,783.04. Representative 9.9% APR.",
+      "master_regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          198,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          328,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          328,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "brightwell_loans_v1__v0_warning_border_removed.mp4",
+      "sha256": "05888fec2fc8d578b2c681451046fdfe68bed8d16cdbc1bb56f7588e7da2df51"
+    },
+    {
+      "variant_id": "brightwell_loans_v1__v1_voiceover_drops_apr",
+      "master_id": "brightwell_loans_v1",
+      "source": "SIMULATED",
+      "transform": "voiceover_drops_apr",
+      "enhancement": "translate_voiceover",
+      "description": "Voiceover states the trigger but no longer states the APR.",
+      "benign": false,
+      "violated_rules": [
+        "R9"
+      ],
+      "touched_regions": [],
+      "requires_audio": true,
+      "notes": "Audio-only: visually identical to the master by design.",
+      "kind": "video",
+      "size": [
+        720,
+        720
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: borrowing £5,000 over 36 months at 9.9% p.a. fixed. Monthly repayment £160.64. Total amount payable £5,783.04. Representative 9.9% APR.",
+      "master_regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          198,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          328,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          328,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "brightwell_loans_v1__v1_voiceover_drops_apr.mp4",
+      "sha256": "0682c31c9947b0f734d13c3a8b143e442f05f3434fac5803db6e8ca6dd965d6b"
+    },
+    {
+      "variant_id": "brightwell_loans_v1__v2_background_hue_shift",
+      "master_id": "brightwell_loans_v1",
+      "source": "SIMULATED",
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "description": "Background recoloured; claim and warning regions untouched.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "video",
+      "size": [
+        720,
+        720
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: borrowing £5,000 over 36 months at 9.9% p.a. fixed. Monthly repayment £160.64. Total amount payable £5,783.04. Representative 9.9% APR.",
+      "master_regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          198,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          328,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          328,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "brightwell_loans_v1__v2_background_hue_shift.mp4",
+      "sha256": "5c74c6626e5c6de89e4e6e71033a6914c6e7857fce46792b0323f98e44c1aeaf"
+    },
+    {
+      "variant_id": "brightwell_loans_v1__v3_brightness_lift",
+      "master_id": "brightwell_loans_v1",
+      "source": "SIMULATED",
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "description": "Global brightness and contrast lift.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "video",
+      "size": [
+        720,
+        720
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: borrowing £5,000 over 36 months at 9.9% p.a. fixed. Monthly repayment £160.64. Total amount payable £5,783.04. Representative 9.9% APR.",
+      "master_regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          198,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          328,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          195,
+          438,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          328,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "brightwell_loans_v1__v3_brightness_lift.mp4",
+      "sha256": "a9beead72268ae9e6739539bcbebd65b9f3b0ef337f9bcd96bf23a048ab06331"
+    },
+    {
+      "variant_id": "kestrel_crypto_01__v0_expand_pushes_warning_offframe",
+      "master_id": "kestrel_crypto_01",
+      "source": "SIMULATED",
+      "transform": "expand_pushes_warning_offframe",
+      "enhancement": "image_background_gen",
+      "description": "Canvas expanded; content pushed until the warning leaves the frame.",
+      "benign": false,
+      "violated_rules": [
+        "R1",
+        "R3"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "reels",
+      "investment_type": "cryptoassets",
+      "warning_text": "Don't invest unless you're prepared to lose all the money you invest. This is a high-risk investment and you should not expect to be protected if something goes wrong.",
+      "master_regions": {
+        "body": [
+          50,
+          398,
+          620,
+          18
+        ],
+        "headline": [
+          50,
+          268,
+          620,
+          31
+        ],
+        "logo": [
+          50,
+          228,
+          149,
+          29
+        ],
+        "risk_note": [
+          50,
+          354,
+          221,
+          40
+        ],
+        "small_print": [
+          50,
+          717,
+          620,
+          12
+        ],
+        "trigger": [
+          50,
+          310,
+          227,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          143,
+          1013,
+          577,
+          115
+        ],
+        "trigger": [
+          143,
+          887,
+          577,
+          115
+        ],
+        "warning": null
+      },
+      "visible_frames": {
+        "warning": [],
+        "risk_note": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 0,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_crypto_01__v0_expand_pushes_warning_offframe.png",
+      "sha256": "55f4e11e8a5486a6b305d032bfd98cbb4296c575840fbda01ea5854fce749969"
+    },
+    {
+      "variant_id": "kestrel_crypto_01__v1_warning_reworded",
+      "master_id": "kestrel_crypto_01",
+      "source": "SIMULATED",
+      "transform": "warning_reworded",
+      "enhancement": "text_translation",
+      "description": "Prescribed wording rewritten into a softer paraphrase.",
+      "benign": false,
+      "violated_rules": [
+        "R11"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "reels",
+      "investment_type": "cryptoassets",
+      "warning_text": "Only invest what you can comfortably afford to lose. Crypto is a high-risk investment and you may not be covered if things go wrong.",
+      "master_regions": {
+        "body": [
+          50,
+          412,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          272,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          229,
+          167,
+          31
+        ],
+        "risk_note": [
+          50,
+          365,
+          236,
+          43
+        ],
+        "small_print": [
+          50,
+          717,
+          620,
+          12
+        ],
+        "trigger": [
+          50,
+          318,
+          242,
+          43
+        ],
+        "warning": [
+          50,
+          499,
+          620,
+          206
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          365,
+          236,
+          43
+        ],
+        "trigger": [
+          50,
+          318,
+          242,
+          43
+        ],
+        "warning": [
+          50,
+          499,
+          620,
+          206
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_crypto_01__v1_warning_reworded.png",
+      "sha256": "52f15c762b65690adce4a9b993f5a15cecf39097df94f275ab365d01b8fdf041"
+    },
+    {
+      "variant_id": "kestrel_crypto_01__v2_background_hue_shift",
+      "master_id": "kestrel_crypto_01",
+      "source": "SIMULATED",
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "description": "Background recoloured; claim and warning regions untouched.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "reels",
+      "investment_type": "cryptoassets",
+      "warning_text": "Don't invest unless you're prepared to lose all the money you invest. This is a high-risk investment and you should not expect to be protected if something goes wrong.",
+      "master_regions": {
+        "body": [
+          50,
+          398,
+          620,
+          18
+        ],
+        "headline": [
+          50,
+          268,
+          620,
+          31
+        ],
+        "logo": [
+          50,
+          228,
+          149,
+          29
+        ],
+        "risk_note": [
+          50,
+          354,
+          221,
+          40
+        ],
+        "small_print": [
+          50,
+          717,
+          620,
+          12
+        ],
+        "trigger": [
+          50,
+          310,
+          227,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          354,
+          221,
+          40
+        ],
+        "trigger": [
+          50,
+          310,
+          227,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_crypto_01__v2_background_hue_shift.png",
+      "sha256": "e4853c30e03e35717561cddcc35f2ef0dc0fd1730457edcfcc392094fe0f236b"
+    },
+    {
+      "variant_id": "kestrel_crypto_01__v3_brightness_lift",
+      "master_id": "kestrel_crypto_01",
+      "source": "SIMULATED",
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "description": "Global brightness and contrast lift.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "reels",
+      "investment_type": "cryptoassets",
+      "warning_text": "Don't invest unless you're prepared to lose all the money you invest. This is a high-risk investment and you should not expect to be protected if something goes wrong.",
+      "master_regions": {
+        "body": [
+          50,
+          398,
+          620,
+          18
+        ],
+        "headline": [
+          50,
+          268,
+          620,
+          31
+        ],
+        "logo": [
+          50,
+          228,
+          149,
+          29
+        ],
+        "risk_note": [
+          50,
+          354,
+          221,
+          40
+        ],
+        "small_print": [
+          50,
+          717,
+          620,
+          12
+        ],
+        "trigger": [
+          50,
+          310,
+          227,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          354,
+          221,
+          40
+        ],
+        "trigger": [
+          50,
+          310,
+          227,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_crypto_01__v3_brightness_lift.png",
+      "sha256": "982000214e8eb40aebb4e0abdbbf7da90c9355f41a621e034228cc5a9ab2c777"
+    },
+    {
+      "variant_id": "kestrel_ltaf_v1__v0_warning_appears_late",
+      "master_id": "kestrel_ltaf_v1",
+      "source": "SIMULATED",
+      "transform": "warning_appears_late",
+      "enhancement": "video_highlights",
+      "description": "Warning is held back until the closing seconds of the clip.",
+      "benign": false,
+      "violated_rules": [
+        "R4"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "FG24/1 Table 1 expects the warning on screen throughout short-form video.",
+      "kind": "video",
+      "size": [
+        720,
+        720
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "feed",
+      "investment_type": "long_term_asset_fund",
+      "warning_text": "This is a high-risk investment, and assets may take a long time to buy and sell. Only invest if you can wait (possibly several years) to get your money back. You do not have protection against poor performance.",
+      "master_regions": {
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          169,
+          32
+        ],
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            270,
+            374
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 2800,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_ltaf_v1__v0_warning_appears_late.mp4",
+      "sha256": "3d0663ac6cdec8eb3dbbee27c8bfc6a81b126ab8531f653d384d5c4ab1eb7f53"
+    },
+    {
+      "variant_id": "kestrel_ltaf_v1__v1_voiceover_drops_apr",
+      "master_id": "kestrel_ltaf_v1",
+      "source": "SIMULATED",
+      "transform": "voiceover_drops_apr",
+      "enhancement": "translate_voiceover",
+      "description": "Voiceover states the trigger but no longer states the APR.",
+      "benign": false,
+      "violated_rules": [
+        "R9"
+      ],
+      "touched_regions": [],
+      "requires_audio": true,
+      "notes": "Audio-only: visually identical to the master by design.",
+      "kind": "video",
+      "size": [
+        720,
+        720
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "feed",
+      "investment_type": "long_term_asset_fund",
+      "warning_text": "This is a high-risk investment, and assets may take a long time to buy and sell. Only invest if you can wait (possibly several years) to get your money back. You do not have protection against poor performance.",
+      "master_regions": {
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          169,
+          32
+        ],
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_ltaf_v1__v1_voiceover_drops_apr.mp4",
+      "sha256": "e86477a7b3d6bb86db358508d1f7f2e729ba3c4bf623455634213b87f2403d5b"
+    },
+    {
+      "variant_id": "kestrel_ltaf_v1__v2_background_hue_shift",
+      "master_id": "kestrel_ltaf_v1",
+      "source": "SIMULATED",
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "description": "Background recoloured; claim and warning regions untouched.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "video",
+      "size": [
+        720,
+        720
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "feed",
+      "investment_type": "long_term_asset_fund",
+      "warning_text": "This is a high-risk investment, and assets may take a long time to buy and sell. Only invest if you can wait (possibly several years) to get your money back. You do not have protection against poor performance.",
+      "master_regions": {
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          169,
+          32
+        ],
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_ltaf_v1__v2_background_hue_shift.mp4",
+      "sha256": "c4be75dcae851356b7ac219a39c475d4eeb9b0e4e4ba3d957b1f6b6fa6e9a785"
+    },
+    {
+      "variant_id": "kestrel_ltaf_v1__v3_brightness_lift",
+      "master_id": "kestrel_ltaf_v1",
+      "source": "SIMULATED",
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "description": "Global brightness and contrast lift.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "video",
+      "size": [
+        720,
+        720
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "feed",
+      "investment_type": "long_term_asset_fund",
+      "warning_text": "This is a high-risk investment, and assets may take a long time to buy and sell. Only invest if you can wait (possibly several years) to get your money back. You do not have protection against poor performance.",
+      "master_regions": {
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          169,
+          32
+        ],
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_ltaf_v1__v3_brightness_lift.mp4",
+      "sha256": "739abaec412b81e36d1fe6ce0d846b646037ec0302bd94e8fc519c6774f026a6"
+    },
+    {
+      "variant_id": "kestrel_nrrs_01__v0_crop_removes_warning",
+      "master_id": "kestrel_nrrs_01",
+      "source": "SIMULATED",
+      "transform": "crop_removes_warning",
+      "enhancement": "adapt_to_placement",
+      "description": "Reframed for a shorter placement; the warning box is cropped away.",
+      "benign": false,
+      "violated_rules": [
+        "R1",
+        "R3"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": "non_readily_realisable_securities",
+      "warning_text": "Don't invest unless you're prepared to lose all the money you invest. This is a high-risk investment and you are unlikely to be protected if something goes wrong.",
+      "master_regions": {
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          169,
+          32
+        ],
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": null
+      },
+      "visible_frames": {
+        "warning": [],
+        "risk_note": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 0,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_nrrs_01__v0_crop_removes_warning.png",
+      "sha256": "8211cf95054c95ccb68cd58c65acb5fdacf5ffa69997d9ec3666154c10e06eea"
+    },
+    {
+      "variant_id": "kestrel_nrrs_01__v1_warning_border_removed",
+      "master_id": "kestrel_nrrs_01",
+      "source": "SIMULATED",
+      "transform": "warning_border_removed",
+      "enhancement": "text_optimizations",
+      "description": "Warning redrawn without its own border.",
+      "benign": false,
+      "violated_rules": [
+        "R5"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "Removes two of R5's three sub-checks; bold is retained.",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": "non_readily_realisable_securities",
+      "warning_text": "Don't invest unless you're prepared to lose all the money you invest. This is a high-risk investment and you are unlikely to be protected if something goes wrong.",
+      "master_regions": {
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          169,
+          32
+        ],
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_nrrs_01__v1_warning_border_removed.png",
+      "sha256": "ee7cc893be63b1cba3fe7642dd8ad2ae99b3e569de0cc9f99737fc121cd54d9d"
+    },
+    {
+      "variant_id": "kestrel_nrrs_01__v2_background_hue_shift",
+      "master_id": "kestrel_nrrs_01",
+      "source": "SIMULATED",
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "description": "Background recoloured; claim and warning regions untouched.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": "non_readily_realisable_securities",
+      "warning_text": "Don't invest unless you're prepared to lose all the money you invest. This is a high-risk investment and you are unlikely to be protected if something goes wrong.",
+      "master_regions": {
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          169,
+          32
+        ],
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_nrrs_01__v2_background_hue_shift.png",
+      "sha256": "e4fb122e054726a9a18a998d651ee7ccd3d40911c7ee84dd82e48ad54757aeb6"
+    },
+    {
+      "variant_id": "kestrel_nrrs_01__v3_brightness_lift",
+      "master_id": "kestrel_nrrs_01",
+      "source": "SIMULATED",
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "description": "Global brightness and contrast lift.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": "non_readily_realisable_securities",
+      "warning_text": "Don't invest unless you're prepared to lose all the money you invest. This is a high-risk investment and you are unlikely to be protected if something goes wrong.",
+      "master_regions": {
+        "body": [
+          50,
+          243,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          169,
+          32
+        ],
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          195,
+          243,
+          44
+        ],
+        "trigger": [
+          50,
+          147,
+          294,
+          44
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_nrrs_01__v3_brightness_lift.png",
+      "sha256": "4a916fea6c2a5f8f9b5d1171c5a98ac782ef8697bd415c5e2cedafae5e143055"
+    },
+    {
+      "variant_id": "kestrel_p2p_v1__v0_warning_reworded",
+      "master_id": "kestrel_p2p_v1",
+      "source": "SIMULATED",
+      "transform": "warning_reworded",
+      "enhancement": "text_translation",
+      "description": "Prescribed wording rewritten into a softer paraphrase.",
+      "benign": false,
+      "violated_rules": [
+        "R11"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "video",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "reels",
+      "investment_type": "p2p_agreements",
+      "warning_text": "Only lend what you can comfortably afford to lose. This is a high-risk investment, your money may be tied up, and you may not be covered if things go wrong.",
+      "master_regions": {
+        "body": [
+          50,
+          398,
+          620,
+          18
+        ],
+        "headline": [
+          50,
+          268,
+          620,
+          31
+        ],
+        "logo": [
+          50,
+          228,
+          149,
+          29
+        ],
+        "risk_note": [
+          50,
+          354,
+          221,
+          40
+        ],
+        "small_print": [
+          50,
+          717,
+          620,
+          12
+        ],
+        "trigger": [
+          50,
+          310,
+          296,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          354,
+          221,
+          40
+        ],
+        "trigger": [
+          50,
+          310,
+          296,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_p2p_v1__v0_warning_reworded.mp4",
+      "sha256": "8a2054c6976594d1ba01f558ff859b247bc6ad9ca709f70002f0b6e31782c373"
+    },
+    {
+      "variant_id": "kestrel_p2p_v1__v1_apr_animates_offscreen",
+      "master_id": "kestrel_p2p_v1",
+      "source": "SIMULATED",
+      "transform": "apr_animates_offscreen",
+      "enhancement": "image_animation",
+      "description": "APR holds for about a second, then slides out of frame for the rest.",
+      "benign": false,
+      "violated_rules": [
+        "R8"
+      ],
+      "touched_regions": [
+        "apr"
+      ],
+      "requires_audio": false,
+      "notes": "The hero case: frame zero previews clean, delivery does not.",
+      "kind": "video",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "reels",
+      "investment_type": "p2p_agreements",
+      "warning_text": "Don't invest unless you're prepared to lose money. This is a high-risk investment. You may not be able to access your money easily and are unlikely to be protected if something goes wrong.",
+      "master_regions": {
+        "body": [
+          50,
+          382,
+          620,
+          16
+        ],
+        "headline": [
+          50,
+          263,
+          620,
+          29
+        ],
+        "logo": [
+          50,
+          227,
+          139,
+          26
+        ],
+        "risk_note": [
+          50,
+          342,
+          203,
+          37
+        ],
+        "small_print": [
+          50,
+          718,
+          620,
+          11
+        ],
+        "trigger": [
+          50,
+          302,
+          271,
+          37
+        ],
+        "warning": [
+          50,
+          496,
+          620,
+          212
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          0,
+          342,
+          36,
+          37
+        ],
+        "trigger": [
+          50,
+          302,
+          271,
+          37
+        ],
+        "warning": [
+          50,
+          496,
+          620,
+          212
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            29
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 800,
+        "trigger": 10000
+      },
+      "file": "kestrel_p2p_v1__v1_apr_animates_offscreen.mp4",
+      "sha256": "c96db39477e6686214bea9f5529fdf3ffe92f1a683a0c7c08772a840ae358700"
+    },
+    {
+      "variant_id": "kestrel_p2p_v1__v2_recompressed",
+      "master_id": "kestrel_p2p_v1",
+      "source": "SIMULATED",
+      "transform": "recompressed",
+      "enhancement": "adapt_to_placement",
+      "description": "Re-encoded at lower quality for delivery.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "video",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "reels",
+      "investment_type": "p2p_agreements",
+      "warning_text": "Don't invest unless you're prepared to lose money. This is a high-risk investment. You may not be able to access your money easily and are unlikely to be protected if something goes wrong.",
+      "master_regions": {
+        "body": [
+          50,
+          382,
+          620,
+          16
+        ],
+        "headline": [
+          50,
+          263,
+          620,
+          29
+        ],
+        "logo": [
+          50,
+          227,
+          139,
+          26
+        ],
+        "risk_note": [
+          50,
+          342,
+          203,
+          37
+        ],
+        "small_print": [
+          50,
+          718,
+          620,
+          11
+        ],
+        "trigger": [
+          50,
+          302,
+          271,
+          37
+        ],
+        "warning": [
+          50,
+          496,
+          620,
+          212
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          342,
+          203,
+          37
+        ],
+        "trigger": [
+          50,
+          302,
+          271,
+          37
+        ],
+        "warning": [
+          50,
+          496,
+          620,
+          212
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_p2p_v1__v2_recompressed.mp4",
+      "sha256": "4933b5c3c2d9ca05e70eeb6cf4ea5ed6bec40f0a2de003c9b82295b6161d4fc5"
+    },
+    {
+      "variant_id": "kestrel_p2p_v1__v3_background_hue_shift",
+      "master_id": "kestrel_p2p_v1",
+      "source": "SIMULATED",
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "description": "Background recoloured; claim and warning regions untouched.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "video",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "reels",
+      "investment_type": "p2p_agreements",
+      "warning_text": "Don't invest unless you're prepared to lose money. This is a high-risk investment. You may not be able to access your money easily and are unlikely to be protected if something goes wrong.",
+      "master_regions": {
+        "body": [
+          50,
+          382,
+          620,
+          16
+        ],
+        "headline": [
+          50,
+          263,
+          620,
+          29
+        ],
+        "logo": [
+          50,
+          227,
+          139,
+          26
+        ],
+        "risk_note": [
+          50,
+          342,
+          203,
+          37
+        ],
+        "small_print": [
+          50,
+          718,
+          620,
+          11
+        ],
+        "trigger": [
+          50,
+          302,
+          271,
+          37
+        ],
+        "warning": [
+          50,
+          496,
+          620,
+          212
+        ]
+      },
+      "regions": {
+        "risk_note": [
+          50,
+          342,
+          203,
+          37
+        ],
+        "trigger": [
+          50,
+          302,
+          271,
+          37
+        ],
+        "warning": [
+          50,
+          496,
+          620,
+          212
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "risk_note": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "risk_note": 10000,
+        "trigger": 10000
+      },
+      "file": "kestrel_p2p_v1__v3_background_hue_shift.mp4",
+      "sha256": "ff9ba1280bd62e5567786f065db0b939a28212918054ffb4981723f861010a4e"
+    },
+    {
+      "variant_id": "northfield_card_01__v0_representative_example_removed",
+      "master_id": "northfield_card_01",
+      "source": "SIMULATED",
+      "transform": "representative_example_removed",
+      "enhancement": "text_optimizations",
+      "description": "Cost-of-credit figures remain; the representative example is dropped.",
+      "benign": false,
+      "violated_rules": [
+        "R10",
+        "R3"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "body": [
+          50,
+          241,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          182,
+          32
+        ],
+        "small_print": [
+          50,
+          665,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": null
+      },
+      "visible_frames": {
+        "warning": [],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 0,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_01__v0_representative_example_removed.png",
+      "sha256": "079348d146c1bd39ae1e7983de941755c541ba311c8f0a4011a768de2c51f20f"
+    },
+    {
+      "variant_id": "northfield_card_01__v1_warning_border_removed",
+      "master_id": "northfield_card_01",
+      "source": "SIMULATED",
+      "transform": "warning_border_removed",
+      "enhancement": "text_optimizations",
+      "description": "Warning redrawn without its own border.",
+      "benign": false,
+      "violated_rules": [
+        "R5"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "Removes two of R5's three sub-checks; bold is retained.",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "body": [
+          50,
+          241,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          182,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_01__v1_warning_border_removed.png",
+      "sha256": "d97fa4ee7e38285d03100af2ea54c4ff40e3d5ac07e8dee25615b6b060ec81d5"
+    },
+    {
+      "variant_id": "northfield_card_01__v2_margin_trim",
+      "master_id": "northfield_card_01",
+      "source": "SIMULATED",
+      "transform": "margin_trim",
+      "enhancement": "adapt_to_placement",
+      "description": "A sliver of empty margin trimmed; no claim region affected.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "body": [
+          50,
+          241,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          182,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          36,
+          194,
+          613,
+          43
+        ],
+        "trigger": [
+          36,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          36,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_01__v2_margin_trim.png",
+      "sha256": "06408516dc6442897dee59242f9407a4093f5b15f218ae2da7f194a8ce8fa560"
+    },
+    {
+      "variant_id": "northfield_card_01__v3_background_hue_shift",
+      "master_id": "northfield_card_01",
+      "source": "SIMULATED",
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "description": "Background recoloured; claim and warning regions untouched.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "body": [
+          50,
+          241,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          182,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_01__v3_background_hue_shift.png",
+      "sha256": "9505ea2648cbc3e1812556714043f90e71f73f5699f557f7be275139050f0ab1"
+    },
+    {
+      "variant_id": "northfield_card_02__v0_warning_into_overlay_zone",
+      "master_id": "northfield_card_02",
+      "source": "SIMULATED",
+      "transform": "warning_into_overlay_zone",
+      "enhancement": "adapt_to_placement",
+      "description": "Warning repositioned under the platform's caption and CTA block.",
+      "benign": false,
+      "violated_rules": [
+        "R12"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "FG24/1 para 1.5 — obscured by a design feature of the platform.",
+      "kind": "still",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "stories",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          465,
+          613,
+          43
+        ],
+        "body": [
+          50,
+          512,
+          620,
+          58
+        ],
+        "headline": [
+          50,
+          300,
+          620,
+          100
+        ],
+        "logo": [
+          50,
+          235,
+          275,
+          47
+        ],
+        "small_print": [
+          50,
+          1141,
+          620,
+          20
+        ],
+        "trigger": [
+          50,
+          418,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          876,
+          620,
+          247
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          465,
+          613,
+          43
+        ],
+        "trigger": [
+          50,
+          418,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          876,
+          620,
+          247
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_02__v0_warning_into_overlay_zone.png",
+      "sha256": "5f6cf7d7d8136dc97247ddc2005d9ae50ea6529baf161f3330ccb17e4b283f2a"
+    },
+    {
+      "variant_id": "northfield_card_02__v1_warning_low_contrast",
+      "master_id": "northfield_card_02",
+      "source": "SIMULATED",
+      "transform": "warning_low_contrast",
+      "enhancement": "image_background_gen",
+      "description": "Background generation leaves the warning grey-on-grey.",
+      "benign": false,
+      "violated_rules": [
+        "R6"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "stories",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          465,
+          613,
+          43
+        ],
+        "body": [
+          50,
+          512,
+          620,
+          58
+        ],
+        "headline": [
+          50,
+          300,
+          620,
+          100
+        ],
+        "logo": [
+          50,
+          235,
+          275,
+          47
+        ],
+        "small_print": [
+          50,
+          965,
+          620,
+          20
+        ],
+        "trigger": [
+          50,
+          418,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          700,
+          620,
+          247
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          465,
+          613,
+          43
+        ],
+        "trigger": [
+          50,
+          418,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          700,
+          620,
+          247
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_02__v1_warning_low_contrast.png",
+      "sha256": "7d15d5e9f8be018a99153a9ef8f042e76bde5ac2f3f0a59bbc6fd5c8b0c707f6"
+    },
+    {
+      "variant_id": "northfield_card_02__v2_image_touchup",
+      "master_id": "northfield_card_02",
+      "source": "SIMULATED",
+      "transform": "image_touchup",
+      "enhancement": "image_touchups",
+      "description": "Saturation and sharpening pass.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "stories",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          465,
+          613,
+          43
+        ],
+        "body": [
+          50,
+          512,
+          620,
+          58
+        ],
+        "headline": [
+          50,
+          300,
+          620,
+          100
+        ],
+        "logo": [
+          50,
+          235,
+          275,
+          47
+        ],
+        "small_print": [
+          50,
+          965,
+          620,
+          20
+        ],
+        "trigger": [
+          50,
+          418,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          700,
+          620,
+          247
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          465,
+          613,
+          43
+        ],
+        "trigger": [
+          50,
+          418,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          700,
+          620,
+          247
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_02__v2_image_touchup.png",
+      "sha256": "d3dab2a07dd95eb242d8f563d1eda3af127eb7c2a6374e98d25b8fbf3237261c"
+    },
+    {
+      "variant_id": "northfield_card_02__v3_background_hue_shift",
+      "master_id": "northfield_card_02",
+      "source": "SIMULATED",
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "description": "Background recoloured; claim and warning regions untouched.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "stories",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          465,
+          613,
+          43
+        ],
+        "body": [
+          50,
+          512,
+          620,
+          58
+        ],
+        "headline": [
+          50,
+          300,
+          620,
+          100
+        ],
+        "logo": [
+          50,
+          235,
+          275,
+          47
+        ],
+        "small_print": [
+          50,
+          965,
+          620,
+          20
+        ],
+        "trigger": [
+          50,
+          418,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          700,
+          620,
+          247
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          465,
+          613,
+          43
+        ],
+        "trigger": [
+          50,
+          418,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          700,
+          620,
+          247
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_02__v3_background_hue_shift.png",
+      "sha256": "6195b45a29dbd5db86c5f241e41a077c5a123035328c7a577d36345a85be6222"
+    },
+    {
+      "variant_id": "northfield_card_03__v0_apr_shrunk_below_trigger",
+      "master_id": "northfield_card_03",
+      "source": "SIMULATED",
+      "transform": "apr_shrunk_below_trigger",
+      "enhancement": "text_optimizations",
+      "description": "Representative APR set much smaller than the trigger it qualifies.",
+      "benign": false,
+      "violated_rules": [
+        "R8"
+      ],
+      "touched_regions": [
+        "apr",
+        "trigger"
+      ],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          194,
+          250,
+          18
+        ],
+        "body": [
+          50,
+          213,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          182,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          194,
+          250,
+          18
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_03__v0_apr_shrunk_below_trigger.png",
+      "sha256": "13f305b887359e6803103473fa288142db835d3c65295b727a18e2a7233589d7"
+    },
+    {
+      "variant_id": "northfield_card_03__v1_warning_shrunk",
+      "master_id": "northfield_card_03",
+      "source": "SIMULATED",
+      "transform": "warning_shrunk",
+      "enhancement": "text_optimizations",
+      "description": "Warning text reflowed smaller than the body copy.",
+      "benign": false,
+      "violated_rules": [
+        "R7"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "body": [
+          50,
+          241,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          182,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          597,
+          620,
+          68
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          597,
+          620,
+          68
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_03__v1_warning_shrunk.png",
+      "sha256": "66fcb646ae7734912286dc13235896581200f7ad6659f5735a4af485d30a2c6b"
+    },
+    {
+      "variant_id": "northfield_card_03__v2_brightness_lift",
+      "master_id": "northfield_card_03",
+      "source": "SIMULATED",
+      "transform": "brightness_lift",
+      "enhancement": "image_touchups",
+      "description": "Global brightness and contrast lift.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "body": [
+          50,
+          241,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          182,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_03__v2_brightness_lift.png",
+      "sha256": "876f9459bbdf6a18dc563bb09240f187e3a682fcb68edc41c10ee082f7516c54"
+    },
+    {
+      "variant_id": "northfield_card_03__v3_background_hue_shift",
+      "master_id": "northfield_card_03",
+      "source": "SIMULATED",
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "description": "Background recoloured; claim and warning regions untouched.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "still",
+      "size": [
+        720,
+        720
+      ],
+      "fps": null,
+      "total_frames": 1,
+      "placement": "feed",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "body": [
+          50,
+          241,
+          620,
+          19
+        ],
+        "headline": [
+          50,
+          93,
+          620,
+          34
+        ],
+        "logo": [
+          50,
+          41,
+          182,
+          32
+        ],
+        "small_print": [
+          50,
+          685,
+          620,
+          13
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          194,
+          613,
+          43
+        ],
+        "trigger": [
+          50,
+          147,
+          300,
+          43
+        ],
+        "warning": [
+          50,
+          511,
+          620,
+          154
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            0
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            0
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            0
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_03__v3_background_hue_shift.png",
+      "sha256": "2c029c12ceaa8bf0f67345fa244e81928667c147d9be5ce0d3ef2b314e7bd77b"
+    },
     {
       "variant_id": "northfield_card_v1__v0_voiceover_drops_apr",
       "master_id": "northfield_card_v1",
@@ -467,7 +5056,462 @@
       },
       "file": "northfield_card_v1__v3_brightness_lift.mp4",
       "sha256": "52d90e30815a1a50d308533e34d546f57ad86a042a397d9a70f25aa02fc0799b"
+    },
+    {
+      "variant_id": "northfield_card_v2__v0_apr_animates_offscreen",
+      "master_id": "northfield_card_v2",
+      "source": "SIMULATED",
+      "transform": "apr_animates_offscreen",
+      "enhancement": "image_animation",
+      "description": "APR holds for about a second, then slides out of frame for the rest.",
+      "benign": false,
+      "violated_rules": [
+        "R8"
+      ],
+      "touched_regions": [
+        "apr"
+      ],
+      "requires_audio": false,
+      "notes": "The hero case: frame zero previews clean, delivery does not.",
+      "kind": "video",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "reels",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          354,
+          577,
+          40
+        ],
+        "body": [
+          50,
+          398,
+          620,
+          18
+        ],
+        "headline": [
+          50,
+          268,
+          620,
+          31
+        ],
+        "logo": [
+          50,
+          228,
+          162,
+          29
+        ],
+        "small_print": [
+          50,
+          717,
+          620,
+          12
+        ],
+        "trigger": [
+          50,
+          310,
+          282,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "regions": {
+        "apr": [
+          0,
+          354,
+          98,
+          40
+        ],
+        "trigger": [
+          50,
+          310,
+          282,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            29
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 800,
+        "trigger": 10000
+      },
+      "file": "northfield_card_v2__v0_apr_animates_offscreen.mp4",
+      "sha256": "734879bb65eeb6562709e054f4212cf94e18f06e36e2f714f54bc17ef5db9869"
+    },
+    {
+      "variant_id": "northfield_card_v2__v1_zoom_drops_warning",
+      "master_id": "northfield_card_v2",
+      "source": "SIMULATED",
+      "transform": "zoom_drops_warning",
+      "enhancement": "image_animation",
+      "description": "Zoomed on the headline; the warning falls outside the frame.",
+      "benign": false,
+      "violated_rules": [
+        "R1",
+        "R3"
+      ],
+      "touched_regions": [
+        "warning"
+      ],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "video",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "reels",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          354,
+          577,
+          40
+        ],
+        "body": [
+          50,
+          398,
+          620,
+          18
+        ],
+        "headline": [
+          50,
+          268,
+          620,
+          31
+        ],
+        "logo": [
+          50,
+          228,
+          162,
+          29
+        ],
+        "small_print": [
+          50,
+          717,
+          620,
+          12
+        ],
+        "trigger": [
+          50,
+          310,
+          282,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "regions": {
+        "apr": [
+          0,
+          1013,
+          720,
+          115
+        ],
+        "trigger": [
+          0,
+          887,
+          280,
+          115
+        ],
+        "warning": null
+      },
+      "visible_frames": {
+        "warning": [],
+        "apr": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 0,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_v2__v1_zoom_drops_warning.mp4",
+      "sha256": "5d3a9ecc305b61d43e8c9b59f4534c2a41980a3a71e26e89e8b77171868fcc29"
+    },
+    {
+      "variant_id": "northfield_card_v2__v2_music_swap",
+      "master_id": "northfield_card_v2",
+      "source": "SIMULATED",
+      "transform": "music_swap",
+      "enhancement": "music_generation",
+      "description": "Backing track replaced; spoken content unchanged.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": true,
+      "notes": "",
+      "kind": "video",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "reels",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          354,
+          577,
+          40
+        ],
+        "body": [
+          50,
+          398,
+          620,
+          18
+        ],
+        "headline": [
+          50,
+          268,
+          620,
+          31
+        ],
+        "logo": [
+          50,
+          228,
+          162,
+          29
+        ],
+        "small_print": [
+          50,
+          717,
+          620,
+          12
+        ],
+        "trigger": [
+          50,
+          310,
+          282,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          354,
+          577,
+          40
+        ],
+        "trigger": [
+          50,
+          310,
+          282,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_v2__v2_music_swap.mp4",
+      "sha256": "269f414e24825207225a06f082a5cbf3832efe96d64442dcc6c1a455efc69ede"
+    },
+    {
+      "variant_id": "northfield_card_v2__v3_background_hue_shift",
+      "master_id": "northfield_card_v2",
+      "source": "SIMULATED",
+      "transform": "background_hue_shift",
+      "enhancement": "image_background_gen",
+      "description": "Background recoloured; claim and warning regions untouched.",
+      "benign": true,
+      "violated_rules": [],
+      "touched_regions": [],
+      "requires_audio": false,
+      "notes": "",
+      "kind": "video",
+      "size": [
+        720,
+        1280
+      ],
+      "fps": 25,
+      "total_frames": 375,
+      "placement": "reels",
+      "investment_type": null,
+      "warning_text": "Representative example: £1,200 credit over 12 months at 0% p.a. fixed for 12 months, then 24.9% p.a. variable. Total amount payable £1,200. Representative 24.9% APR variable.",
+      "master_regions": {
+        "apr": [
+          50,
+          354,
+          577,
+          40
+        ],
+        "body": [
+          50,
+          398,
+          620,
+          18
+        ],
+        "headline": [
+          50,
+          268,
+          620,
+          31
+        ],
+        "logo": [
+          50,
+          228,
+          162,
+          29
+        ],
+        "small_print": [
+          50,
+          717,
+          620,
+          12
+        ],
+        "trigger": [
+          50,
+          310,
+          282,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "regions": {
+        "apr": [
+          50,
+          354,
+          577,
+          40
+        ],
+        "trigger": [
+          50,
+          310,
+          282,
+          40
+        ],
+        "warning": [
+          50,
+          474,
+          620,
+          232
+        ]
+      },
+      "visible_frames": {
+        "warning": [
+          [
+            0,
+            374
+          ]
+        ],
+        "apr": [
+          [
+            0,
+            374
+          ]
+        ],
+        "trigger": [
+          [
+            0,
+            374
+          ]
+        ]
+      },
+      "visible_ratio_bp": {
+        "warning": 10000,
+        "apr": 10000,
+        "trigger": 10000
+      },
+      "file": "northfield_card_v2__v3_background_hue_shift.mp4",
+      "sha256": "7cc3cb2133e3c9683dca026674f311ef5e49bb3e065f244955a96858579d6d80"
     }
   ],
-  "labels_sha256": "c463fedf3fa64484d13d85d9e2768a65fe6f419c2743fb30c9cd24ee8e1b7ea6"
+  "labels_sha256": "3bb937ece6d266de4371ae715776a9c6ea38ddfa3a70364658b374182f75fbfb"
 }

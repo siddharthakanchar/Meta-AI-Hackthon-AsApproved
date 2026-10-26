@@ -420,6 +420,7 @@ TRANSFORMS: list[Transform] = [
         layout_fn=lambda s, lay: Layout(
             safe_top=lay.safe_top, safe_bottom=lay.safe_bottom, warning_scale=0.5
         ),
+        applies_to="body",
     ),
     Transform(
         name="warning_into_overlay_zone",
@@ -476,7 +477,7 @@ TRANSFORMS: list[Transform] = [
         regions=("apr",),
         frame_fn=_animate_apr_away,
         visibility_fn=_apr_visibility,
-        applies_to="video",
+        applies_to="credit+video",
         per_frame=True,
         notes="The hero case: frame zero previews clean, delivery does not.",
     ),
@@ -500,7 +501,7 @@ TRANSFORMS: list[Transform] = [
         description="Voiceover states the trigger but no longer states the APR.",
         rules=("R9",),
         regions=(),
-        applies_to="video",
+        applies_to="credit+video",
         requires_audio=True,
         notes="Audio-only: visually identical to the master by design.",
     ),
@@ -551,22 +552,52 @@ TRANSFORMS: list[Transform] = [
 ]
 
 
+def _has_body_copy(spec: MasterSpec) -> bool:
+    """Does this master actually render body copy?
+
+    On a tight placement band (Reels reserves 54% of the frame) the layout drops
+    body copy rather than shrinking it. R7 compares the warning against body
+    copy, so on such a master R7 is genuinely unassessable — and seeding a
+    warning_shrunk variant there produces a labelled violation the rules
+    correctly report as `inconclusive`, which scores as a miss against a
+    detector that did nothing wrong.
+    """
+    from asapproved.synth.build import render_master_frame
+
+    return "body" in render_master_frame(spec).regions
+
+
+_PREDICATES = {
+    "credit": lambda s: s.is_credit,
+    "investment": lambda s: not s.is_credit,
+    "video": lambda s: s.kind == "video",
+    "body": _has_body_copy,
+    "overlay_placement": lambda s: _reserves_ui_space(s),
+}
+
+
+def _reserves_ui_space(spec: MasterSpec) -> bool:
+    from asapproved.vision.overlays import get_spec
+
+    placement = "reels_with_disclaimer" if spec.placement == "reels" else spec.placement
+    return get_spec(placement).bottom > 0
+
+
 def _eligible(t: Transform, spec: MasterSpec) -> bool:
+    """A transform may only be seeded where its own rule can actually be assessed.
+
+    `applies_to` was a single axis, which could not express "a credit promotion
+    that is also a video" — so the APR animation was allocated to an investment
+    master, where R8 is not applicable by definition, and the benchmark recorded
+    a miss for a verdict that was exactly right.
+    """
     if t.applies_to == "any":
         return True
-    if t.applies_to == "credit":
-        return spec.is_credit
-    if t.applies_to == "investment":
-        return not spec.is_credit
-    if t.applies_to == "video":
-        return spec.kind == "video"
-    if t.applies_to == "overlay_placement":
-        # Only placements that actually reserve UI space can host an R12 breach.
-        from asapproved.vision.overlays import get_spec
-
-        placement = "reels_with_disclaimer" if spec.placement == "reels" else spec.placement
-        return get_spec(placement).bottom > 0
-    return False
+    for requirement in t.applies_to.split("+"):
+        predicate = _PREDICATES.get(requirement.strip())
+        if predicate is None or not predicate(spec):
+            return False
+    return True
 
 
 @dataclass(frozen=True)

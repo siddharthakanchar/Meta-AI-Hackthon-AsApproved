@@ -42,6 +42,11 @@ __all__ = [
 
 HD_REFERENCE_LINES = 1080  # "HD-line equivalents" are relative to a 1080-line frame
 
+# Edge coverage along a side of the warning box. Between these two values the
+# evidence is ambiguous and `detect_border` returns None rather than guessing.
+BORDER_PRESENT_ABOVE = 0.80
+BORDER_ABSENT_BELOW = 0.35
+
 
 # --------------------------------------------------------------------------
 # contrast (WCAG 2.x)
@@ -159,15 +164,23 @@ def detect_border(frame_bgr: np.ndarray, bbox: tuple[int, int, int, int]) -> boo
         "left": edges[y0:y1, x0 : x0 + band],
         "right": edges[y0:y1, max(x0, x1 - band) : x1],
     }
-    # A side counts as present if edge pixels cover most of its length.
-    present = []
+    # Three outcomes, not two. A re-encoded video or a sharpened image softens
+    # box edges enough that strict coverage fails, and reporting a confident
+    # "no border" there produced R5 failures on variants whose only edit was a
+    # music swap. Partial evidence is reported as unmeasurable (V14), which is
+    # the same discipline applied to bold and underline.
+    coverage = []
     for name, strip in sides.items():
         if strip.size == 0:
             return None
         axis = 0 if name in ("top", "bottom") else 1
-        covered = (strip > 0).any(axis=axis).mean()
-        present.append(covered >= 0.80)
-    return all(present)
+        coverage.append(float((strip > 0).any(axis=axis).mean()))
+
+    if all(c >= BORDER_PRESENT_ABOVE for c in coverage):
+        return True
+    if any(c < BORDER_ABSENT_BELOW for c in coverage):
+        return False
+    return None
 
 
 # --------------------------------------------------------------------------

@@ -58,6 +58,10 @@ _UNIT_SCALE: dict[str, int] = {
 # smaller by OCR rounding. 0.95 = a 5% shortfall before it counts.
 R7_TOLERANCE = 0.95
 
+# R1 needs both a meaningful fraction AND a meaningful absolute area, so a
+# thin text strip cannot trip it on compression artefacts alone.
+R1_MIN_CHANGED_PIXELS = 600
+
 _RULE_UNITS: dict[str, str] = {
     "R1": "fraction_bp",
     "R2": "none",
@@ -245,6 +249,7 @@ class Context:
 
     # Diff ∩ region, in basis points of the region's own area.
     changed_in_region_bp: dict[str, int] = field(default_factory=dict)
+    changed_pixels_in_region: dict[str, int] = field(default_factory=dict)
 
     # Per-region measurements on master and variant.
     master_regions: dict[str, dict[str, Any]] = field(default_factory=dict)
@@ -354,7 +359,15 @@ def _r1(rule: Rule, ctx: Context) -> Finding:
     worst_label = max(measured, key=lambda k: measured[k])
     worst = measured[worst_label]
     assert rule.threshold is not None
-    failed = worst > rule.threshold
+
+    # A percentage of a very small region is mostly encoder noise: a thin
+    # one-line "Capital at risk" strip measured 11.5% changed on a variant whose
+    # only edit was re-encoding, purely because the denominator is small. Require
+    # a meaningful absolute area as well as a meaningful fraction.
+    changed_px = ctx.changed_pixels_in_region.get(worst_label)
+    failed = worst > rule.threshold and (
+        changed_px is None or changed_px >= R1_MIN_CHANGED_PIXELS
+    )
     return _finding(
         rule,
         ctx_version(ctx),

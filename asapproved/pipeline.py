@@ -238,6 +238,7 @@ def check_variant(
     master_regions: dict[str, dict[str, Any]] = {}
     variant_regions: dict[str, dict[str, Any]] = {}
     changed_bp: dict[str, int] = {}
+    changed_px: dict[str, int] = {}
     occluded: dict[str, int] = {}
     occlusion_caveats: list[str] = []
     visible_bp: dict[str, int] = {}
@@ -249,7 +250,9 @@ def check_variant(
         m_meas = measure_region(master_frame, m_mask, label)
         master_regions[label] = _region_dict(m_meas, _median_text_height(master_ocr, m_box))
 
-        changed_bp[label] = changed_in_region(diff, m_mask, label).fraction_bp
+        change = changed_in_region(diff, m_mask, label)
+        changed_bp[label] = change.fraction_bp
+        changed_px[label] = change.changed_pixels
 
         track = tracks.get(label)
         v_box = track.first_box() if track else None
@@ -320,6 +323,7 @@ def check_variant(
         alignment_ok=alignment.ok,
         alignment_note=alignment.reason,
         changed_in_region_bp=changed_bp,
+        changed_pixels_in_region=changed_px,
         master_regions=master_regions,
         variant_regions=variant_regions,
         visible_ratio_bp=visible_bp,

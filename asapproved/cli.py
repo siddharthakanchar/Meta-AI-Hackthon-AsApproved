@@ -46,12 +46,19 @@ def doctor() -> None:
         t.add_row(k, str(v))
     console.print(t)
 
+    from asapproved.ffmpeg import ffmpeg_path, ffprobe_path
+
     tools = Table(title="external tools")
     tools.add_column("tool", style="cyan")
     tools.add_column("status")
-    for tool in ("git", "ffmpeg", "ffprobe", "docker"):
+    for tool in ("git", "docker"):
         found = shutil.which(tool)
         tools.add_row(tool, f"[green]{found}[/]" if found else "[red]missing[/]")
+    # ffmpeg gets the resolver, not `which`: winget updates PATH but open shells
+    # keep the old one, so `which` says missing on a machine where it works.
+    for name, resolver in (("ffmpeg", ffmpeg_path), ("ffprobe", ffprobe_path)):
+        found = resolver(required=False)
+        tools.add_row(name, f"[green]{found}[/]" if found else "[red]missing[/]")
     console.print(tools)
 
     console.print(

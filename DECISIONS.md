@@ -172,6 +172,82 @@ be measured on the first real calls before committing to a card.
 presumably issued against a registered participant account, so it may need the registration email
 to match, or may simply not have been distributed yet on day 1.
 
+## D-009 · Phase 3: seven bugs the dataset found in itself — Mon 26 Oct 2026
+Building the masters and variants surfaced four defects, each of which would have
+corrupted the benchmark silently rather than loudly. Recorded because the *way* they were
+caught is the design point: the generator checks itself against the Phase 2 measurement
+primitives, so a label that the pixels do not support is an error, not a quiet wrong answer.
+
+**1. The "compliant" masters were not compliant (R12).** The warning box sat at 78% of frame
+height. Reels reserves the bottom 35%, and 40% once the creative carries a disclaimer — which a
+prescribed risk warning is. Every Reels master therefore breached the rule it was supposed to be
+the clean baseline for. Fixed by deriving the warning's position from the placement's safe band
+rather than a constant; pinned by `test_warning_sits_outside_the_placement_overlay_zone`.
+
+**2. The APR ran 458px off a 720px frame on 9:16 masters.** Font size scaled with frame height,
+so the 1:1 masters hid it. That is precisely the clipping R3 exists to detect, in our own
+baseline. Trigger and APR are now fitted *together* to the content width — fitted separately, the
+longer of the two would shrink on its own and the pair would stop being equally prominent, which
+is the CONC 3.5.7R breach itself.
+
+**3. Bottom-aligning the warning dropped it on top of the APR.** Region boxes are ground truth;
+two regions claiming the same pixels would corrupt both R8's prominence comparison and SAM's IoU
+score. The layout now measures the whole stack and shrinks until it fits, dropping body copy
+before it ever shrinks the warning. Caught by a new overlap test, which the earlier
+"regions stay in frame" test could not see.
+
+**4. Two rules had no coverage at all.** Transform-to-master assignment rotated by index, which
+never reached `warning_reworded` (investment masters only) or `apr_animates_offscreen` (videos
+only). The benchmark would have published **empty rows for R11 and R4** and an F1 averaged over
+the rest. Replaced with a most-constrained-first allocation that guarantees every transform is
+used; asserted by `test_seeded_violations_span_the_rulebook`.
+
+Also removed: a "fake a 25% overlay zone for Feed" fallback in the R12 transform, which would
+have manufactured a violation that does not exist and then scored the detector for missing it.
+Feed is excluded by eligibility instead.
+
+**5. Coverage was lopsided even once it existed.** The fix for defect 4 guaranteed every rule had
+*at least* one variant and then stopped: the first full build produced R1 on 10 variants and R3
+on 11, against exactly one each for R4, R9, R10, R11 and R12. A per-rule precision/recall
+computed over a single variant can only read 0% or 100% — five of eleven rows in the §10 table
+would have been noise presented as measurement. Remaining slots are now filled by whichever rule
+is currently least covered, so the multi-rule geometry transforms (all R1+R3) stop being picked
+once those rules are well served. Guarded by `test_no_rule_is_covered_by_only_one_variant`.
+
+**6. The hero case did not match its own demo line.** The video script (§14) says the APR is "on
+screen 1.2 seconds of 15". The first build measured **4.0 s of 15** — the pan was slow enough
+that the APR stayed partly visible for 101 frames. The timing now derives from the clip's fps and
+the pan distance from where the APR actually sits, so the measured figure lands near the intended
+1.2 s. Worth being explicit about the direction of travel: the *data* was tuned to tell the story,
+and the number quoted on screen remains the measured one. Tuning synthetic data is legitimate;
+quoting an intended number instead of a measured one would not be.
+
+**7. Odd frame dimensions broke H.264 encoding.** `margin_trim` produced 691x1241 and libx264
+with yuv420p rejects odd width or height. The fix matters beyond "make it even": frames and their
+region masks are evened in the *same* place, because trimming the video by a row while leaving
+the mask untrimmed would shift every ground-truth box by a pixel relative to the pixels it
+describes. `write_video` now refuses odd input with a message that says so, rather than letting
+a future transform reintroduce the desync quietly.
+
+**Ground truth is computed, not declared.** Region boxes and per-frame visibility come from
+pushing each region's mask through the very transform that made the variant. Where a transform
+*also* declares its expected visibility, the two are cross-checked and a mismatch aborts the
+build — that is how defect 4's sibling (a zoom that did not actually remove the warning) was
+caught on the first run.
+
+**Known gap: R9 and the audio transforms are labelled but not yet realised.**
+`voiceover_drops_apr` and `music_swap` carry `requires_audio: true` and no audio exists yet. They
+are in the label set so the benchmark shape is honest about what it covers; they cannot be scored
+until USER INPUT 3.1 supplies voiceovers. If no audio arrives, those two variants are reported as
+**not evaluated** rather than quietly counted as passes.
+
+**R2 has no pixel expression and deliberately has no variant.** Settings drift is manifest vs
+live API. Pinned by test so nobody later invents a pixel proxy for it.
+
+**Render resolution is 720x1280 / 720x720, not 1080p.** Every measurement is normalised by frame
+height (basis points, HD-line equivalents), so resolution does not affect any reported figure —
+and the whole 60-asset set stays small enough to regenerate in about two minutes.
+
 ---
 
 ## Open [VERIFY] items
@@ -196,4 +272,25 @@ to match, or may simply not have been distributed yet on day 1.
 ## Frozen artefacts
 | Artefact | Hash | Frozen |
 |---|---|---|
-| VariantBench-UK labels | — | not yet (before the first scored run, Phase 6) |
+| VariantBench-UK labels | `d1eef8b19dbce4cd33b501023807c7e643b07f2fc775090efc704930da7fca8c` | **not yet** — current build, 26 Oct |
+
+The label hash above is recorded, not frozen. Audio (USER INPUT 3.1) will add tracks to four
+variants and change it. The freeze happens in Phase 6, **before the first scored run**, and the
+hash current at that moment is the one that governs every published number.
+
+**On reproducibility, honestly:** the generator is deterministic — no RNG, fixed seeds, fixed
+allocation — so the same code produces the same creative on the same machine. The per-asset
+`sha256` values in the label file are NOT guaranteed to reproduce across machines, because PNG
+and libx264 encoders differ between versions and platforms. What reproduces is the content and
+the labels; byte-identical files are not claimed. The assets are gitignored and regenerated from
+`make_masters.py` / `make_variants.py`, which takes about seven minutes.
+
+## VariantBench-UK coverage (26 Oct build)
+24 seeded violations across 11 rules, every rule on at least two variants:
+
+| R1 | R3 | R4 | R5 | R6 | R7 | R8 | R9 | R10 | R11 | R12 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 3 | 5 | 2 | 3 | 3 | 2 | 3 | 3 | 2 | 2 | 3 |
+
+Four variants (three `voiceover_drops_apr`, one `music_swap`) require audio and are reported as
+**not evaluated** until voiceovers exist. They are never counted as passes.

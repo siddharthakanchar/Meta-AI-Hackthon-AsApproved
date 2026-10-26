@@ -1,0 +1,549 @@
+"""Variant transforms, each of which emits its own ground truth.
+
+Two families:
+
+**Re-render transforms** change the Layout and redraw. A warning shoved into the
+Reels caption zone, set in grey-on-grey, stripped of its border or reworded is
+rendered that way — so it looks like creative a design tool could plausibly have
+produced, not like a rectangle pasted over a JPEG. Pasting would leave
+compression seams that a pixel diff could latch onto for the wrong reason, and
+the benchmark would flatter us.
+
+**Geometry transforms** crop, pad, zoom or recolour the rendered frames, which is
+what Meta's enhancements actually do to a delivered asset.
+
+Every transform declares the rules it breaks and the regions it touches, and that
+declaration IS the label. Nothing here is hand-labelled: hand labels would encode
+the same assumptions the detector makes, and the benchmark would end up measuring
+the tool's agreement with itself.
+"""
+
+from __future__ import annotations
+
+from collections.abc import Callable
+from dataclasses import dataclass
+from functools import lru_cache
+
+import cv2
+import numpy as np
+
+from asapproved.synth.render import Layout
+from asapproved.synth.specs import MasterSpec, prescribed_text
+
+__all__ = ["Transform", "TRANSFORMS", "transforms_for", "VariantPlan"]
+
+
+@dataclass(frozen=True)
+class FrameCtx:
+    """What a geometry transform needs to know about the frame it is editing.
+
+    Added because a transform that claims to remove the warning has to know where
+    the warning IS. Fixed fractions were wrong the moment the layout became
+    placement-aware: a 1.4x zoom drops a Feed warning at 80% and leaves a Reels
+    warning at 45% fully on screen, so the label said "removed" while the pixels
+    said otherwise. The generator's cross-check caught it; this is the fix.
+    """
+
+    spec: MasterSpec
+    regions: dict[str, tuple[int, int, int, int]]
+    size: tuple[int, int]  # (w, h)
+
+    @property
+    def warning_top(self) -> int:
+        box = self.regions.get("warning")
+        return box[1] if box else self.size[1]
+
+
+@dataclass(frozen=True)
+class Transform:
+    """One edit, plus what it means for the rules."""
+
+    name: str
+    benign: bool
+    # The Meta Advantage+ enhancement this stands in for. Variants are labelled
+    # with it so the lineage graph (D2) and blast radius have a feature to group
+    # on, exactly as the Marketing API would report.
+    enhancement: str
+    description: str
+    rules: tuple[str, ...] = ()  # violated rule IDs; empty for benign
+    regions: tuple[str, ...] = ()  # regions touched
+    # Re-render path: produce a modified Layout (and optionally new warning text)
+    layout_fn: Callable[[MasterSpec, Layout], Layout] | None = None
+    text_fn: Callable[[MasterSpec], str] | None = None
+    # Geometry path: transform an already-rendered frame
+    frame_fn: Callable[[np.ndarray, int, int, FrameCtx], np.ndarray] | None = None
+    # Video-only: per-frame visibility of the named region
+    visibility_fn: Callable[[MasterSpec], dict[str, list[list[int]]]] | None = None
+    applies_to: str = "any"  # "any" | "credit" | "investment" | "video"
+    requires_audio: bool = False
+    # True when the geometry changes over time, so region visibility must be
+    # recomputed on every frame rather than once. A fixed crop does not vary;
+    # a pan does.
+    per_frame: bool = False
+    notes: str = ""
+
+
+# ---------------------------------------------------------------------------
+# violating transforms
+# ---------------------------------------------------------------------------
+
+
+def _into_overlay_zone(spec: MasterSpec, layout: Layout) -> Layout:
+    """Push the warning down into the platform's caption block (R12).
+
+    Only meaningful where the placement actually reserves a zone. An earlier
+    version faked a 25% zone for Feed so the transform would "work" everywhere —
+    which would have manufactured a violation that does not exist and scored the
+    detector for failing to find it. Feed is excluded by eligibility instead.
+    """
+    from asapproved.vision.overlays import get_spec
+
+    placement = "reels_with_disclaimer" if spec.placement == "reels" else spec.placement
+    zone = get_spec(placement)
+    if zone.bottom <= 0:
+        raise ValueError(
+            f"{spec.id}: placement {spec.placement!r} reserves no UI zone, so R12 "
+            "cannot be seeded here"
+        )
+    return Layout(
+        safe_top=layout.safe_top,
+        safe_bottom=layout.safe_bottom,
+        warning_top=1.0 - zone.bottom * 0.75 - layout.warning_height,
+        warning_height=layout.warning_height,
+    )
+
+
+def _crop_out_warning(frame: np.ndarray, index: int, total: int, ctx: FrameCtx) -> np.ndarray:
+    """Reframe to the content above the warning — the 'cropped for placement' edit (R3)."""
+    h = frame.shape[0]
+    cut = ctx.warning_top * h // ctx.size[1]  # scale if the frame was already resized
+    return frame[: max(8, cut - 2), :]
+
+
+def _expand_pushes_warning_off(
+    frame: np.ndarray, index: int, total: int, ctx: FrameCtx
+) -> np.ndarray:
+    """Outpaint-style expansion: canvas grows, lower content is pushed out (R3)."""
+    h, w = frame.shape[:2]
+    # Scale so the warning's top edge lands past the bottom of the kept window.
+    warn_top = max(1, ctx.warning_top * h // ctx.size[1])
+    scale = min(3.0, max(1.35, (h / warn_top) * 1.06))
+    scaled = cv2.resize(frame, (int(w * scale), int(h * scale)), interpolation=cv2.INTER_LINEAR)
+    return scaled[:h, :w]
+
+
+def _zoom_centre(frame: np.ndarray, index: int, total: int, ctx: FrameCtx) -> np.ndarray:
+    """Zoom on the headline until the warning leaves the frame (R3).
+
+    The scale is derived from where the warning actually sits rather than fixed:
+    a Feed warning at 80% of the frame goes at 1.4x, a Reels warning at 45% needs
+    about 2.3x. A fixed factor silently mislabelled the Reels masters.
+    """
+    h, w = frame.shape[:2]
+    warn_top = max(1, ctx.warning_top * h // ctx.size[1])
+    scale = min(3.0, max(1.4, (h / warn_top) * 1.06))
+    big = cv2.resize(frame, (int(w * scale), int(h * scale)), interpolation=cv2.INTER_LINEAR)
+    x = (big.shape[1] - w) // 2
+    return big[:h, x : x + w]
+
+
+APR_HOLD_SECONDS = 1.0
+APR_PAN_SECONDS = 0.25
+
+
+def _apr_pan_frames(spec: MasterSpec) -> tuple[int, int]:
+    fps = spec.fps or 25
+    return max(1, int(fps * APR_HOLD_SECONDS)), max(1, int(fps * APR_PAN_SECONDS))
+
+
+def _animate_apr_away(frame: np.ndarray, index: int, total: int, ctx: FrameCtx) -> np.ndarray:
+    """Pan the frame upward so the APR leaves the screen about a second in (R4, R8).
+
+    The hero case: frame zero previews perfectly compliant, and the APR is absent
+    for the rest of the delivered clip. That gap between what a preview shows and
+    what gets served is the whole argument for measuring delivery.
+
+    The pan distance is derived from where the APR actually sits, and the timing
+    from the clip's fps, so the measured visibility lands near the intended ~1.2s
+    rather than wherever a hardcoded fraction happened to put it. The figure the
+    UI and the video quote is still the MEASURED one, never this intent.
+    """
+    h, w = frame.shape[:2]
+    hold, pan = _apr_pan_frames(ctx.spec)
+    if index < hold:
+        return frame
+
+    apr_box = ctx.regions.get(ctx.spec.apr_label)
+    clear_by = (apr_box[1] + apr_box[3] + 6) if apr_box else int(h * 0.45)
+
+    progress = min(1.0, (index - hold + 1) / pan)
+    shift = int(progress * clear_by)
+    out = np.zeros_like(frame)
+    if shift < h:
+        out[: h - shift] = frame[shift:]
+    return out
+
+
+def _apr_visibility(spec: MasterSpec) -> dict[str, list[list[int]]]:
+    hold, pan = _apr_pan_frames(spec)
+    return {spec.apr_label: [[0, hold + pan - 1]], "warning": [[0, spec.total_frames - 1]]}
+
+
+def _warning_visibility_none(spec: MasterSpec) -> dict[str, list[list[int]]]:
+    return {"warning": []}
+
+
+def _reword_warning(spec: MasterSpec) -> str:
+    """A plausible machine rewrite: softer, shorter, still 'about' risk (R11).
+
+    Modelled on what text_optimizations or translate_voiceover would do — it
+    keeps the gist and loses the prescribed wording, which is precisely the
+    failure mode that makes R11 necessary rather than pedantic.
+    """
+    if spec.investment_type:
+        base = prescribed_text(spec.investment_type)
+        return (
+            base.replace("Don't invest unless you're prepared to", "Only invest what you can afford to")
+            .replace("should not expect to be protected", "may not be protected")
+            .replace("are unlikely to be protected", "may not be protected")
+        )
+    return "Representative APR applies. Credit subject to status."
+
+
+# ---------------------------------------------------------------------------
+# benign transforms
+# ---------------------------------------------------------------------------
+
+
+def _brightness(frame: np.ndarray, index: int, total: int, ctx: FrameCtx) -> np.ndarray:
+    return cv2.convertScaleAbs(frame, alpha=1.06, beta=14)
+
+
+def _touch_up(frame: np.ndarray, index: int, total: int, ctx: FrameCtx) -> np.ndarray:
+    """Mild sharpen + saturation, i.e. image_touchups."""
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV).astype(np.int16)
+    hsv[..., 1] = np.clip(hsv[..., 1] * 1.18, 0, 255)
+    out = cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR)
+    blur = cv2.GaussianBlur(out, (0, 0), 1.2)
+    return cv2.addWeighted(out, 1.35, blur, -0.35, 0)
+
+
+def _background_hue(frame: np.ndarray, index: int, total: int, ctx: FrameCtx) -> np.ndarray:
+    """Shift background hue while leaving the white warning box alone.
+
+    The mask keeps near-white pixels untouched, so the warning's contrast and
+    wording survive. This is the benign case that a naive pixel diff gets wrong
+    and that the region intersection in R1 is supposed to get right — it is here
+    to make the false-block rate on benign edits a real measurement.
+    """
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV).astype(np.int16)
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    protect = gray > 200
+    hsv[..., 0] = (hsv[..., 0] + 16) % 180
+    out = cv2.cvtColor(hsv.astype(np.uint8), cv2.COLOR_HSV2BGR)
+    out[protect] = frame[protect]
+    return out
+
+
+def _recompress(frame: np.ndarray, index: int, total: int, ctx: FrameCtx) -> np.ndarray:
+    """Re-encode at lower quality — every delivered asset gets this."""
+    ok, buf = cv2.imencode(".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 72])
+    return cv2.imdecode(buf, cv2.IMREAD_COLOR) if ok else frame
+
+
+def _safe_crop(frame: np.ndarray, index: int, total: int, ctx: FrameCtx) -> np.ndarray:
+    """Trim a sliver of empty margin — geometry changes, no claim is touched."""
+    h, w = frame.shape[:2]
+    return frame[: int(h * 0.97), int(w * 0.02) : int(w * 0.98)]
+
+
+TRANSFORMS: list[Transform] = [
+    # ---- violations -------------------------------------------------
+    Transform(
+        name="crop_removes_warning",
+        benign=False,
+        enhancement="adapt_to_placement",
+        description="Reframed for a shorter placement; the warning box is cropped away.",
+        rules=("R1", "R3"),
+        regions=("warning",),
+        frame_fn=_crop_out_warning,
+        visibility_fn=_warning_visibility_none,
+    ),
+    Transform(
+        name="expand_pushes_warning_offframe",
+        benign=False,
+        enhancement="image_background_gen",
+        description="Canvas expanded; content pushed until the warning leaves the frame.",
+        rules=("R1", "R3"),
+        regions=("warning",),
+        frame_fn=_expand_pushes_warning_off,
+        visibility_fn=_warning_visibility_none,
+    ),
+    Transform(
+        name="zoom_drops_warning",
+        benign=False,
+        enhancement="image_animation",
+        description="Zoomed on the headline; the warning falls outside the frame.",
+        rules=("R1", "R3"),
+        regions=("warning",),
+        frame_fn=_zoom_centre,
+        visibility_fn=_warning_visibility_none,
+    ),
+    Transform(
+        name="warning_border_removed",
+        benign=False,
+        enhancement="text_optimizations",
+        description="Warning redrawn without its own border.",
+        rules=("R5",),
+        regions=("warning",),
+        layout_fn=lambda s, lay: Layout(
+            safe_top=lay.safe_top,
+            safe_bottom=lay.safe_bottom,
+            warning_border=False,
+            warning_underline=False,
+        ),
+        notes="Removes two of R5's three sub-checks; bold is retained.",
+    ),
+    Transform(
+        name="warning_low_contrast",
+        benign=False,
+        enhancement="image_background_gen",
+        description="Background generation leaves the warning grey-on-grey.",
+        rules=("R6",),
+        regions=("warning",),
+        layout_fn=lambda s, lay: Layout(
+            safe_top=lay.safe_top,
+            safe_bottom=lay.safe_bottom,
+            warning_bg=(126, 126, 126),
+            warning_ink=(150, 150, 150),
+        ),
+    ),
+    Transform(
+        name="warning_shrunk",
+        benign=False,
+        enhancement="text_optimizations",
+        description="Warning text reflowed smaller than the body copy.",
+        rules=("R7",),
+        regions=("warning",),
+        layout_fn=lambda s, lay: Layout(
+            safe_top=lay.safe_top, safe_bottom=lay.safe_bottom, warning_scale=0.5
+        ),
+    ),
+    Transform(
+        name="warning_into_overlay_zone",
+        benign=False,
+        enhancement="adapt_to_placement",
+        description="Warning repositioned under the platform's caption and CTA block.",
+        rules=("R12",),
+        regions=("warning",),
+        layout_fn=_into_overlay_zone,
+        applies_to="overlay_placement",
+        notes="FG24/1 para 1.5 — obscured by a design feature of the platform.",
+    ),
+    Transform(
+        name="warning_reworded",
+        benign=False,
+        enhancement="text_translation",
+        description="Prescribed wording rewritten into a softer paraphrase.",
+        rules=("R11",),
+        regions=("warning",),
+        text_fn=_reword_warning,
+        applies_to="investment",
+    ),
+    Transform(
+        name="apr_shrunk_below_trigger",
+        benign=False,
+        enhancement="text_optimizations",
+        description="Representative APR set much smaller than the trigger it qualifies.",
+        rules=("R8",),
+        regions=("apr", "trigger"),
+        layout_fn=lambda s, lay: Layout(
+            safe_top=lay.safe_top, safe_bottom=lay.safe_bottom, apr_scale=0.42
+        ),
+        applies_to="credit",
+    ),
+    Transform(
+        name="representative_example_removed",
+        benign=False,
+        enhancement="text_optimizations",
+        description="Cost-of-credit figures remain; the representative example is dropped.",
+        rules=("R10", "R3"),
+        regions=("warning",),
+        layout_fn=lambda s, lay: Layout(
+            safe_top=lay.safe_top, safe_bottom=lay.safe_bottom, show_warning=False
+        ),
+        applies_to="credit",
+        visibility_fn=_warning_visibility_none,
+    ),
+    Transform(
+        name="apr_animates_offscreen",
+        benign=False,
+        enhancement="image_animation",
+        description="APR holds for about a second, then pans out of frame for the rest.",
+        rules=("R4", "R8"),
+        regions=("apr",),
+        frame_fn=_animate_apr_away,
+        visibility_fn=_apr_visibility,
+        applies_to="video",
+        per_frame=True,
+        notes="The hero case: frame zero previews clean, delivery does not.",
+    ),
+    Transform(
+        name="voiceover_drops_apr",
+        benign=False,
+        enhancement="translate_voiceover",
+        description="Voiceover states the trigger but no longer states the APR.",
+        rules=("R9",),
+        regions=(),
+        applies_to="video",
+        requires_audio=True,
+        notes="Audio-only: visually identical to the master by design.",
+    ),
+    # ---- benign ------------------------------------------------------
+    Transform(
+        name="brightness_lift",
+        benign=True,
+        enhancement="image_touchups",
+        description="Global brightness and contrast lift.",
+        frame_fn=_brightness,
+    ),
+    Transform(
+        name="image_touchup",
+        benign=True,
+        enhancement="image_touchups",
+        description="Saturation and sharpening pass.",
+        frame_fn=_touch_up,
+    ),
+    Transform(
+        name="background_hue_shift",
+        benign=True,
+        enhancement="image_background_gen",
+        description="Background recoloured; claim and warning regions untouched.",
+        frame_fn=_background_hue,
+    ),
+    Transform(
+        name="recompressed",
+        benign=True,
+        enhancement="adapt_to_placement",
+        description="Re-encoded at lower quality for delivery.",
+        frame_fn=_recompress,
+    ),
+    Transform(
+        name="margin_trim",
+        benign=True,
+        enhancement="adapt_to_placement",
+        description="A sliver of empty margin trimmed; no claim region affected.",
+        frame_fn=_safe_crop,
+    ),
+    Transform(
+        name="music_swap",
+        benign=True,
+        enhancement="music_generation",
+        description="Backing track replaced; spoken content unchanged.",
+        applies_to="video",
+        requires_audio=True,
+    ),
+]
+
+
+def _eligible(t: Transform, spec: MasterSpec) -> bool:
+    if t.applies_to == "any":
+        return True
+    if t.applies_to == "credit":
+        return spec.is_credit
+    if t.applies_to == "investment":
+        return not spec.is_credit
+    if t.applies_to == "video":
+        return spec.kind == "video"
+    if t.applies_to == "overlay_placement":
+        # Only placements that actually reserve UI space can host an R12 breach.
+        from asapproved.vision.overlays import get_spec
+
+        placement = "reels_with_disclaimer" if spec.placement == "reels" else spec.placement
+        return get_spec(placement).bottom > 0
+    return False
+
+
+@dataclass(frozen=True)
+class VariantPlan:
+    master: MasterSpec
+    transform: Transform
+    index: int
+
+    @property
+    def variant_id(self) -> str:
+        return f"{self.master.id}__v{self.index}_{self.transform.name}"
+
+
+def _allocate(
+    pool: list[Transform], masters: list[MasterSpec], slots: int
+) -> dict[str, list[Transform]]:
+    """Assign transforms to masters so every transform is used at least once.
+
+    Rotating by master index looked reasonable and silently dropped R11 and R4:
+    the reworded warning only applies to investment masters and the APR
+    animation only to videos, so modulo arithmetic over each master's own
+    eligibility list never reached them. The benchmark would have published
+    empty rows for two rules and an F1 averaged over the rest.
+
+    So: most-constrained-first. A transform that fits few masters claims its slot
+    before one that fits anywhere; the remainder is filled by rotation. Fully
+    deterministic — no RNG, identical assignment on every run.
+    """
+    assigned: dict[str, list[Transform]] = {m.id: [] for m in masters}
+    capacity = {m.id: slots for m in masters}
+    eligible = {t.name: [m for m in masters if _eligible(t, m)] for t in pool}
+
+    for transform in sorted(pool, key=lambda t: (len(eligible[t.name]), t.name)):
+        candidates = [m for m in eligible[transform.name] if capacity[m.id] > 0]
+        if not candidates:
+            continue
+        # Prefer the emptiest master so later transforms still have somewhere to go.
+        host = max(candidates, key=lambda m: (capacity[m.id], m.id))
+        assigned[host.id].append(transform)
+        capacity[host.id] -= 1
+
+    # Fill the remaining slots by whichever RULE is currently least covered, not
+    # by rotation. Rotation left R1 on 10 variants and R4, R9, R10, R11 and R12
+    # on one each — and a per-rule precision/recall computed over a single
+    # variant can only read 0% or 100%, which is not a measurement. Transforms
+    # carrying several rules (the geometry ones are all R1+R3) stop being picked
+    # once those rules are well covered.
+    rule_count: dict[str, int] = {}
+    for transforms in assigned.values():
+        for t in transforms:
+            for r in t.rules:
+                rule_count[r] = rule_count.get(r, 0) + 1
+
+    def scarcity(t: Transform) -> tuple[int, int, str]:
+        counts = [rule_count.get(r, 0) for r in t.rules] or [99]
+        return (min(counts), sum(counts), t.name)
+
+    for master in masters:
+        while capacity[master.id] > 0:
+            options = [
+                t for t in pool if _eligible(t, master) and t not in assigned[master.id]
+            ]
+            if not options:
+                break
+            pick = min(options, key=scarcity)
+            assigned[master.id].append(pick)
+            capacity[master.id] -= 1
+            for r in pick.rules:
+                rule_count[r] = rule_count.get(r, 0) + 1
+    return assigned
+
+
+@lru_cache(maxsize=1)
+def _assignment() -> tuple[dict[str, list[Transform]], dict[str, list[Transform]]]:
+    from asapproved.synth.specs import MASTERS
+
+    bad = [t for t in TRANSFORMS if not t.benign]
+    good = [t for t in TRANSFORMS if t.benign]
+    return _allocate(bad, MASTERS, 2), _allocate(good, MASTERS, 2)
+
+
+def transforms_for(spec: MasterSpec) -> list[Transform]:
+    """This master's four variants: two seeded violations, then two benign edits."""
+    violations, benign = _assignment()
+    return violations[spec.id] + benign[spec.id]

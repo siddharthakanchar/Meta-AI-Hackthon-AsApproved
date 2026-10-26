@@ -10,7 +10,8 @@ Updated: Mon 26 Oct 2026
       key (D-008)**; V1–V3 already verified from public docs, so what remains is the key itself,
       V13, and the Marketing API spike (USER INPUT 1.2, unaffected by the key blocker)
 - [x] Phase 2 — Deterministic core (**pulled forward**, needed no key) · 83 tests green, ruff clean
-- [ ] Phase 3 — Synthetic masters and variants (Wed 28 – Thu 29 Oct, ~4 h)
+- [x] Phase 3 — Synthetic masters and variants (**pulled forward**, needed no key) · 12 masters,
+      48 variants, ground truth generated not hand-written; audio pending USER INPUT 3.1
 - [ ] Phase 4 — Meta models in the pipeline (Thu 29 – Fri 30 Oct, ~5 h)
 - [ ] Phase 5 — Rules, explanations, review UI (Sat 31 Oct, ~9–10 h)
 - [ ] Phase 6 — Graph, Act/Prove, precedents, benchmark (Sun 1 Nov, ~9–10 h)
@@ -60,7 +61,23 @@ Updated: Mon 26 Oct 2026
   compliance tool reads as a tamper alarm. Readers now accept a BOM so only changed content
   fails. Regression test added.
 
+**Phase 3 delivered**
+- 3 fictional firms (Northfield Card, Brightwell Loans, Kestrel Invest), original geometric
+  logos, no real brands or people. **12 masters**: 5 credit stills, 3 credit videos, 2 high-risk
+  stills, 2 investment videos — between them exercising all four COBS 4.12A.11R prescribed
+  warnings, not just the crypto one.
+- **48 variants**, 24 seeded violations / 24 benign, spanning R1 and R3–R12.
+- Masters are **compliant by construction and tested for it**: warning outside the placement's UI
+  zone, own border, bold, underlined, contrast ≥ 4.5:1, APR no less prominent than its trigger,
+  no two regions overlapping.
+- `text_norm.py` — R11 folds typographic variants (curly vs straight apostrophes, dashes, NBSP)
+  but never wording. Pinned both ways, including that the crypto and NRRS texts stay distinct.
+- Four self-inflicted bugs caught by the generator's own checks before they reached the
+  benchmark — see DECISIONS.md **D-009**. The worst: two rules (R11, R4) had **no coverage at
+  all**, so the per-rule table would have shipped with empty rows.
+
 **Next**
+- USER INPUT 3.1: voiceovers (needed to score R9) and a 2-minute look at three rendered masters.
 - USER INPUT 0.1: confirm environment answers (Docker decision, GitHub username).
 - USER INPUT 0.2: after the 22:30 IST kickoff, pull the Official Rules into `RULES_SUMMARY.md`.
 - Phase 1: Meta Model API key -> `scripts/spike_models.py`; then the Marketing API assets.

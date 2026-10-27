@@ -93,10 +93,15 @@ def get(key: str) -> Any | None:
 def put(key: str, response: Any, meta: dict[str, Any] | None = None) -> Path:
     path = _path(key)
     path.parent.mkdir(parents=True, exist_ok=True)
+    # The key is deliberately not a field: it is the filename, so storing it
+    # again carried no information, and a JSON object whose first field is
+    # literally `"key": "<64 hex chars>"` trips every secret scanner there is.
+    # gitleaks flagged all 17 recorded responses as generic-api-key leaks, and
+    # the only ways past that are to delete the duplication or to allowlist a
+    # path in the one check that is supposed to be unconditional.
     path.write_text(
         json.dumps(
             {
-                "key": key,
                 "cached_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                 "meta": meta or {},
                 "response": response,

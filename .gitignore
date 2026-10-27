@@ -11,10 +11,16 @@ secrets.toml
 data/keys/
 
 # Generated data (regenerable; keep the repo light)
-data/cache/
 data/evidence/
 data/masters/
 data/variants/
+
+# data/cache/ is deliberately NOT here. Everything above rebuilds from code —
+# make_masters.py and make_variants.py reproduce all 60 assets byte for byte.
+# Recorded model responses do not: without a key they cannot be regenerated at
+# all, so ignoring them meant scripts/sam_region_delta.py raised CacheMiss on a
+# clean clone and the SAM result was unverifiable by anyone but us. They are
+# evidence, not build output. Currently 6.8 KB.
 
 # data/runs/ IS committed: it is what the hosted demo reads, and the whole
 # point of cache-only hosting is that the demo cannot fail on a live call.

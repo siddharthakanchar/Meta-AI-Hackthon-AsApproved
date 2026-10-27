@@ -271,10 +271,8 @@ excluded from every vision baseline. R9 needs a transcript, and the
 transcriber has run either way. R10 needs Muse Spark claim extraction.
 {12 - len(g.unmeasured) - 1} rules were measured.
 
-{g.weak_sentence()} These are localisation errors rather than logic errors: the
-tracker's box is close but not exact, so a neighbouring rule occasionally trips
-with the right one. SAM 3.1 exists to close that gap, and region IoU is how we
-will measure whether it does.
+{g.weak_sentence()} These are localisation errors rather than logic errors, and
+SAM 3.1 exists to close that gap. How far it does is measured below.
 
 ### Variant-level detection
 
@@ -436,14 +434,105 @@ def video_block(g: Figures) -> str:
 
 # ------------------------------------------------------------------ driver --
 
+
+def _sam() -> dict | None:
+    """The SAM comparison, or None if it has not been run on this machine."""
+    path = REPO_ROOT / "eval" / "sam_region_delta.json"
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def sam_block(g: Figures) -> str:
+    sam = _sam()
+    if sam is None:
+        return (
+            "**SAM 3.1 region IoU.** Not yet measured. Run "
+            "`python scripts/sam_region_delta.py` with a Model API key."
+        )
+
+    s = sam["summary"]
+    rows = sam["rows"]
+    n = s["variants"]
+    excluded = sam["excluded"][0]
+
+    lines = [
+        "**What SAM 3.1 adds, measured.** On the "
+        f"{n} still variants the detector gets wrong, SAM 3.1 is compared with "
+        "the keyless template detector against the renderer's own region box. "
+        "Both are scored by box IoU, so the comparison is like for like.",
+        "",
+        "| Rule | Variant | Template IoU | SAM IoU | Δ |",
+        "|---|---|---|---|---|",
+    ]
+    for r in rows:
+        lines.append(
+            f"| {r['rule']} {r['error']} | `{r['variant_id']}` | "
+            f"{r['template_iou']:.3f} | {r['sam_iou']:.3f} | {r['delta']:+.3f} |"
+        )
+    lines += [
+        f"| **mean** | | **{s['mean_template_iou']:.3f}** | "
+        f"**{s['mean_sam_iou']:.3f}** | **{s['mean_delta']:+.3f}** |",
+        "",
+        f"The template detector locates the warning at all on {s['template_found']} of "
+        f"{n}; SAM on {s['sam_found']} of {n}. That is the real difference, and it "
+        "corrects what this README used to say — that these were near-miss "
+        "boxes. They are not. On three of the four the correlation tracker "
+        "returns nothing, so the rule is measuring pixels that are not the "
+        "warning. Where the tracker does find it, the two agree to within "
+        f"{abs(min(r['delta'] for r in rows)):.3f} IoU.",
+        "",
+        "**The noun phrase does much of the work.** "
+        f"{len(s['concepts'])} concepts were tried per variant and the "
+        'highest-confidence detection wins. "risk warning box" returns no '
+        'detection at all on the shrunk warnings, while "fine print '
+        'disclaimer" lands them at 0.987 and 0.984. Those phrases were chosen '
+        "against these same variants, so they carry the same development-set "
+        "caveat as the thresholds.",
+        "",
+        f"**Not measured:** `{excluded['variant_id']}` ({excluded['rule']} "
+        f"{excluded['error']}) is excluded — {excluded['reason']}. Masks are not "
+        "used either: SAM returns one, but its payload is in an 85-character "
+        "encoding this repo cannot read, so no mask-level score is claimed.",
+    ]
+    return "\n".join(lines)
+
+
+def sam_video_block(g: Figures) -> str:
+    sam = _sam()
+    if sam is None:
+        return "> SAM 3.1 region IoU not yet measured — run scripts/sam_region_delta.py."
+
+    s = sam["summary"]
+    return "\n".join(
+        [
+            "Say this, and nothing stronger:",
+            "",
+            f'> "On the {s["variants"]} variants we get wrong, our keyless tracker '
+            f"finds the warning {s['template_found']} time in {s['variants']} — mean "
+            f"region IoU {s['mean_template_iou']:.2f}. SAM 3.1 finds it "
+            f"{s['sam_found']} times out of {s['variants']}, mean IoU "
+            f'{s["mean_sam_iou"]:.2f}. That is the gap the model closes."',
+            "",
+            "Do not claim the rule outcomes change — they do not. This measures "
+            "localisation, which is what the errors were. If asked why SAM is not "
+            "wired into the benchmark: because swapping it in would change every "
+            "published number, and there was no time to re-verify the "
+            "reproducibility result before the deadline.",
+        ]
+    )
+
+
 START = "<!-- publish_numbers:{} start — generated, do not edit by hand -->"
 END = "<!-- publish_numbers:{} end -->"
 
 TARGETS = [
     ("README.md", "readme", readme_block),
+    ("README.md", "sam", sam_block),
     ("docs/DECISIONS.md", "decisions", decisions_block),
     ("submission/SUBMISSION.md", "submission", submission_block),
     ("submission/VIDEO.md", "video", video_block),
+    ("submission/VIDEO.md", "sam_video", sam_video_block),
 ]
 
 
@@ -466,10 +555,19 @@ def render(g: Figures) -> list[tuple[pathlib.Path, str, str]]:
     Both strings use "\\n" so a comparison never turns on line endings; the
     writer puts the file's own newline back.
     """
-    out = []
+    # Grouped by file, because a document may hold more than one generated
+    # block. Rendering each block from the on-disk text independently and then
+    # writing them in turn would make the last write discard the others.
+    original: dict[pathlib.Path, str] = {}
+    wanted: dict[pathlib.Path, str] = {}
+
     for rel, key, fn in TARGETS:
         path = REPO_ROOT / rel
-        text, _newline = read_text_keeping_newlines(path)
+        if path not in original:
+            original[path], _newline = read_text_keeping_newlines(path)
+            wanted[path] = original[path]
+
+        text = wanted[path]
         start, end = START.format(key), END.format(key)
         if start not in text or end not in text:
             raise SystemExit(
@@ -478,9 +576,9 @@ def render(g: Figures) -> list[tuple[pathlib.Path, str, str]]:
             )
         head, _, rest = text.partition(start)
         _body, _, tail = rest.partition(end)
-        wanted = head + f"{start}\n\n{rewrap(fn(g)).strip()}\n\n{end}" + tail
-        out.append((path, text, wanted))
-    return out
+        wanted[path] = head + f"{start}\n\n{rewrap(fn(g)).strip()}\n\n{end}" + tail
+
+    return [(path, original[path], wanted[path]) for path in original]
 
 
 def main() -> int:

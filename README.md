@@ -128,10 +128,8 @@ needs Muse Spark claim extraction. 9 rules were measured.
 
 **Where it is weak.** Precision is below 100% on R5 (50%), R7 (67%), and **R12
 is the only rule that also misses** (80% recall, 1 false negative). These are
-localisation errors rather than logic errors: the tracker's box is close but
-not exact, so a neighbouring rule occasionally trips with the right one. SAM
-3.1 exists to close that gap, and region IoU is how we will measure whether it
-does.
+localisation errors rather than logic errors, and SAM 3.1 exists to close that
+gap. How far it does is measured below.
 
 ### Variant-level detection
 
@@ -168,6 +166,45 @@ bench`, then `python scripts/publish_numbers.py` to update every document that
 quotes it.
 
 <!-- publish_numbers:readme end -->
+
+### What Meta's model adds
+
+<!-- publish_numbers:sam start — generated, do not edit by hand -->
+
+**What SAM 3.1 adds, measured.** On the 4 still variants the detector gets
+wrong, SAM 3.1 is compared with the keyless template detector against the
+renderer's own region box. Both are scored by box IoU, so the comparison is
+like for like.
+
+| Rule | Variant | Template IoU | SAM IoU | Δ |
+|---|---|---|---|---|
+| R5 FP | `brightwell_loans_01__v0_warning_shrunk` | 0.000 | 0.987 | +0.987 |
+| R5 FP | `kestrel_crypto_01__v1_warning_reworded` | 0.000 | 0.987 | +0.987 |
+| R5 FP | `northfield_card_03__v1_warning_shrunk` | 0.000 | 0.984 | +0.984 |
+| R7 FP | `northfield_card_02__v0_warning_into_overlay_zone` | 0.994 | 0.984 | -0.010 |
+| **mean** | | **0.249** | **0.985** | **+0.737** |
+
+The template detector locates the warning at all on 1 of 4; SAM on 4 of 4.
+That is the real difference, and it corrects what this README used to say —
+that these were near-miss boxes. They are not. On three of the four the
+correlation tracker returns nothing, so the rule is measuring pixels that are
+not the warning. Where the tracker does find it, the two agree to within 0.010
+IoU.
+
+**The noun phrase does much of the work.** 4 concepts were tried per variant
+and the highest-confidence detection wins. "risk warning box" returns no
+detection at all on the shrunk warnings, while "fine print disclaimer" lands
+them at 0.987 and 0.984. Those phrases were chosen against these same
+variants, so they carry the same development-set caveat as the thresholds.
+
+**Not measured:** `northfield_card_v2__v0_apr_animates_offscreen` (R12 FN) is
+excluded — video: the APR moves across frames 0-29, so per-frame ground-truth
+boxes would be needed; the label file carries one static box and a
+visible-frame range. Masks are not used either: SAM returns one, but its
+payload is in an 85-character encoding this repo cannot read, so no mask-level
+score is claimed.
+
+<!-- publish_numbers:sam end -->
 
 ## Where Meta's models sit
 

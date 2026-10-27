@@ -1,0 +1,248 @@
+{
+  "summary": {
+    "concepts": [
+      "risk warning box",
+      "fine print disclaimer",
+      "small print text",
+      "legal disclaimer text"
+    ],
+    "region": "warning",
+    "metric": "box_iou",
+    "masks_used": false,
+    "variants": 4,
+    "mean_template_iou": 0.2486,
+    "mean_sam_iou": 0.9853,
+    "template_found": 1,
+    "sam_found": 4,
+    "mean_delta": 0.7367
+  },
+  "rows": [
+    {
+      "variant_id": "brightwell_loans_01__v0_warning_shrunk",
+      "rule": "R5",
+      "error": "FP",
+      "transform": "warning_shrunk",
+      "kind": "still",
+      "truth_box": [
+        50,
+        581,
+        620,
+        117
+      ],
+      "template_box": null,
+      "sam_box": [
+        52,
+        582,
+        617,
+        116
+      ],
+      "sam_confidence": 0.8750000596046448,
+      "sam_concept": "fine print disclaimer",
+      "concepts_tried": 4,
+      "concepts_that_found_it": 1,
+      "per_concept": {
+        "risk warning box": {
+          "box": null,
+          "confidence": null
+        },
+        "fine print disclaimer": {
+          "box": [
+            52,
+            582,
+            617,
+            116
+          ],
+          "confidence": 0.8750000596046448
+        },
+        "small print text": {
+          "box": null,
+          "confidence": null
+        },
+        "legal disclaimer text": {
+          "box": null,
+          "confidence": null
+        }
+      },
+      "mask_available": false,
+      "template_iou": 0.0,
+      "sam_iou": 0.9867,
+      "delta": 0.9867
+    },
+    {
+      "variant_id": "kestrel_crypto_01__v1_warning_reworded",
+      "rule": "R5",
+      "error": "FP",
+      "transform": "warning_reworded",
+      "kind": "still",
+      "truth_box": [
+        50,
+        499,
+        620,
+        206
+      ],
+      "template_box": null,
+      "sam_box": [
+        53,
+        500,
+        615,
+        205
+      ],
+      "sam_confidence": 0.8987342119216919,
+      "sam_concept": "fine print disclaimer",
+      "concepts_tried": 4,
+      "concepts_that_found_it": 2,
+      "per_concept": {
+        "risk warning box": {
+          "box": [
+            52,
+            500,
+            616,
+            205
+          ],
+          "confidence": 0.8518518805503845
+        },
+        "fine print disclaimer": {
+          "box": [
+            53,
+            500,
+            615,
+            205
+          ],
+          "confidence": 0.8987342119216919
+        },
+        "small print text": {
+          "box": null,
+          "confidence": null
+        },
+        "legal disclaimer text": {
+          "box": null,
+          "confidence": null
+        }
+      },
+      "mask_available": false,
+      "template_iou": 0.0,
+      "sam_iou": 0.9871,
+      "delta": 0.9871
+    },
+    {
+      "variant_id": "northfield_card_03__v1_warning_shrunk",
+      "rule": "R5",
+      "error": "FP",
+      "transform": "warning_shrunk",
+      "kind": "still",
+      "truth_box": [
+        50,
+        597,
+        620,
+        68
+      ],
+      "template_box": null,
+      "sam_box": [
+        51,
+        598,
+        619,
+        67
+      ],
+      "sam_confidence": 0.8324607610702515,
+      "sam_concept": "fine print disclaimer",
+      "concepts_tried": 4,
+      "concepts_that_found_it": 1,
+      "per_concept": {
+        "risk warning box": {
+          "box": null,
+          "confidence": null
+        },
+        "fine print disclaimer": {
+          "box": [
+            51,
+            598,
+            619,
+            67
+          ],
+          "confidence": 0.8324607610702515
+        },
+        "small print text": {
+          "box": null,
+          "confidence": null
+        },
+        "legal disclaimer text": {
+          "box": null,
+          "confidence": null
+        }
+      },
+      "mask_available": false,
+      "template_iou": 0.0,
+      "sam_iou": 0.9837,
+      "delta": 0.9837
+    },
+    {
+      "variant_id": "northfield_card_02__v0_warning_into_overlay_zone",
+      "rule": "R7",
+      "error": "FP",
+      "transform": "warning_into_overlay_zone",
+      "kind": "still",
+      "truth_box": [
+        50,
+        876,
+        620,
+        247
+      ],
+      "template_box": [
+        50,
+        877,
+        619,
+        246
+      ],
+      "sam_box": [
+        53,
+        877,
+        615,
+        245
+      ],
+      "sam_confidence": 0.9064327478408813,
+      "sam_concept": "fine print disclaimer",
+      "concepts_tried": 4,
+      "concepts_that_found_it": 2,
+      "per_concept": {
+        "risk warning box": {
+          "box": [
+            53,
+            877,
+            616,
+            246
+          ],
+          "confidence": 0.6995305418968201
+        },
+        "fine print disclaimer": {
+          "box": [
+            53,
+            877,
+            615,
+            245
+          ],
+          "confidence": 0.9064327478408813
+        },
+        "small print text": {
+          "box": null,
+          "confidence": null
+        },
+        "legal disclaimer text": {
+          "box": null,
+          "confidence": null
+        }
+      },
+      "mask_available": false,
+      "template_iou": 0.9943,
+      "sam_iou": 0.9839,
+      "delta": -0.0104
+    }
+  ],
+  "excluded": [
+    {
+      "variant_id": "northfield_card_v2__v0_apr_animates_offscreen",
+      "rule": "R12",
+      "error": "FN",
+      "reason": "video: the APR moves across frames 0-29, so per-frame ground-truth boxes would be needed; the label file carries one static box and a visible-frame range"
+    }
+  ]
+}

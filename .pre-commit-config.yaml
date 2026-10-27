@@ -28,9 +28,9 @@ repos:
       # belongs in the hook config, not in the generators: a trailing newline in
       # a file nobody hand-edits buys nothing.
       - id: end-of-file-fixer
-        exclude: ^(data/runs/|data/labels/|data/lineage\.json|eval/results\.json)
+        exclude: ^(data/runs/|data/labels/|data/cache/|data/lineage\.json|eval/results\.json)
       - id: trailing-whitespace
-        exclude: ^(data/runs/|data/labels/|data/lineage\.json|eval/results\.json)
+        exclude: ^(data/runs/|data/labels/|data/cache/|data/lineage\.json|eval/results\.json)
       - id: detect-private-key
 
   # Secret scanner — the hard guardrail. Nothing ships if this fires.

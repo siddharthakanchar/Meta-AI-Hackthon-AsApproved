@@ -41,6 +41,9 @@ __all__ = [
     "parse_response_line",
     "decode_rle",
     "decode_mask",
+    "mask_encoding",
+    "split_mask_payload",
+    "MaskEncodingUnsupported",
     "segment_image",
     "track_video",
 ]
@@ -147,7 +150,7 @@ def parse_response_line(line: str) -> list[SamDetection]:
                 )
             elif kind == "mask":
                 raw = fields.get("data", "")
-                encoding = "one_bit" if ONE_BIT_MARKER in raw else "lossless"
+                encoding = mask_encoding(raw)
                 mask = SamMask(
                     x=int(fields.get("x", 0)),
                     y=int(fields.get("y", 0)),
@@ -157,6 +160,51 @@ def parse_response_line(line: str) -> list[SamDetection]:
                 )
         detections.append(SamDetection(frame=frame, object_id=object_id, box=box, mask=mask))
     return detections
+
+
+class MaskEncodingUnsupported(NotImplementedError):
+    """The mask payload is in a form this decoder cannot read."""
+
+
+def split_mask_payload(data: str) -> tuple[int, int, str, str]:
+    """Split `"<h>,<w><marker><body>"` into (height, width, marker, body).
+
+    The two leading numbers are the mask's dimensions, not run lengths. Both
+    documented samples make that plain once checked against their own boxes:
+    `data=122,376,~` sits on a box 376 wide and 122 high, and `data=27,60,~`
+    on one 60 by 27. They were read as a run list, which made a header of
+    "230,617" decode to 847 set pixels of a 141,910-pixel region.
+    """
+    marker_at = min(
+        (i for i, ch in enumerate(data) if ch in (LOSSLESS_MARKER, ONE_BIT_MARKER)),
+        default=-1,
+    )
+    if marker_at < 0:
+        raise MaskEncodingUnsupported(f"mask payload carries no encoding marker: {data[:40]!r}")
+
+    header = data[:marker_at].strip().rstrip(",")
+    marker = data[marker_at]
+    body = data[marker_at + 1 :]
+
+    parts = [p for p in header.split(",") if p.strip()]
+    if len(parts) != 2 or not all(p.strip().isdigit() for p in parts):
+        raise MaskEncodingUnsupported(f"mask header is not '<h>,<w>': {header!r}")
+
+    return int(parts[0]), int(parts[1]), marker, body
+
+
+def mask_encoding(data: str) -> str:
+    """Name the encoding from the marker's position, not from a substring search.
+
+    `ONE_BIT_MARKER in raw` tested the whole payload, and "!" occurs freely
+    inside the encoded body, so almost every lossless mask was labelled
+    `one_bit`. The marker is the single character that follows the dimensions.
+    """
+    try:
+        _, _, marker, _ = split_mask_payload(data)
+    except MaskEncodingUnsupported:
+        return "unknown"
+    return "one_bit" if marker == ONE_BIT_MARKER else "lossless"
 
 
 def decode_rle(data: str, width: int, height: int) -> np.ndarray:
@@ -169,9 +217,26 @@ def decode_rle(data: str, width: int, height: int) -> np.ndarray:
     Raises on a run list that does not fill the region: a short payload would
     otherwise decode to a silently truncated mask, and a mask that is wrong by
     construction is worse than one that fails loudly.
+
+    The live API does not use this form. Its bodies are an 85-character encoding
+    whose alphabet includes `z` and `{`, so it is neither Ascii85 nor Z85, and
+    whose length is 1.58x the packed bitmap — no packed-bitmap encoding has that
+    ratio. Rather than guess, an unreadable body raises
+    `MaskEncodingUnsupported`: callers fall back to the bounding box, which is
+    parsed and verified, and say so. See docs/DECISIONS.md.
     """
-    payload = data.replace(LOSSLESS_MARKER, "").replace(ONE_BIT_MARKER, "")
-    runs = [int(token) for token in payload.split(",") if token.strip().lstrip("-").isdigit()]
+    height_hdr, width_hdr, _, body = split_mask_payload(data)
+    if (height_hdr, width_hdr) != (height, width):
+        raise ValueError(
+            f"mask header says {width_hdr}x{height_hdr} but the box is {width}x{height}"
+        )
+
+    runs = [int(token) for token in body.split(",") if token.strip().lstrip("-").isdigit()]
+    if not runs and body.strip():
+        raise MaskEncodingUnsupported(
+            f"mask body is not a decimal run list ({len(body)} chars, "
+            f"{len(set(body))} distinct characters): this decoder reads only runs"
+        )
     total = width * height
     flat = np.zeros(total, dtype=bool)
 

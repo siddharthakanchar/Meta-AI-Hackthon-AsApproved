@@ -112,9 +112,7 @@ def test_cost_fields_may_be_computed_from_the_response(cache_dir, monkeypatch):
 
     assert len(logged) == 1
     assert logged[0]["cost_usd"] > 0, "a metered call was logged as free"
-    assert logged[0]["cost_usd"] == pytest.approx(
-        cache.estimate_cost("muse-spark-1.3", usage)
-    )
+    assert logged[0]["cost_usd"] == pytest.approx(cache.estimate_cost("muse-spark-1.3", usage))
 
 
 def test_a_dict_of_cost_fields_still_works(cache_dir, monkeypatch):

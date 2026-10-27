@@ -173,8 +173,19 @@ the screen will say.
 
 Add 15 seconds after the 1:10 mark:
 
-> "With SAM 3.1 segmenting the warning instead of our fallback, region IoU goes
-> from X to Y and precision on R5 and R12 moves from Z to W."
+<!-- publish_numbers:sam_video start — generated, do not edit by hand -->
+
+Say this, and nothing stronger:
+
+> "On the 4 variants we get wrong, our keyless tracker finds the warning 1 time in 4 — mean region IoU 0.25. SAM 3.1 finds it 4 times out of 4, mean IoU 0.99. That is the gap the model closes."
+
+Do not claim the rule outcomes change — they do not. This measures
+localisation, which is what the errors were. If asked why SAM is not wired
+into the benchmark: because swapping it in would change every published
+number, and there was no time to re-verify the reproducibility result before
+the deadline.
+
+<!-- publish_numbers:sam_video end -->
 
 That is the strongest possible use of the model: a measured delta against a real
 classical control, not a swap-in nobody can evaluate. The metric was promised in

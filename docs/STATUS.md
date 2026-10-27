@@ -104,13 +104,33 @@ before sending anything that is not.
 $env:ASAPPROVED_MODE="live"; python scripts/spike_models.py
 ```
 
-Then wire **SAM 3.1 only**, on the five variants that produce the R5/R7/R12
-false positives, and publish the region-IoU delta against the template
-detector. That is worth more than integrating all three models: it measures
-what Meta's model adds over a real classical control, and the README already
-promised that metric before the numbers existed.
+**SAM 3.1 is done.** `scripts/sam_region_delta.py` scores it against the
+keyless template detector on the four still variants the benchmark gets wrong,
+using the renderer's own region box as ground truth. Mean box IoU 0.249 →
+0.985; the template detector locates the warning at all on 1 of 4, SAM on 4 of
+4. The README's old explanation — near-miss boxes — was wrong: on three of the
+four the correlation tracker returns nothing. Generated into README.md and
+submission/VIDEO.md by `publish_numbers.py`, so the on-camera figures cannot
+drift.
 
-Mux the voiceovers in the same pass (`ffmpeg -i video -i wav -c:v copy
+Three things that result does **not** say, and the documents say so too:
+
+- It is localisation only. SAM is not wired into the benchmark, so no published
+  precision or recall moves. Swapping it in would change every number and the
+  reproducibility result with them, and there is no time to re-verify before
+  the deadline.
+- The noun phrase does much of the work. "risk warning box" finds nothing on a
+  shrunk warning; "fine print disclaimer" finds it at 0.987. Four phrases are
+  tried and the best wins. They were chosen on these same variants.
+- R12's false negative is excluded. It is a video whose APR moves across frames
+  0-29, and the label file carries one static box, which is enough to score the
+  rule and not enough to score a localiser.
+
+`data/cache/` is now committed (6.8 KB). It was gitignored with the regenerable
+assets, but a recorded model response cannot be regenerated without a key, so
+the SAM result did not reproduce from a clean clone.
+
+**Still to do: mux the voiceovers** (`ffmpeg -i video -i wav -c:v copy
 -c:a aac -shortest`) and transcribe. Both halves have to land together: muxing
 alone changes every affected asset's bytes and therefore the label digest,
 which would invalidate the published numbers and the reproducibility result

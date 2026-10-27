@@ -103,9 +103,7 @@ def main() -> int:
             annotated = draw_region(annotated, box, label, status_colour)
         files["annotated"] = _save(annotated, previews / f"{stem}_annotated.jpg")
 
-        visibility = {
-            label: track.visible for label, track in result.tracks.items()
-        }
+        visibility = {label: track.visible for label, track in result.tracks.items()}
 
         record = result.to_record()
         record.update(

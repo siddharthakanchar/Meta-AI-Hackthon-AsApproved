@@ -148,7 +148,9 @@ def similarity(observed: str, prescribed: str) -> float:
     return difflib.SequenceMatcher(None, _collapsed(observed), _collapsed(prescribed)).ratio()
 
 
-def compare_prescribed(observed: str, prescribed: str, *, source: str = "exact") -> tuple[PrescribedVerdict, float]:
+def compare_prescribed(
+    observed: str, prescribed: str, *, source: str = "exact"
+) -> tuple[PrescribedVerdict, float]:
     """Decide whether `observed` is the prescribed wording.
 
     `source="exact"` — the text is trusted (structured model extraction, or our

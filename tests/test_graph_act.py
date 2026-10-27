@@ -81,9 +81,27 @@ def test_build_from_runs(tmp_path):
 
     index = {
         "runs": [
-            {"variant_id": "a1", "master_id": "m1", "enhancement": "image_touchups", "fail": 2, "placement": "feed"},
-            {"variant_id": "a2", "master_id": "m1", "enhancement": "image_touchups", "fail": 0, "placement": "feed"},
-            {"variant_id": "b1", "master_id": "m2", "enhancement": "image_touchups", "fail": 0, "placement": "reels"},
+            {
+                "variant_id": "a1",
+                "master_id": "m1",
+                "enhancement": "image_touchups",
+                "fail": 2,
+                "placement": "feed",
+            },
+            {
+                "variant_id": "a2",
+                "master_id": "m1",
+                "enhancement": "image_touchups",
+                "fail": 0,
+                "placement": "feed",
+            },
+            {
+                "variant_id": "b1",
+                "master_id": "m2",
+                "enhancement": "image_touchups",
+                "fail": 0,
+                "placement": "reels",
+            },
         ]
     }
     path = tmp_path / "index.json"

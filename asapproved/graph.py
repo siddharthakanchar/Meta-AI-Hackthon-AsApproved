@@ -100,7 +100,9 @@ class LineageGraph:
     """Ads, assets, features and variants, queryable without a database."""
 
     ads: dict[str, dict[str, Any]] = field(default_factory=dict)
-    enrolments: dict[str, dict[str, str]] = field(default_factory=dict)  # ad_id -> feature -> status
+    enrolments: dict[str, dict[str, str]] = field(
+        default_factory=dict
+    )  # ad_id -> feature -> status
     variants: dict[str, dict[str, Any]] = field(default_factory=dict)
     precedents: dict[tuple[str, str, str], Precedent] = field(default_factory=dict)
     backend: str = "memory"

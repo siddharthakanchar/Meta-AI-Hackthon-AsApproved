@@ -216,7 +216,9 @@ def template_note(findings: list[Finding], context_note: str = "") -> str:
     unknown = [f for f in findings if f.status == "inconclusive"]
 
     if not failed:
-        lines = ["No rule in rulebook " + findings[0].rulebook_version + " failed for this variant."]
+        lines = [
+            "No rule in rulebook " + findings[0].rulebook_version + " failed for this variant."
+        ]
     else:
         lines = [
             f"{len(failed)} rule(s) failed for this variant against rulebook "

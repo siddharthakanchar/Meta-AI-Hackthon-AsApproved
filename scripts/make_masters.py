@@ -54,11 +54,15 @@ def main() -> int:
             if done % 50 == 0 or done == total:
                 print(f"\r  {label}: frame {done}/{total}", end="", flush=True)
 
-        asset, sidecar = build_master(spec, out_dir, progress=progress if spec.kind == "video" else None)
+        asset, sidecar = build_master(
+            spec, out_dir, progress=progress if spec.kind == "video" else None
+        )
         if spec.kind == "video":
             print()
         kb = asset.stat().st_size / 1024
-        print(f"  {label}  ->  {asset.name} ({kb:,.0f} KB) + {sidecar.name}  [{time.time() - t0:.1f}s]")
+        print(
+            f"  {label}  ->  {asset.name} ({kb:,.0f} KB) + {sidecar.name}  [{time.time() - t0:.1f}s]"
+        )
 
     print(f"\n{len(specs)} masters in {out_dir}  [{time.time() - started:.1f}s total]")
     print("All assets are SIMULATED and labelled as such in their sidecars.")

@@ -662,9 +662,7 @@ def _allocate(
 
     for master in masters:
         while capacity[master.id] > 0:
-            options = [
-                t for t in pool if _eligible(t, master) and t not in assigned[master.id]
-            ]
+            options = [t for t in pool if _eligible(t, master) and t not in assigned[master.id]]
             if not options:
                 break
             pick = min(options, key=scarcity)

@@ -70,9 +70,7 @@ PRICING: dict[str, dict[str, float]] = {
 
 def cache_key(model: str, params: dict[str, Any], input_hashes: list[str]) -> str:
     return sha256_bytes(
-        canonical_bytes(
-            {"model": model, "params": params, "inputs": sorted(input_hashes)}
-        )
+        canonical_bytes({"model": model, "params": params, "inputs": sorted(input_hashes)})
     )
 
 
@@ -97,8 +95,12 @@ def put(key: str, response: Any, meta: dict[str, Any] | None = None) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
         json.dumps(
-            {"key": key, "cached_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-             "meta": meta or {}, "response": response},
+            {
+                "key": key,
+                "cached_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+                "meta": meta or {},
+                "response": response,
+            },
             ensure_ascii=False,
         ),
         encoding="utf-8",

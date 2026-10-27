@@ -50,9 +50,7 @@ def make_master(width: int = FRAME_W, height: int = FRAME_H) -> np.ndarray:
     cv2.putText(
         img, "Your home may be", (58, height - 215), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2
     )
-    cv2.putText(
-        img, "repossessed", (58, height - 178), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2
-    )
+    cv2.putText(img, "repossessed", (58, height - 178), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 0), 2)
     return img
 
 

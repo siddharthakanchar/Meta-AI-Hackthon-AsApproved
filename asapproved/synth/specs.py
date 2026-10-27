@@ -90,7 +90,9 @@ class MasterSpec:
     def warning_text(self) -> str:
         if self.investment_type:
             return prescribed_text(self.investment_type)
-        assert self.representative_example, f"{self.id}: credit master needs a representative example"
+        assert self.representative_example, (
+            f"{self.id}: credit master needs a representative example"
+        )
         return self.representative_example
 
     @property

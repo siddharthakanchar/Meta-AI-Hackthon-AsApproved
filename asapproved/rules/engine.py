@@ -306,6 +306,7 @@ class Context:
 # logic handlers
 # ---------------------------------------------------------------------------
 
+
 def _locate_failed(region: dict[str, Any] | None) -> bool:
     """True when a region is absent only because we could not look for it.
 
@@ -553,9 +554,7 @@ def _r3(rule: Rule, ctx: Context) -> Finding:
 def _r4(rule: Rule, ctx: Context) -> Finding:
     """R4 — short-form video: the warning must be on screen throughout."""
     if not ctx.is_video:
-        return _finding(
-            rule, ctx_version(ctx), "not_applicable", "Not a video promotion."
-        )
+        return _finding(rule, ctx_version(ctx), "not_applicable", "Not a video promotion.")
     ratio = ctx.visible_ratio_bp.get(ctx.warning_label)
     if ratio is None:
         return _finding(
@@ -768,9 +767,7 @@ def _r8(rule: Rule, ctx: Context) -> Finding:
             "Not a consumer-credit promotion, so no representative APR applies.",
         )
     if not trigger or not trigger.get("present"):
-        return _finding(
-            rule, ctx_version(ctx), "not_applicable", "No trigger feature present."
-        )
+        return _finding(rule, ctx_version(ctx), "not_applicable", "No trigger feature present.")
     if not apr or not apr.get("present"):
         return _finding(
             rule,
@@ -820,7 +817,9 @@ def _r8(rule: Rule, ctx: Context) -> Finding:
             rule,
             ctx_version(ctx),
             "fail",
-            "The representative APR is less prominent than its trigger: " + "; ".join(reasons) + ".",
+            "The representative APR is less prominent than its trigger: "
+            + "; ".join(reasons)
+            + ".",
             measured=apr_h,
             measured_display=f"{apr_h}px",
             threshold=trg_h,
@@ -927,16 +926,13 @@ def _r11(rule: Rule, ctx: Context) -> Finding:
         )
     # From the book that ran, not the shipped one: a pinned rulebook's own
     # prescribed wording must be what R11 compares against.
-    prescribed = (ctx.prescribed_texts or load_rulebook().prescribed_texts).get(
-        ctx.investment_type
-    )
+    prescribed = (ctx.prescribed_texts or load_rulebook().prescribed_texts).get(ctx.investment_type)
     if prescribed is None:
         return _finding(
             rule,
             ctx_version(ctx),
             "inconclusive",
-            f"No prescribed wording is on file for investment type "
-            f"'{ctx.investment_type}'.",
+            f"No prescribed wording is on file for investment type '{ctx.investment_type}'.",
             caveats=["unknown investment type"],
         )
     if ctx.warning_text_variant is None:
@@ -1022,9 +1018,7 @@ def _r12(rule: Rule, ctx: Context) -> Finding:
     unmeasured = [label for label in present if label not in measured]
 
     if not measured:
-        return _finding(
-            rule, ctx_version(ctx), "inconclusive", "Occlusion was not measured."
-        )
+        return _finding(rule, ctx_version(ctx), "inconclusive", "Occlusion was not measured.")
 
     assert rule.threshold is not None
     breaching = {k: v for k, v in measured.items() if v > rule.threshold}
@@ -1174,6 +1168,8 @@ def summarise(findings: list[Finding]) -> dict[str, Any]:
         "pass": sum(1 for f in findings if f.status == "pass"),
         "inconclusive": sum(1 for f in findings if f.status == "inconclusive"),
         "not_applicable": sum(1 for f in findings if f.status == "not_applicable"),
-        "failed_rules": [f.rule_id for f in findings if f.status == "fail" and not f.benchmark_only],
+        "failed_rules": [
+            f.rule_id for f in findings if f.status == "fail" and not f.benchmark_only
+        ],
         "inconclusive_rules": [f.rule_id for f in findings if f.status == "inconclusive"],
     }

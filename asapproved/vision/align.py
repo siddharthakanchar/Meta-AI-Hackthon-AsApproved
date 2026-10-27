@@ -111,13 +111,18 @@ def align_to_master(master: np.ndarray, variant: np.ndarray, *, nfeatures: int =
         return _resize_alignment(
             master_shape,
             variant_shape,
-            "too few keypoints to align (flat or featureless creative); "
-            "fell back to scale-only",
+            "too few keypoints to align (flat or featureless creative); fell back to scale-only",
         )
 
     matcher = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=False)
     raw = matcher.knnMatch(des_v, des_m, k=2)
-    good = [m for pair in raw if len(pair) == 2 for m, n in [pair] if m.distance < RATIO_TEST * n.distance]
+    good = [
+        m
+        for pair in raw
+        if len(pair) == 2
+        for m, n in [pair]
+        if m.distance < RATIO_TEST * n.distance
+    ]
 
     if len(good) < MIN_INLIERS:
         return _resize_alignment(
@@ -140,8 +145,7 @@ def align_to_master(master: np.ndarray, variant: np.ndarray, *, nfeatures: int =
         return _resize_alignment(
             master_shape,
             variant_shape,
-            f"homography kept only {inliers} inliers (need {MIN_INLIERS}); "
-            "fell back to scale-only",
+            f"homography kept only {inliers} inliers (need {MIN_INLIERS}); fell back to scale-only",
         )
 
     # A homography can be numerically valid and geometrically absurd (collapsed or
@@ -149,7 +153,9 @@ def align_to_master(master: np.ndarray, variant: np.ndarray, *, nfeatures: int =
     det = float(np.linalg.det(matrix[:2, :2]))
     if not np.isfinite(det) or abs(det) < 1e-6:
         return _resize_alignment(
-            master_shape, variant_shape, "degenerate homography (collapsed); fell back to scale-only"
+            master_shape,
+            variant_shape,
+            "degenerate homography (collapsed); fell back to scale-only",
         )
 
     return Alignment(

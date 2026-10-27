@@ -60,7 +60,9 @@ def compliant_layout(spec: MasterSpec) -> Layout:
     )
 
 
-def render_master_frame(spec: MasterSpec, frame_index: int = 0, layout: Layout | None = None) -> RenderedFrame:
+def render_master_frame(
+    spec: MasterSpec, frame_index: int = 0, layout: Layout | None = None
+) -> RenderedFrame:
     """One frame of a master. Masters are compliant in every frame, by design."""
     w, h = spec.size
     phase = (frame_index / max(1, spec.total_frames)) * 2.0
@@ -100,12 +102,18 @@ def write_video(frames: list[Image.Image], out_path: Path, fps: int) -> Path:
             frame.save(tmpdir / f"{i:05d}.png")
         run_ffmpeg(
             [
-                "-framerate", str(fps),
-                "-i", str(tmpdir / "%05d.png"),
-                "-c:v", "libx264",
-                "-preset", "medium",
-                "-crf", "18",
-                "-pix_fmt", "yuv420p",
+                "-framerate",
+                str(fps),
+                "-i",
+                str(tmpdir / "%05d.png"),
+                "-c:v",
+                "libx264",
+                "-preset",
+                "medium",
+                "-crf",
+                "18",
+                "-pix_fmt",
+                "yuv420p",
                 str(out_path),
             ]
         )

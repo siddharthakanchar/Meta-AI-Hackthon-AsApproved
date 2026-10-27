@@ -55,14 +55,20 @@ def draw_region(
     out = frame_bgr.copy()
     if not box:
         return out
-    x, y, w, h = [int(v) for v in box]
+    x, y, w, h = (int(v) for v in box)
     bgr = _hex_to_bgr(colour_hex)
     cv2.rectangle(out, (x, y), (x + w, y + h), bgr, thickness)
     (tw, th), _ = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
     ty = max(0, y - th - 6)
     cv2.rectangle(out, (x, ty), (x + tw + 8, ty + th + 8), bgr, -1)
     cv2.putText(
-        out, label, (x + 4, ty + th + 2), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1,
+        out,
+        label,
+        (x + 4, ty + th + 2),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        0.5,
+        (255, 255, 255),
+        1,
         cv2.LINE_AA,
     )
     return out
@@ -125,9 +131,7 @@ def finding_card_html(finding: dict[str, Any]) -> str:
     measured = finding.get("measured_display") or "—"
     threshold = finding.get("threshold_display") or "—"
 
-    caveats = "".join(
-        f'<div class="aa-caveat">⚠ {c}</div>' for c in (finding.get("caveats") or [])
-    )
+    caveats = "".join(f'<div class="aa-caveat">⚠ {c}</div>' for c in (finding.get("caveats") or []))
     subs = finding.get("sub_results") or {}
     sub_html = ""
     if subs:

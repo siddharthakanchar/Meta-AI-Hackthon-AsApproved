@@ -138,7 +138,9 @@ def is_clipped(mask: np.ndarray, *, margin: int = 1) -> bool:
         return False
     x, y, w, h = box
     H, W = mask.shape[:2]
-    return x <= margin - 1 or y <= margin - 1 or (x + w) >= W - margin + 1 or (y + h) >= H - margin + 1
+    return (
+        x <= margin - 1 or y <= margin - 1 or (x + w) >= W - margin + 1 or (y + h) >= H - margin + 1
+    )
 
 
 def detect_border(frame_bgr: np.ndarray, bbox: tuple[int, int, int, int]) -> bool | None:

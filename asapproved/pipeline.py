@@ -242,9 +242,7 @@ def check_variant(
         if template is None:
             notes.append(f"region '{label}' too small to track")
             continue
-        tracks[label] = track_region(
-            template, variant_frames, label, near=expected[label]
-        )
+        tracks[label] = track_region(template, variant_frames, label, near=expected[label])
 
     master_ocr = read_text(master_frame)
     variant_ocr = read_text(variant_frame)
@@ -347,12 +345,15 @@ def check_variant(
                 notes.append(
                     f"region '{label}' did not match its master template; located by its text"
                 )
-            elif fallback and inside >= 0.5 and variant_ocr.available and text_in_box(variant_ocr, fallback).boxes:
+            elif (
+                fallback
+                and inside >= 0.5
+                and variant_ocr.available
+                and text_in_box(variant_ocr, fallback).boxes
+            ):
                 v_box = fallback
                 located_by = "alignment"
-                notes.append(
-                    f"region '{label}' located at the position the alignment predicts"
-                )
+                notes.append(f"region '{label}' located at the position the alignment predicts")
             else:
                 # Distinguish "we looked and it is gone" from "we could not
                 # look". Collapsing both into present=False had R3 issue a
@@ -404,9 +405,7 @@ def check_variant(
                 for box in track.boxes:
                     if box is None:
                         continue
-                    frame_occ = occlusion(
-                        _mask_from_box(box, variant_frame.shape), key
-                    )
+                    frame_occ = occlusion(_mask_from_box(box, variant_frame.shape), key)
                     worst_px = max(worst_px, frame_occ.occluded_pixels)
             occluded[label] = worst_px
 
@@ -420,7 +419,11 @@ def check_variant(
             # the thing that is actually there.
             if located_by != "template":
                 own = region_template(variant_frame, tuple(v_box), None)
-                track = track_region(own, variant_frames, label, near=v_box) if own is not None else track
+                track = (
+                    track_region(own, variant_frames, label, near=v_box)
+                    if own is not None
+                    else track
+                )
                 tracks[label] = track or tracks.get(label)
             if track:
                 t = measure_track(track.visible, max(1.0, src_fps / stride), label)

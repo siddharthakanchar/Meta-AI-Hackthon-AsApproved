@@ -60,8 +60,7 @@ def test_parses_a_video_frame_marker():
 
 def test_parses_several_objects_on_one_line():
     line = (
-        "<3f>0<|box;x1=1;y1=1;x2=10;y2=10;w=100;h=100|>"
-        "1<|box;x1=20;y1=20;x2=30;y2=30;w=100;h=100|>"
+        "<3f>0<|box;x1=1;y1=1;x2=10;y2=10;w=100;h=100|>1<|box;x1=20;y1=20;x2=30;y2=30;w=100;h=100|>"
     )
     dets = parse_response_line(line)
     assert [d.object_id for d in dets] == [0, 1]

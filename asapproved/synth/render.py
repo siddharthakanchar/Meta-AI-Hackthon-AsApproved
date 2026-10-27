@@ -130,7 +130,7 @@ def _background(brand: Brand, w: int, h: int, phase: float = 0.0) -> Image.Image
     top = np.array(brand.bg, dtype=np.float64)
     bottom = np.array(brand.bg_accent, dtype=np.float64)
     ramp = np.linspace(0.0, 1.0, h)[:, None]
-    grad = (top[None, None, :] * (1 - ramp[:, :, None]) + bottom[None, None, :] * ramp[:, :, None])
+    grad = top[None, None, :] * (1 - ramp[:, :, None]) + bottom[None, None, :] * ramp[:, :, None]
     img = Image.fromarray(np.repeat(grad.astype(np.uint8), w, axis=1), mode="RGB")
 
     draw = ImageDraw.Draw(img, "RGBA")
@@ -150,13 +150,22 @@ def _draw_logo(draw: ImageDraw.ImageDraw, brand: Brand, x: int, y: int, size: in
     if brand.sector == "credit":
         draw.rounded_rectangle([x, y, x + size, y + size], radius=size // 5, fill=brand.accent)
         draw.rectangle(
-            [x + size // 5, y + size // 2 - size // 12, x + size - size // 5, y + size // 2 + size // 12],
+            [
+                x + size // 5,
+                y + size // 2 - size // 12,
+                x + size - size // 5,
+                y + size // 2 + size // 12,
+            ],
             fill=brand.bg,
         )
     else:
         draw.ellipse([x, y, x + size, y + size], fill=brand.accent)
         draw.polygon(
-            [(x + size // 2, y + size // 5), (x + size * 4 // 5, y + size * 3 // 4), (x + size // 5, y + size * 3 // 4)],
+            [
+                (x + size // 2, y + size // 5),
+                (x + size * 4 // 5, y + size * 3 // 4),
+                (x + size // 5, y + size * 3 // 4),
+            ],
             fill=brand.bg,
         )
     tx = x + size + int(size * 0.35)

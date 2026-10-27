@@ -78,12 +78,17 @@ def to_pcm_wav(src: str | Path, dst: str | Path) -> Path:
     dst.parent.mkdir(parents=True, exist_ok=True)
     run_ffmpeg(
         [
-            "-i", str(src),
+            "-i",
+            str(src),
             "-vn",
-            "-ar", str(SAMPLE_RATE),
-            "-ac", "1",
-            "-c:a", "pcm_s16le",
-            "-f", "wav",
+            "-ar",
+            str(SAMPLE_RATE),
+            "-ac",
+            "1",
+            "-c:a",
+            "pcm_s16le",
+            "-f",
+            "wav",
             str(dst),
         ]
     )

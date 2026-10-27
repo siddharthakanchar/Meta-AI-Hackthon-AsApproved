@@ -34,7 +34,9 @@ def box(d, xy, label, sub="", fill=PANEL, edge=None, title_size=22, sub_size=15)
     if sub:
         fs = load_font(sub_size)
         for i, line in enumerate(sub.split("\n")):
-            d.text((x0 + 16, y0 + 16 + title_size + 6 + i * (sub_size + 5)), line, font=fs, fill=MUTED)
+            d.text(
+                (x0 + 16, y0 + 16 + title_size + 6 + i * (sub_size + 5)), line, font=fs, fill=MUTED
+            )
 
 
 def arrow(d, start, end, colour=MUTED, width=3):
@@ -63,53 +65,100 @@ def main() -> int:
     )
 
     y = 160
-    box(d, (50, y, 430, y + 120), "1 · APPROVE",
-        "SHA-256 + approver + timestamp\n+ rulebook version + settings\nsigned Ed25519", edge=DET)
-    box(d, (470, y, 850, y + 120), "2 · SENSE",
-        "Marketing API: enhancement\nsettings + ad previews\n→ settings drift (R2)", edge=META)
-    box(d, (890, y, 1270, y + 120), "Meta models",
+    box(
+        d,
+        (50, y, 430, y + 120),
+        "1 · APPROVE",
+        "SHA-256 + approver + timestamp\n+ rulebook version + settings\nsigned Ed25519",
+        edge=DET,
+    )
+    box(
+        d,
+        (470, y, 850, y + 120),
+        "2 · SENSE",
+        "Marketing API: enhancement\nsettings + ad previews\n→ settings drift (R2)",
+        edge=META,
+    )
+    box(
+        d,
+        (890, y, 1270, y + 120),
+        "Meta models",
         "SAM 3.1 · masks + video tracks\nMuse Spark 1.3 · claims, JSON\nVoice Transcribe · spoken APR",
-        edge=META)
-    box(d, (1310, y, 1750, y + 120), "No key? labelled fallbacks",
-        "template+NCC · OCR · template note\nR9 reports NOT EVALUATED,\nnever a pass", edge=GUARD)
+        edge=META,
+    )
+    box(
+        d,
+        (1310, y, 1750, y + 120),
+        "No key? labelled fallbacks",
+        "template+NCC · OCR · template note\nR9 reports NOT EVALUATED,\nnever a pass",
+        edge=GUARD,
+    )
 
     y2 = 340
-    box(d, (50, y2, 850, y2 + 150), "3 · MEASURE — deterministic, no model decides",
+    box(
+        d,
+        (50, y2, 850, y2 + 150),
+        "3 · MEASURE — deterministic, no model decides",
         "align (ORB + RANSAC)  →  diff (SSIM)  →  locate region  →  measure\n"
         "seconds on screen · size vs body copy · WCAG contrast · border\n"
         "clipping · occlusion by the platform's own caption and CTA chrome",
-        edge=DET)
-    box(d, (890, y2, 1750, y2 + 150), "geometry trust gate",
+        edge=DET,
+    )
+    box(
+        d,
+        (890, y2, 1750, y2 + 150),
+        "geometry trust gate",
         "alignment unreliable → R1/R3 return INCONCLUSIVE\n"
         "region located by: template → its own text → alignment\n"
         "appearance measured on a frame where the region exists",
-        edge=GUARD)
+        edge=GUARD,
+    )
 
     y3 = 540
-    box(d, (50, y3, 850, y3 + 140), "4 · DECIDE — rulebook uk_v1 (YAML, 12 rules + 1 benchmark)",
+    box(
+        d,
+        (50, y3, 850, y3 + 140),
+        "4 · DECIDE — rulebook uk_v1 (YAML, 12 rules + 1 benchmark)",
         "R1 changed claim · R2 drift · R3 removed · R4 throughout · R5 bordered/bold\n"
         "R6 contrast · R7 vs body · R8 APR parity · R9 spoken · R10 example\n"
         "R11 prescribed wording · R12 platform overlay      B1 Clearcast (TV only)",
-        edge=DET)
-    box(d, (890, y3, 1750, y3 + 140), "every input may be UNKNOWN",
+        edge=DET,
+    )
+    box(
+        d,
+        (890, y3, 1750, y3 + 140),
+        "every input may be UNKNOWN",
         "unmeasured → inconclusive. Never pass (waves through a breach),\n"
         "never fail (accuses on a guess). An empty context produces\n"
         "zero failures — asserted by test, per rule.",
-        edge=GUARD)
+        edge=GUARD,
+    )
 
     y4 = 720
-    box(d, (50, y4, 600, y4 + 130), "5 · EXPLAIN",
+    box(
+        d,
+        (50, y4, 600, y4 + 130),
+        "5 · EXPLAIN",
         "Muse Spark writes the note\n→ validator rejects any number, rule ID,\n"
         "quote or citation not in evidence\n→ retry once → deterministic template",
-        edge=GUARD)
-    box(d, (640, y4, 1190, y4 + 130), "6 · ACT, THEN PROVE",
-        "blast radius = asset ∩ feature ∩ OPT_IN\n\"Fix once, opt out N\"\n"
+        edge=GUARD,
+    )
+    box(
+        d,
+        (640, y4, 1190, y4 + 130),
+        "6 · ACT, THEN PROVE",
+        'blast radius = asset ∩ feature ∩ OPT_IN\n"Fix once, opt out N"\n'
         "dry run by default; closes only when settings\nread back AND the preview re-checks",
-        edge=META)
-    box(d, (1230, y4, 1750, y4 + 130), "7 · REMEMBER",
+        edge=META,
+    )
+    box(
+        d,
+        (1230, y4, 1750, y4 + 130),
+        "7 · REMEMBER",
         "hash-chained evidence log — the digest covers\nindex and prev, so edits, reordering\n"
         "and deletion all break it\nprecedent memory per feature × rule",
-        edge=DET)
+        edge=DET,
+    )
 
     for a, b in (
         ((430, y + 60), (470, y + 60)),

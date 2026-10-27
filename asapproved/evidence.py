@@ -54,9 +54,7 @@ def _entry_hash(index: int, prev: str, ts: str, record: dict[str, Any]) -> str:
     Including `prev` is what chains it; including `index` stops a reordering
     attack that would otherwise preserve every individual hash.
     """
-    return sha256_bytes(
-        canonical_bytes({"index": index, "prev": prev, "ts": ts, "record": record})
-    )
+    return sha256_bytes(canonical_bytes({"index": index, "prev": prev, "ts": ts, "record": record}))
 
 
 @dataclass(frozen=True)

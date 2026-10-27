@@ -21,7 +21,9 @@ def isolated(tmp_path, monkeypatch):
     from asapproved.config import settings
 
     monkeypatch.setattr(type(settings), "cache_dir", property(lambda self: tmp_path / "cache"))
-    monkeypatch.setattr(type(settings), "costs_log", property(lambda self: tmp_path / "costs.jsonl"))
+    monkeypatch.setattr(
+        type(settings), "costs_log", property(lambda self: tmp_path / "costs.jsonl")
+    )
     yield
 
 
@@ -127,7 +129,9 @@ def test_sam_image_cost():
 
 
 def test_transcribe_cost_per_hour():
-    assert mc.estimate_cost("muse-voice-transcribe-1.0", {"audio_seconds": 3600}) == pytest.approx(0.18)
+    assert mc.estimate_cost("muse-voice-transcribe-1.0", {"audio_seconds": 3600}) == pytest.approx(
+        0.18
+    )
 
 
 def test_unknown_model_costs_zero_rather_than_guessing():
@@ -141,9 +145,7 @@ def test_unknown_model_costs_zero_rather_than_guessing():
 
 def test_every_call_is_logged(monkeypatch):
     _offline(monkeypatch, False)
-    mc.cached_call(
-        "sam-3.1", {"c": 1}, ["h1"], lambda: {"ok": 1}, cost_fields={"images": 1}
-    )
+    mc.cached_call("sam-3.1", {"c": 1}, ["h1"], lambda: {"ok": 1}, cost_fields={"images": 1})
     mc.cached_call("sam-3.1", {"c": 1}, ["h1"], lambda: {"ok": 1})  # hit
 
     summary = mc.read_costs()

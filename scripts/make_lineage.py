@@ -124,9 +124,7 @@ def main() -> int:
 
     print(f"{len(ads)} ads across {doc['assets']} assets -> {out}")
     print(f"  ads per asset: min {min(by_asset.values())}, max {max(by_asset.values())}")
-    opt_in = sum(
-        1 for a in ads for s in a["enrolments"].values() if s == "OPT_IN"
-    )
+    opt_in = sum(1 for a in ads for s in a["enrolments"].values() if s == "OPT_IN")
     total = sum(len(a["enrolments"]) for a in ads)
     print(f"  enhancement enrolments OPT_IN: {opt_in}/{total} ({opt_in / total * 100:.0f}%)")
     return 0

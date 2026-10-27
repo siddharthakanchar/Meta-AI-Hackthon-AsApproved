@@ -98,7 +98,9 @@ def read_text(image_bgr: np.ndarray) -> OcrResult:
     return OcrResult(boxes=boxes, engine="rapidocr")
 
 
-def text_in_box(result: OcrResult, box: tuple[int, int, int, int], *, min_overlap: float = 0.5) -> OcrResult:
+def text_in_box(
+    result: OcrResult, box: tuple[int, int, int, int], *, min_overlap: float = 0.5
+) -> OcrResult:
     """Keep only the text boxes mostly inside `box` — e.g. the warning region."""
     bx, by, bw, bh = box
     kept: list[TextBox] = []

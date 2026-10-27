@@ -177,9 +177,7 @@ def prove(
         try:
             settings_ok = client.enroll_status(ad_id, feature) == "OPT_OUT"
         except Exception as exc:  # noqa: BLE001
-            results.append(
-                ProveResult(ad_id, None, None, note=f"settings read failed: {exc}")
-            )
+            results.append(ProveResult(ad_id, None, None, note=f"settings read failed: {exc}"))
             continue
 
         preview_ok: bool | None = None

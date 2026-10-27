@@ -152,9 +152,7 @@ def _plans_named(name: str):
     return [p for p in ALL_PLANS if p.transform.name == name]
 
 
-@pytest.mark.parametrize(
-    "plan", _plans_named("warning_low_contrast"), ids=lambda p: p.master.id
-)
+@pytest.mark.parametrize("plan", _plans_named("warning_low_contrast"), ids=lambda p: p.master.id)
 def test_low_contrast_variant_really_is_below_threshold(plan):
     rendered, bgr, _ = _render(plan)
     mask = _mask(rendered.regions["warning"], plan.master.size)
@@ -163,9 +161,7 @@ def test_low_contrast_variant_really_is_below_threshold(plan):
     assert ratio < 450, f"{plan.variant_id}: {ratio / 100:.2f}:1 is not below 4.5:1"
 
 
-@pytest.mark.parametrize(
-    "plan", _plans_named("warning_border_removed"), ids=lambda p: p.master.id
-)
+@pytest.mark.parametrize("plan", _plans_named("warning_border_removed"), ids=lambda p: p.master.id)
 def test_border_removed_variant_really_has_no_border(plan):
     rendered, bgr, _ = _render(plan)
     assert detect_border(bgr, rendered.regions["warning"]) is False
@@ -226,7 +222,12 @@ def test_removed_example_leaves_the_cost_figures_behind(plan):
 
 @pytest.mark.parametrize(
     "plan",
-    [p for p in ALL_PLANS if p.transform.name in {"crop_removes_warning", "zoom_drops_warning", "expand_pushes_warning_offframe"}],
+    [
+        p
+        for p in ALL_PLANS
+        if p.transform.name
+        in {"crop_removes_warning", "zoom_drops_warning", "expand_pushes_warning_offframe"}
+    ],
     ids=lambda p: f"{p.master.id}-{p.transform.name}",
 )
 def test_geometry_violations_really_remove_the_warning(plan):
@@ -263,7 +264,11 @@ def _benign_noop():
 
 @pytest.mark.parametrize(
     "plan",
-    [p for p in ALL_PLANS if p.transform.benign and p.transform.frame_fn and p.master.kind == "still"],
+    [
+        p
+        for p in ALL_PLANS
+        if p.transform.benign and p.transform.frame_fn and p.master.kind == "still"
+    ],
     ids=lambda p: f"{p.master.id}-{p.transform.name}",
 )
 def test_benign_edits_leave_the_warning_legible(plan):
@@ -281,15 +286,16 @@ def test_benign_edits_leave_the_warning_legible(plan):
     mask3[y : y + h, x : x + w] = 255
     moved = plan.transform.frame_fn(mask3, 0, plan.master.total_frames, ctx)
     surviving = int((moved[..., 0] > 127).sum())
-    assert surviving > w * h * 0.90, f"{plan.variant_id} lost {1 - surviving / (w * h):.0%} of the warning"
+    assert surviving > w * h * 0.90, (
+        f"{plan.variant_id} lost {1 - surviving / (w * h):.0%} of the warning"
+    )
 
     ys, xs = np.nonzero(moved[..., 0] > 127)
     sub = np.zeros(bgr.shape[:2], dtype=bool)
     sub[ys.min() : ys.max() + 1, xs.min() : xs.max() + 1] = True
     ratio = measure_contrast(bgr, sub)
     assert ratio is not None and ratio >= 450, (
-        f"{plan.variant_id}: a benign edit dropped warning contrast to "
-        f"{(ratio or 0) / 100:.2f}:1"
+        f"{plan.variant_id}: a benign edit dropped warning contrast to {(ratio or 0) / 100:.2f}:1"
     )
 
 

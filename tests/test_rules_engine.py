@@ -159,7 +159,11 @@ def test_r3_fails_when_the_warning_is_gone():
 def test_r3_fails_when_the_warning_is_clipped():
     f = _find(
         evaluate(
-            _ctx(variant_regions={"warning": {"present": True, "clipped": True, "bbox": [0, 0, 50, 20]}})
+            _ctx(
+                variant_regions={
+                    "warning": {"present": True, "clipped": True, "bbox": [0, 0, 50, 20]}
+                }
+            )
         ),
         "R3",
     )
@@ -495,17 +499,13 @@ CRYPTO = (
 
 
 def test_r11_passes_on_exact_prescribed_wording():
-    f = _find(
-        evaluate(_ctx(investment_type="cryptoassets", warning_text_variant=CRYPTO)), "R11"
-    )
+    f = _find(evaluate(_ctx(investment_type="cryptoassets", warning_text_variant=CRYPTO)), "R11")
     assert f.status == "pass"
 
 
 def test_r11_passes_through_typographic_apostrophes():
     curly = CRYPTO.replace("'", "’")
-    f = _find(
-        evaluate(_ctx(investment_type="cryptoassets", warning_text_variant=curly)), "R11"
-    )
+    f = _find(evaluate(_ctx(investment_type="cryptoassets", warning_text_variant=curly)), "R11")
     assert f.status == "pass", "a re-typeset apostrophe is not an altered warning"
 
 
@@ -617,9 +617,7 @@ def test_every_finding_carries_its_citation_and_the_not_legal_advice_flag():
 
 
 def test_benchmark_only_findings_are_excluded_from_the_failure_count():
-    findings = evaluate(
-        _ctx(is_video=True, warning_word_count=24, warning_seconds_visible=1.0)
-    )
+    findings = evaluate(_ctx(is_video=True, warning_word_count=24, warning_seconds_visible=1.0))
     summary = summarise(findings)
     assert "B1" not in summary["failed_rules"]
 
@@ -634,9 +632,10 @@ def test_findings_are_chain_safe():
 @pytest.mark.parametrize("rule_id", [f"R{n}" for n in range(1, 13)])
 def test_no_rule_claims_a_pass_on_an_empty_context(rule_id):
     f = _find(evaluate(Context()), rule_id)
-    assert f.status in {"inconclusive", "not_applicable"}, (
-        f"{rule_id} returned '{f.status}' with nothing measured"
-    )
+    assert f.status in {
+        "inconclusive",
+        "not_applicable",
+    }, f"{rule_id} returned '{f.status}' with nothing measured"
 
 
 # --------------------------------------------------------------------------

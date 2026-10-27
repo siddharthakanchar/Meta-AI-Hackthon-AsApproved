@@ -34,9 +34,7 @@ FLOORS = [0.90, 0.85, 0.80, 0.75, 0.70, 0.60]
 
 
 def main() -> int:
-    labels = json.loads(
-        (settings.labels_dir / "variantbench_uk.json").read_text(encoding="utf-8")
-    )
+    labels = json.loads((settings.labels_dir / "variantbench_uk.json").read_text(encoding="utf-8"))
     results: dict[float, dict[str, list[int]]] = {f: {"benign": [], "seeded": []} for f in FLOORS}
 
     for lab in labels["labels"]:
@@ -60,7 +58,9 @@ def main() -> int:
             bp = changed_in_region(diff, mask, "warning").fraction_bp
             results[floor]["benign" if lab["benign"] else "seeded"].append(bp)
 
-    print(f"{'floor':>6}  {'benign max':>11}  {'benign p90':>11}  {'seeded median':>14}  separation")
+    print(
+        f"{'floor':>6}  {'benign max':>11}  {'benign p90':>11}  {'seeded median':>14}  separation"
+    )
     best = None
     for floor in FLOORS:
         b = sorted(results[floor]["benign"])

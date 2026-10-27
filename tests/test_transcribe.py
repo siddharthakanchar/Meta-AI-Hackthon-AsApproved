@@ -33,7 +33,7 @@ def test_finds_a_literal_phrase():
 
 
 def test_finds_a_spoken_rate_written_as_digits():
-    """"24.9%" is said "twenty four point nine percent" — a substring match misses it."""
+    """ "24.9%" is said "twenty four point nine percent" — a substring match misses it."""
     transcript = _t(
         "Move your balance today.",
         "Representative 24 point 9 percent APR variable.",

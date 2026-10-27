@@ -187,9 +187,7 @@ def build_variant(plan: VariantPlan, out_dir: Path, *, progress=None) -> Variant
     }
 
     _cross_check(plan, visible_frames)
-    _cross_check_text(
-        plan, transform.text_fn(spec) if transform.text_fn else spec.warning_text
-    )
+    _cross_check_text(plan, transform.text_fn(spec) if transform.text_fn else spec.warning_text)
 
     layout, warning_text = variant_layout(spec, transform)
     derived = (

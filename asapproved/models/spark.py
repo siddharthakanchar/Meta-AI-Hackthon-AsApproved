@@ -66,8 +66,7 @@ CLAIM_SCHEMA: dict[str, Any] = {
         "triggers": {
             "type": "array",
             "description": (
-                "Phrases that require a representative APR under CONC 3.5, "
-                "e.g. '0% for 12 months'."
+                "Phrases that require a representative APR under CONC 3.5, e.g. '0% for 12 months'."
             ),
             "items": {"type": "string"},
         },
@@ -101,7 +100,9 @@ SYSTEM_PROMPT = (
 class SparkClient:
     """Thin wrapper over the OpenAI-compatible surface."""
 
-    def __init__(self, api_key: str | None = None, base_url: str | None = None, model: str | None = None):
+    def __init__(
+        self, api_key: str | None = None, base_url: str | None = None, model: str | None = None
+    ):
         self.api_key = api_key or settings.models.api_key
         self.base_url = base_url or settings.models.base_url
         self.model = model or settings.models.spark_model
@@ -189,7 +190,11 @@ def complete_json(
 
     result = cached_call(
         client.model,
-        {"schema": schema.get("required"), "prompt": prompt, "effort": effort or settings.models.spark_effort},
+        {
+            "schema": schema.get("required"),
+            "prompt": prompt,
+            "effort": effort or settings.models.spark_effort,
+        },
         input_hashes or [],
         call,
         cost_fields={},

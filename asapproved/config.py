@@ -31,7 +31,16 @@ def mask(secret: str | None) -> str:
 
 
 def _env(name: str, default: str = "") -> str:
-    return os.environ.get(name, default).strip()
+    """Read an env var, treating blank as absent.
+
+    `os.environ.get(name, default)` falls back only when the name is missing
+    entirely. A `.env` line left empty — which `.env.example` explicitly invites
+    ("Leave blank to use that") — therefore overrode the documented default with
+    "". Nine settings defaulted that way, and the first live run died inside the
+    OpenAI client with "Request URL is missing an 'http://' or 'https://'
+    protocol", which names neither the variable nor the file.
+    """
+    return os.environ.get(name, "").strip() or default
 
 
 META_API_BASE = "https://api.meta.ai/v1"  # verified 26 Oct 2026, docs/DECISIONS.md D-006

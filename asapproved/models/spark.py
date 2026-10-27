@@ -97,6 +97,10 @@ SYSTEM_PROMPT = (
 )
 
 
+class SparkTruncated(RuntimeError):
+    """The model ran out of completion budget mid-answer."""
+
+
 class SparkClient:
     """Thin wrapper over the OpenAI-compatible surface."""
 
@@ -125,9 +129,17 @@ class SparkClient:
         *,
         schema: dict[str, Any] | None = None,
         effort: str | None = None,
-        max_tokens: int = 1200,
+        max_tokens: int = 4000,
     ) -> tuple[str, dict[str, int]]:
-        """Return (text, usage). Usage carries the token counts the ledger needs."""
+        """Return (text, usage). Usage carries the token counts the ledger needs.
+
+        `max_tokens` is the whole completion budget, reasoning included, not the
+        length of the answer. Measured on muse-spark-1.3 at reasoning_effort=low,
+        reasoning alone ran 582-1321 tokens, so the old 1200 left nothing for the
+        JSON on roughly one call in four: the body came back cut mid-string and
+        surfaced two layers up as `JSONDecodeError: Unterminated string`, which
+        points at the parser rather than the budget.
+        """
         client = self._ensure()
         kwargs: dict[str, Any] = {
             "model": self.model,
@@ -144,6 +156,16 @@ class SparkClient:
             }
 
         response = client.chat.completions.create(**kwargs)
+        choice = response.choices[0]
+        if choice.finish_reason == "length":
+            # Fail here, naming the budget, rather than handing a half-written
+            # object to json.loads and letting it report a syntax error.
+            raise SparkTruncated(
+                f"{self.model} hit the {max_tokens}-token completion budget before "
+                f"finishing (reasoning used "
+                f"{getattr(getattr(response.usage, 'completion_tokens_details', None), 'reasoning_tokens', 0)}). "
+                "Raise max_tokens or lower reasoning_effort."
+            )
         usage = getattr(response, "usage", None)
         counts = {
             "input_tokens": getattr(usage, "prompt_tokens", 0) or 0,
@@ -153,7 +175,7 @@ class SparkClient:
             )
             or 0,
         }
-        return response.choices[0].message.content or "", counts
+        return choice.message.content or "", counts
 
 
 def _image_part(data_url: str) -> dict[str, Any]:
@@ -188,6 +210,9 @@ def complete_json(
         text, counts = client.complete(messages, schema=schema, effort=effort)
         return {"text": text, "usage": counts}
 
+    def must_parse(response: dict[str, Any]) -> None:
+        json.loads(response["text"])
+
     result = cached_call(
         client.model,
         {
@@ -197,7 +222,8 @@ def complete_json(
         },
         input_hashes or [],
         call,
-        cost_fields={},
+        cost_fields=lambda response: response["usage"],
+        validate=must_parse,
     )
     return json.loads(result["text"])
 

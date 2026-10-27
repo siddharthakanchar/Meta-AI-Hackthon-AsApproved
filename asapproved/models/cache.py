@@ -108,6 +108,15 @@ def put(key: str, response: Any, meta: dict[str, Any] | None = None) -> Path:
     return path
 
 
+def drop(key: str) -> bool:
+    """Remove one entry. True if something was there."""
+    path = _path(key)
+    if not path.exists():
+        return False
+    path.unlink()
+    return True
+
+
 def hash_file(path: str | Path) -> str:
     h = hashlib.sha256()
     with open(path, "rb") as fh:
@@ -122,11 +131,33 @@ def cached_call(
     input_hashes: list[str],
     fn: Callable[[], Any],
     *,
-    cost_fields: dict[str, Any] | None = None,
+    cost_fields: dict[str, Any] | Callable[[Any], dict[str, Any]] | None = None,
+    validate: Callable[[Any], Any] | None = None,
 ) -> Any:
-    """Return the cached response, else call `fn` — unless offline, where a miss raises."""
+    """Return the cached response, else call `fn` — unless offline, where a miss raises.
+
+    `cost_fields` may be a dict, for a price known before the call (SAM bills per
+    image), or a callable applied to the response, for a price only the response
+    knows. Token-metered models need the callable: the Spark path passed a fixed
+    `{}` because the token counts do not exist until the reply arrives, so every
+    structured call logged $0.00 and the ledger's total was zero by construction.
+
+    `validate` is run against a response before it is stored, and again against a
+    stored response before it is returned. It should raise on anything the caller
+    cannot use. Without it, one malformed reply is written to disk and then
+    replayed forever: a Spark call truncated by its token budget was cached, and
+    every later run re-read the same half-written JSON and failed identically,
+    with no network traffic to show why. A response that cannot be used is not a
+    result worth keeping.
+    """
     key = cache_key(model, params, input_hashes)
     hit = get(key)
+    if hit is not None and validate is not None:
+        try:
+            validate(hit)
+        except Exception:  # noqa: BLE001 - a poisoned entry is a miss, not a crash
+            drop(key)
+            hit = None
     if hit is not None:
         log_cost(model=model, key=key, cache_hit=True, cost_usd=0.0, seconds=0.0)
         return hit
@@ -142,7 +173,11 @@ def cached_call(
     response = fn()
     elapsed = time.perf_counter() - started
 
-    fields = dict(cost_fields or {})
+    # Before `put`, so an unusable response never reaches the disk.
+    if validate is not None:
+        validate(response)
+
+    fields = dict(cost_fields(response) if callable(cost_fields) else (cost_fields or {}))
     put(key, response, meta={"model": model, "params": params, **fields})
     log_cost(
         model=model,

@@ -4,14 +4,16 @@ secret leaks into a readout. Real module tests arrive with the modules.
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
+from unittest import mock
 
 import yaml
 from typer.testing import CliRunner
 
 from asapproved import RULEBOOK_VERSION, __version__
 from asapproved.cli import app
-from asapproved.config import REPO_ROOT, mask, settings
+from asapproved.config import META_API_BASE, REPO_ROOT, ModelConfig, mask, settings
 
 runner = CliRunner()
 
@@ -129,6 +131,52 @@ def test_r11_selects_prescribed_text_by_investment_type() -> None:
     r11 = next(r for r in book["rules"] if r["id"] == "R11")
     assert "investment_type" in r11["inputs"]
     assert r11["citation"] == "COBS 4.12A.11R"
+
+
+def test_blank_env_var_falls_back_to_the_documented_default(monkeypatch) -> None:
+    """A blank line in .env must not override a default.
+
+    `.env.example` says "Leave blank to use that" under META_MODEL_BASE_URL, but
+    `os.environ.get(name, default)` only falls back when the name is absent, so a
+    blank line set base_url to "". The first live run then failed inside the
+    OpenAI client with "Request URL is missing an 'http://' or 'https://'
+    protocol" — an error that names neither the variable nor .env.
+    """
+    monkeypatch.setenv("META_MODEL_BASE_URL", "")
+    assert ModelConfig().base_url == META_API_BASE
+
+    monkeypatch.setenv("META_MODEL_BASE_URL", "   ")
+    assert ModelConfig().base_url == META_API_BASE
+
+    monkeypatch.delenv("META_MODEL_BASE_URL", raising=False)
+    assert ModelConfig().base_url == META_API_BASE
+
+    monkeypatch.setenv("META_MODEL_BASE_URL", " https://example.test/v1 ")
+    assert ModelConfig().base_url == "https://example.test/v1"
+
+
+def test_every_name_env_example_invites_blank_has_a_usable_default() -> None:
+    """Each name in .env.example that we read with a default must survive blanking.
+
+    Blanking them all at once is the state a judge reaches by copying the
+    template, which is exactly how the base_url bug shipped.
+    """
+    names = [
+        line.split("=", 1)[0].strip()
+        for line in (REPO_ROOT / ".env.example").read_text(encoding="utf-8").splitlines()
+        if "=" in line and not line.strip().startswith("#")
+    ]
+    assert "META_MODEL_BASE_URL" in names, "template no longer carries the name that broke"
+
+    env = dict.fromkeys(names, "")
+    with mock.patch.dict(os.environ, env, clear=False):
+        models = ModelConfig()
+        assert models.base_url == META_API_BASE
+        assert models.spark_model == "muse-spark-1.3"
+        assert models.sam_model == "sam-3.1"
+        assert models.transcribe_model == "muse-voice-transcribe-1.0"
+        assert models.spark_effort == "low"
+        assert not models.configured, "a blank key must not read as configured"
 
 
 def test_env_example_has_no_values() -> None:

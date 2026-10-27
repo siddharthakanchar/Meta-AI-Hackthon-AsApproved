@@ -35,7 +35,12 @@ sys.path.insert(0, str(REPO_ROOT))
 from asapproved.config import settings  # noqa: E402
 from asapproved.models.cache import hash_file, read_costs  # noqa: E402
 from asapproved.models.sam import parse_response_line  # noqa: E402
-from asapproved.models.spark import CLAIM_SCHEMA, SparkClient, complete_json  # noqa: E402
+from asapproved.models.spark import (  # noqa: E402
+    CLAIM_SCHEMA,
+    SYSTEM_PROMPT,
+    SparkClient,
+    complete_json,
+)
 
 
 def _data_url(path: Path) -> str:
@@ -106,21 +111,38 @@ def main() -> int:
     # --- 2. prompt caching --------------------------------------------
     banner("2 · Prompt caching — does the repeated prefix hit the $0.15/M rate?")
     try:
+        # The prefix has to be long enough to be worth caching. The first version
+        # of this probe sent 25 tokens, saw 0 cached, and concluded caching "did
+        # NOT engage" — a conclusion it had no power to reach, since providers
+        # only cache prefixes above a minimum (commonly ~1k tokens). Padding to
+        # roughly 2k makes the answer mean something either way.
+        padding = "\n".join(
+            f"Reference clause {i:04d}: representative APR, risk warning, capital at risk."
+            for i in range(220)
+        )
+        prefix = SYSTEM_PROMPT + "\n\n" + padding
         messages = [
-            {"role": "system", "content": "You extract text from advertisements."},
+            {"role": "system", "content": prefix},
             {"role": "user", "content": "Reply with the single word OK."},
         ]
-        _, first = client.complete(messages, max_tokens=8)
-        _, second = client.complete(messages, max_tokens=8)
+        _, first = client.complete(messages, max_tokens=2000)
+        _, second = client.complete(messages, max_tokens=2000)
+        print(f"  prefix is ~{first['input_tokens']} input tokens")
         print(f"  call 1 usage: {first}")
         print(f"  call 2 usage: {second}")
         cached = second.get("cached_input_tokens", 0)
-        findings.append(
-            f"Prompt caching: second identical call reported {cached} cached input tokens "
-            f"({'ENGAGED' if cached else 'did NOT engage — cost estimates must use the full rate'})"
-        )
+        if cached:
+            verdict = (
+                f"ENGAGED on the second call ({cached} of {second['input_tokens']} input tokens)"
+            )
+        else:
+            verdict = (
+                f"did NOT engage at {second['input_tokens']} input tokens — "
+                "cost estimates must use the full rate"
+            )
+        findings.append(f"Prompt caching: {verdict}")
     except Exception as exc:  # noqa: BLE001
-        print(f"  FAILED: {exc}")
+        print(f"  FAILED: {type(exc).__name__}: {exc}")
         findings.append(f"Prompt caching check FAILED: {exc}")
 
     # --- 3. SAM on a still ---------------------------------------------

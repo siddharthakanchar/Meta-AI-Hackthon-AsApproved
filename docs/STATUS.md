@@ -75,8 +75,12 @@ to live outside the repo, which made the README's own claim unverifiable.
 
 **1. Deploy the hosted demo.** The repo is public at
 `siddharthakanchar/Meta-AI-Hackthon-AsApproved`, so the clone URL in the README
-is verifiable now. The Demo criterion (25%) still has nothing behind it until
-Streamlit is live.
+is verifiable now. A judge still has nothing to click until Streamlit is live.
+
+(Earlier drafts called this "the Demo criterion (25%)". No published source
+states that weight. `docs/RULES_SUMMARY.md` records where the number came from
+— a single secondary blog — and the official Indie lens as actually stated is
+"creativity, technical ambition, and whether it works", with no percentages.)
 
 ```powershell
 pre-commit run --all-files          # let gitleaks confirm before every push
@@ -116,9 +120,15 @@ above for no gain, because R9 still cannot be scored without a transcriber.
 
 ## Open risks
 
-- **No Meta model has run.** 25% of the rubric. Everything published came from
-  the keyless fallback, labelled as such throughout. Decision point if nothing
-  has arrived by **Thu 29 Oct**.
+- **No Meta model has touched the published numbers.** Muse Spark 1.3 now runs
+  live — `scripts/spike_models.py` reads a real master in 6.1s at
+  `effort=low` — but every figure in the README still comes from the keyless
+  fallback, labelled as such throughout. SAM 3.1 has not been called yet.
+- **Prompt caching does not engage.** Measured, not assumed: two identical
+  3,606-token prefixes both reported 0 cached input tokens. Cost estimates must
+  use the full $1.25/M rate, not the $0.15/M cached rate. The earlier probe
+  sent 25 tokens and "found" the same thing, which proved nothing — no provider
+  caches a prefix that small.
 - **No real Advantage+ output has ever been through this.** One sandbox ad with
   enhancements on, and a screenshot of what Meta returns, would convert the
   project from plausible to demonstrated. Cheapest high-value item left.

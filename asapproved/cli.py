@@ -179,7 +179,9 @@ def verify_log(path: str = typer.Argument(...)) -> None:
         raise typer.Exit(code=0)
     console.print(f"[red]TAMPERED[/] {result.reason}")
     if result.first_bad_line is not None:
-        console.print(f"  first bad record  index {result.first_bad_index}, line {result.first_bad_line}")
+        console.print(
+            f"  first bad record  index {result.first_bad_index}, line {result.first_bad_line}"
+        )
         console.print(f"  records verified before the break: {result.entries}")
     raise typer.Exit(code=1)
 
@@ -242,7 +244,9 @@ def check(
     if json_out:
         out = Path(json_out)
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(json.dumps(result.to_record(), indent=2, ensure_ascii=False), encoding="utf-8")
+        out.write_text(
+            json.dumps(result.to_record(), indent=2, ensure_ascii=False), encoding="utf-8"
+        )
         console.print(f"\n[green]wrote[/] {out}")
 
     raise typer.Exit(code=1 if result.blocking else 0)
@@ -256,7 +260,7 @@ def drift() -> None:
 
 @app.command()
 def blast_radius(
-    variant: str = typer.Argument(..., help="Variant id, e.g. northfield_card_v2__v0_...")
+    variant: str = typer.Argument(..., help="Variant id, e.g. northfield_card_v2__v0_..."),
 ) -> None:
     """Every other live ad sharing this asset AND enrolled in the enhancement."""
     from asapproved.act import plan_opt_out
@@ -265,9 +269,7 @@ def blast_radius(
     lineage = settings.data_dir / "lineage.json"
     runs_index = settings.data_dir / "runs" / "index.json"
     if not lineage.exists():
-        console.print(
-            "[red]no ad lineage[/] — build it with:\n  python scripts/make_lineage.py"
-        )
+        console.print("[red]no ad lineage[/] — build it with:\n  python scripts/make_lineage.py")
         raise typer.Exit(code=1)
 
     graph = build_from_lineage(lineage, runs_index if runs_index.exists() else None)
@@ -316,7 +318,9 @@ def blast_radius(
 @app.command()
 def bench(
     limit: int = typer.Option(None, help="Score only the first N variants."),
-    baselines: str = typer.Option("b1,b2", help="Which baselines to run."),
+    baselines: str = typer.Option(
+        None, help="Which baselines to run: pixel, asapproved. Default: both."
+    ),
 ) -> None:
     """Run VariantBench-UK and write eval/report.md."""
     import subprocess
@@ -324,7 +328,10 @@ def bench(
     cmd = [sys.executable, str(Path(__file__).resolve().parent.parent / "scripts" / "run_bench.py")]
     if limit:
         cmd += ["--limit", str(limit)]
-    cmd += ["--baselines", baselines]
+    # No default here on purpose: run_bench.py owns it. A copy of the default in
+    # both places is how a rename made every run write partial files.
+    if baselines:
+        cmd += ["--baselines", baselines]
     raise typer.Exit(code=subprocess.call(cmd))
 
 
@@ -359,9 +366,7 @@ def demo() -> None:
     console.print(f"[dim]{run['label']['description']}[/]\n")
     for f in run["findings"]:
         if f["status"] == "fail":
-            console.print(
-                f"  [red]FAIL[/] {f['rule_id']} ({f['citation']}): {f['detail']}"
-            )
+            console.print(f"  [red]FAIL[/] {f['rule_id']} ({f['citation']}): {f['detail']}")
     for f in run["findings"]:
         if f["status"] == "inconclusive":
             console.print(f"  [yellow]can't tell[/] {f['rule_id']}: {f['detail']}")

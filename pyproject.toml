@@ -30,8 +30,10 @@ dependencies = [
   "httpx>=0.27",
   # crypto: Ed25519 manifests, SHA-256 hash chain
   "cryptography>=42.0",
-  # UI
-  "streamlit>=1.37",
+  # UI. The floor is 1.49, not 1.37: the review screens pass width="stretch"
+  # to st.dataframe/st.image/st.button, which 1.37 does not accept. The upper
+  # bound keeps a major release from arriving unannounced on a host.
+  "streamlit>=1.49,<2",
   "pandas>=2.2",
 ]
 
@@ -40,7 +42,9 @@ ocr = ["rapidocr-onnxruntime>=1.3"]
 graph = ["neo4j>=5.22"]
 pdf = ["reportlab>=4.2"]
 viz = ["streamlit-image-comparison>=0.0.4", "pyvis>=0.3.2"]
-dev = ["pytest>=8.2", "pytest-cov>=5.0", "ruff>=0.5", "pre-commit>=3.7"]
+# ruff floor matches .pre-commit-config.yaml: an older ruff enforces rules the
+# pinned hook has dropped, and the two then disagree about a clean tree.
+dev = ["pytest>=8.2", "pytest-cov>=5.0", "ruff>=0.17,<0.18", "pre-commit>=3.7"]
 all = [
   "asapproved[ocr,graph,pdf,viz,dev]",
 ]

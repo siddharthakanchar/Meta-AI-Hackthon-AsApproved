@@ -10,7 +10,7 @@ All creative is SIMULATED. Numbers are reported as measured, including where a b
 | Baseline | Precision | Recall | F1 | False-block rate | Scored | Not evaluated | Mean s/variant |
 |---|---|---|---|---|---|---|---|
 | **PIXEL** — pixel diff alone | 95% | 95% | 95% | 4% | 45 | 3 | 0.4 |
-| **ASAPPROVED** — full pipeline | 100% | 100% | 100% | 0% | 45 | 3 | 3.1 |
+| **ASAPPROVED** — full pipeline | 100% | 100% | 100% | 0% | 45 | 3 | 3.3 |
 
 **False-block rate** is the share of benign variants wrongly flagged. A tool that blocks compliant ads gets switched off, so it is reported beside recall rather than below it.
 
@@ -18,7 +18,7 @@ All creative is SIMULATED. Numbers are reported as measured, including where a b
 
 A pixel diff scores close to the full pipeline on *variant-level detection*, and that is a real result, not a flaw in the baseline. The question it answers — "did something change?" — is the easy one, and almost any edit to a claim region trips it.
 
-It is also not the question a compliance officer can act on. They need to know **which rule broke, by how much, against which threshold, and with which frame as evidence** — because that is what goes in the record and what a regulator asks about. The per-rule table below is where the two separate: B1 can only ever assert R1, so every other rule is a miss it cannot even attempt.
+It is also not the question a compliance officer can act on. They need to know **which rule broke, by how much, against which threshold, and with which frame as evidence** — because that is what goes in the record and what a regulator asks about. The per-rule table below is where the two separate: PIXEL can only ever assert R1, so every other rule is a miss it cannot even attempt.
 
 ## Per-rule attribution
 

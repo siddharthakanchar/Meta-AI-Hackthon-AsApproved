@@ -5,7 +5,8 @@ trigger, and that was treated as the whole ground truth. But a transform that
 shrinks the warning also moves it — possibly into the platform's caption zone —
 and necessarily changes the claim region it sits in. Those further breaches are
 real. Scoring them as false positives punished the detector for being right, and
-dragged B2's per-rule precision to 14–29% on exactly the rules it handles best.
+dragged the full pipeline's per-rule precision to 14–29% on exactly the rules it
+handles best.
 
 **Why this is not the detector grading its own homework.** Nothing here looks at
 pixels or calls the rules engine. It reads what the generator *drew*: the RGB
@@ -149,9 +150,7 @@ def derive_violations(
         trg_vis = visible_ratio_bp.get("trigger")
         apr_missing = not region_present.get("apr", True)
         apr_smaller = layout.apr_scale < 1.0
-        apr_briefer = (
-            apr_vis is not None and trg_vis is not None and apr_vis < trg_vis
-        )
+        apr_briefer = apr_vis is not None and trg_vis is not None and apr_vis < trg_vis
         if apr_missing or apr_smaller or apr_briefer:
             broken.add("R8")
 
@@ -207,12 +206,7 @@ def derive_violations(
             # the one under test, and the mismatch hid real detector error.
             left_px = _overlay_left(spec) * w_img
             right_px = (1.0 - _overlay_right(spec)) * w_img
-            if (
-                y < zone_top_px
-                or (y + bh) > zone_bottom_px
-                or x < left_px
-                or (x + bw) > right_px
-            ):
+            if y < zone_top_px or (y + bh) > zone_bottom_px or x < left_px or (x + bw) > right_px:
                 broken.add("R12")
                 break
 

@@ -14,9 +14,9 @@ openai>=1.40
 requests>=2.32
 httpx>=0.27
 cryptography>=42.0
-# Upper bound deliberate: use_container_width is already past its removal
-# date, so an unpinned install on a hosting provider can pick up a build
-# that drops kwargs this app uses.
+# Floor and ceiling both deliberate, and they must match pyproject.toml.
+# Floor: the review screens pass width="stretch", which 1.48 and earlier reject.
+# Ceiling: a major release should not arrive on a host unannounced.
 streamlit>=1.49,<2
 pandas>=2.2
 rapidocr-onnxruntime>=1.3

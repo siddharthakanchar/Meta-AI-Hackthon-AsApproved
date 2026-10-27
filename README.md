@@ -88,12 +88,14 @@ caption zone it was meant to be the clean comparison for.
 
 ## Results
 
-VariantBench-UK: 12 approved masters → 48 variants (24 seeded
-violations, 24 benign edits). Ground truth is **computed, not
-hand-written**: every rule a variant breaks is derived from what the generator
-drew — the RGB values it chose, the font scale it set, the box coordinates it
-placed. Nothing in the label pipeline reads a pixel or calls the rules engine,
-so a bug in the detector cannot launder itself into the answer key.
+<!-- publish_numbers:readme start — generated, do not edit by hand -->
+
+VariantBench-UK: 12 approved masters → 48 variants (24 seeded violations, 24
+benign edits). Ground truth is **computed, not hand-written**: every rule a
+variant breaks is derived from what the generator drew — the RGB values it
+chose, the font scale it set, the box coordinates it placed. Nothing in the
+label pipeline reads a pixel or calls the rules engine, so a bug in the
+detector cannot launder itself into the answer key.
 
 **Read the per-rule table first.** The variant-level score answers the easy
 question.
@@ -117,53 +119,55 @@ question.
 A pixel-diff baseline scores **0% recall on every rule except R1** — asserting
 "something changed" is the only thing it can do.
 
-**Three of twelve rules carry no measured evidence.** R2 compares live API
-settings against the manifest and has no pixel expression, so it is excluded
-from every vision baseline. R9 needs voiceover audio a transcriber can read.
-R10 needs Muse Spark claim extraction. Nine rules were measured.
+**3 of 12 rules carry no measured evidence.** R2 compares live API settings
+against the manifest and has no pixel expression, so it is excluded from every
+vision baseline. R9 needs a transcript, and the 3 audio-dependent variants
+carry no audio track — the voiceovers in `data/masters/audio/` were generated
+but never muxed into the assets, and no transcriber has run either way. R10
+needs Muse Spark claim extraction. 9 rules were measured.
 
-**Where it is weak.** Precision is below 100% on R5, R7, and **R12 is the
-only rule that also misses** (80% recall,
-1 false negative). R12 got *worse* in the last
-round, not better: the ground truth now checks the left and right overlay bands
-as well as top and bottom — previously it checked only top and bottom, so the
-detector and the labels were enforcing different rules and the mismatch was
-invisible. Correcting the labels exposed real detector error that had been
-hidden. These are localisation errors rather than logic errors: the tracker's
-box is close but not exact, so a neighbouring rule occasionally trips with the
-right one. SAM 3.1 exists to close that gap, and region IoU is how we will
-measure whether it does.
+**Where it is weak.** Precision is below 100% on R5 (50%), R7 (67%), and **R12
+is the only rule that also misses** (80% recall, 1 false negative). These are
+localisation errors rather than logic errors: the tracker's box is close but
+not exact, so a neighbouring rule occasionally trips with the right one. SAM
+3.1 exists to close that gap, and region IoU is how we will measure whether it
+does.
 
 ### Variant-level detection
 
 | Baseline | Precision | Recall | F1 | False blocks | s/variant |
 |---|---|---|---|---|---|
 | Pixel diff alone | 95% | 95% | 95% | 1/23 | 0.4 |
-| **AsApproved** | 100% | 100% | 100% | 0/23 | 3.1 |
+| **AsApproved** | 100% | 100% | 100% | 0/23 | 3.3 |
 | Muse Spark alone | not run — needs an API key | | | | |
 
-45 of 48 variants scored; 3 need
-audio. **0/23 false blocks has a 95% upper bound near
-14%** — it is a small synthetic benign set (hue shift, brightness, re-encode,
-margin trim, touch-up), not Meta's generative enhancements.
+45 of 48 variants scored; 3 need audio. **0/23 false blocks has an exact 95%
+upper bound of 15%** — it is a small synthetic benign set (hue shift,
+brightness, re-encode, margin trim, touch-up), not Meta's generative
+enhancements.
 
-**These are development-set numbers.** The 48 variants are the set the detector
-was debugged and calibrated against: the R1 area floor, the SSIM floor and the
-OCR similarity bands were all fitted by measuring these populations. There is no
-held-out split. 100% on the set you tuned on is weak evidence of generalisation,
-and it should be read that way.
+**These are development-set numbers.** The 48 variants are the set the
+detector was debugged and calibrated against: the R1 area floor, the SSIM
+floor and the OCR similarity bands were all fitted by measuring these
+populations. There is no held-out split. 100% on the set you tuned on is weak
+evidence of generalisation, and it should be read that way.
 
-**R1 is satisfied by construction on 22 of 24 seeded violations** — any
-seeded edit changes a claim region — so it carries most of the variant-level
-recall. Only 3 variants were *designed* to test it. The label file records
-both `intended_rules` and `violated_rules`.
+**R1 is satisfied by construction on 22 of 24 seeded violations** — any seeded
+edit changes a claim region — so it carries most of the variant-level recall.
+Only 3 variants were *designed* to test it. The label file records both
+`intended_rules` and `violated_rules`.
 
-**Reproducible.** Regenerating the dataset from a clean clone reproduces the
-committed label digest `d18da5ad90127363…` exactly, so a judge who rebuilds is
-scoring against the same answer key these numbers came from.
+**Reproducible, bit for bit.** Rebuilding the dataset in a clean clone of the
+committed tree reproduces the label digest `d18da5ad90127363…` *and* all 60
+generated assets byte for byte, H.264 encodes included — verified 27 Oct 2026.
+A judge who rebuilds is scoring the same files against the same answer key
+these numbers came from.
 
-Full report: [`eval/report.md`](eval/report.md). Regenerate with
-`asapproved bench`.
+Full report: [`eval/report.md`](eval/report.md). Regenerate with `asapproved
+bench`, then `python scripts/publish_numbers.py` to update every document that
+quotes it.
+
+<!-- publish_numbers:readme end -->
 
 ## Where Meta's models sit
 
@@ -200,16 +204,25 @@ One command per line deliberately: `&&` is not a statement separator in Windows
 PowerShell 5.1, which is the default shell on Windows 11.
 
 `data/runs/` is committed, so the demo and the UI work on a fresh clone with no
-API key and no build step. To regenerate the dataset (~30 min, needs `ffmpeg`):
+API key and no build step. To regenerate the dataset (~19 min, needs `ffmpeg`
+— timings measured on the clean-clone rebuild of 27 Oct 2026):
 
 ```powershell
-python scripts/make_masters.py        # 5m30 (video encoding)
-python scripts/make_variants.py       # 17m30
+python scripts/make_masters.py        # 2m26 (video encoding)
+python scripts/make_variants.py       # 10m31
 python scripts/make_lineage.py        # instant
-python scripts/make_voiceovers.py     # synthetic speech, offline
-python scripts/precompute.py          # ~3 min
-asapproved bench                      # ~3 min
+python scripts/make_voiceovers.py     # synthetic speech, offline; see note below
+python scripts/precompute.py          # 2m56
+asapproved bench                      # 2m42
+python scripts/publish_numbers.py     # rewrite every published figure
 ```
+
+`make_voiceovers.py` writes 10 synthetic voiceovers to `data/masters/audio/`
+but **nothing muxes them into the masters or variants yet** — the three
+audio-dependent assets carry a video stream only. R9 is reported as *not
+evaluated* for that reason and because no transcriber has run. Muxing is
+deferred to the same pass as the transcriber, since on its own it would change
+the label digest without making R9 scorable.
 
 `ASAPPROVED_MODE=demo` is the default and makes a model cache miss **raise**
 rather than reach the network, so the demo cannot silently depend on a live call.

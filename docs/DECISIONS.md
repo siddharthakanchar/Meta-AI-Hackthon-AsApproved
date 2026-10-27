@@ -90,7 +90,7 @@ research holds; four things differ and change the build.
 
 4. **Prompt caching is cheap: $0.15 per M cached input tokens, vs $1.25 uncached.** Not mentioned
    in the playbook. The rulebook text and the system prompt are identical across all 48 benchmark
-   variants, so the B0 baseline in particular should reuse a cached prefix — materially changes
+   variants, so the Muse Spark baseline in particular should reuse a cached prefix — materially changes
    the cost-per-variant figure we publish.
 
 Also noted: rate limits are **per team, shared across every key** — Spark 3,000 RPM / 4M TPM,
@@ -263,17 +263,27 @@ build — that is how defect 4's sibling (a zoom that did not actually remove th
 caught on the first run.
 
 **Known gap: R9 and the audio transforms are labelled but not yet realised.**
-`voiceover_drops_apr` and `music_swap` carry `requires_audio: true` and no audio exists yet. They
-are in the label set so the benchmark shape is honest about what it covers; they cannot be scored
-until USER INPUT 3.1 supplies voiceovers. If no audio arrives, those two variants are reported as
-**not evaluated** rather than quietly counted as passes.
+`voiceover_drops_apr` and `music_swap` carry `requires_audio: true`. `scripts/make_voiceovers.py`
+does now generate 10 synthetic voiceovers into `data/masters/audio/` — but **nothing muxes them
+into the masters or the variants**, so `ffprobe` finds a single H.264 stream and no audio on all
+three audio-dependent assets. Corrected 27 Oct 2026: an earlier version of this note said "no
+audio exists yet", which stopped being true the moment the voiceover script ran and was never
+updated. The audio exists; the assets do not carry it.
+
+Muxing is deliberately deferred rather than forgotten. It would change every affected asset's
+bytes and therefore the label digest, invalidating the published numbers and the clean-clone
+reproducibility result — and R9 would still read *not evaluated*, because scoring it needs a
+transcriber and no Model API key exists. Both halves land together in Phase 4: mux the audio,
+then transcribe. Until then those variants are reported as **not evaluated**, never as passes.
 
 **R2 has no pixel expression and deliberately has no variant.** Settings drift is manifest vs
 live API. Pinned by test so nobody later invents a pixel proxy for it.
 
 **Render resolution is 720x1280 / 720x720, not 1080p.** Every measurement is normalised by frame
 height (basis points, HD-line equivalents), so resolution does not affect any reported figure —
-and the whole 60-asset set stays small enough to regenerate in about two minutes.
+and the whole 60-asset set stays small enough to regenerate end to end in about 13 minutes
+(masters 2m26, variants 10m31, measured 27 Oct 2026). Corrected 27 Oct: this note said "about two
+minutes", which was the masters-only figure and understated the full rebuild by six times.
 
 ---
 
@@ -296,38 +306,42 @@ and the whole 60-asset set stays small enough to regenerate in about two minutes
 | V11 | Meta's current published safe-zone percentages for Feed / Stories / Reels (C9, R12) | Phase 7 | unverified |
 | V12 | Official hackathon rules: submission fields, video length limit, repo/licence rules, judging criteria, prior-work and track rules | after 22:30 IST kickoff tonight | pending |
 
+<!-- publish_numbers:decisions start — generated, do not edit by hand -->
+
 ## VariantBench-UK coverage (48 variants)
 
-Ground truth is DERIVED — every rule a variant actually breaks, computed from what the generator
-drew. The transform's own declaration is kept as `intended_rules` so the difference is visible.
+Ground truth is DERIVED — every rule a variant actually breaks, computed from
+what the generator drew. The transform's own declaration is kept as
+`intended_rules` so the difference is visible.
 
 | | R1 | R3 | R4 | R5 | R6 | R7 | R8 | R9 | R10 | R11 | R12 |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | **derived** (ground truth) | 22 | 5 | 4 | 3 | 3 | 2 | 2 | 2 | 2 | 2 | 5 |
 | **intended** (by design) | 3 | 5 | 3 | 3 | 3 | 2 | 2 | 2 | 2 | 2 | 2 |
 
-The gap on R1 is not an error: any seeded edit to a claim region materially changes it, so R1 is
-true by construction on 22 of 24 violations while only 3 were
-designed to test it. That is why the per-rule table, not the variant-level score, is the honest
-measure — and why the README leads with it.
+The gap on R1 is not an error: any seeded edit to a claim region materially
+changes it, so R1 is true by construction on 22 of 24 violations while only 3
+were designed to test it. That is why the per-rule table, not the
+variant-level score, is the honest measure — and why the README leads with it.
 
-3 variants require voiceover audio a transcriber can read. They are reported as
-**not evaluated**, never as passes, and their rules appear in the not-evaluated column rather
-than vanishing from the table.
+3 variants are audio-dependent and carry no audio track, so they are reported
+as **not evaluated**, never as passes, and their rules appear in the
+not-evaluated column rather than vanishing from the table.
 
-Label digest for this build: `d18da5ad90127363ec9436bc0cd5b514cc6ab0ef1fc4ca5df4e30c5b4242a369`.
+Label digest for this build:
+`d18da5ad90127363ec9436bc0cd5b514cc6ab0ef1fc4ca5df4e30c5b4242a369`.
 
-**The labels are NOT frozen, and that matters.** They and the detector were both changed during
-development. Roughly half the apparent "detector failures" in this project turned out to be
-defects in the benchmark itself — which is a good argument for deriving labels and a bad argument
-for treating these numbers as a held-out evaluation. The rulebook also remains `status: draft`
-with `sources_checked: null`. Published results are development-set results and the README says so.
+**The labels are NOT frozen, and that matters.** They and the detector were
+both changed during development. Roughly half the apparent "detector failures"
+in this project turned out to be defects in the benchmark itself — which is a
+good argument for deriving labels and a bad argument for treating these
+numbers as a held-out evaluation. The rulebook also remains `status: draft`
+with `sources_checked: null`. Published results are development-set results
+and the README says so.
 
-**Last measured run.** AsApproved 100%/100%/100%
-(precision/recall/F1) at variant level with 0/23 false blocks, against a
-pixel diff at 95%/95%/95% and
-1/23. Per-rule, the weakest are
-R5 (50% precision), R7 (67% precision).
-R12 is the only rule with a false negative, and it regressed this round because the ground truth
-began checking the left and right overlay bands the detector already enforced — the two had been
-testing different rules.
+**Last measured run.** AsApproved 100%/100%/100% (precision/recall/F1) at
+variant level with 0/23 false blocks, against a pixel diff at 95%/95%/95% and
+1/23. Per-rule, the weakest are R5 (50% precision), R7 (67% precision). R12 is
+the only rule(s) with a false negative.
+
+<!-- publish_numbers:decisions end -->

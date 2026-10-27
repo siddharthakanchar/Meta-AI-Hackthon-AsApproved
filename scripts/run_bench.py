@@ -1,9 +1,9 @@
 """Run VariantBench-UK and write eval/report.md plus eval/results.json.
 
-    python scripts/run_bench.py [--limit N] [--baselines b1,b2]
+    python scripts/run_bench.py [--limit N] [--baselines pixel,asapproved]
 
-B0 (Spark alone) needs a Model API key and is reported as "not run" rather than
-as a zero until one exists.
+A third baseline, Muse Spark alone, needs a Model API key and is reported as
+"not run" rather than as a zero until one exists.
 """
 
 from __future__ import annotations
@@ -27,12 +27,26 @@ from asapproved.eval.harness import (  # noqa: E402
     write_report,
 )
 
+# Named once: the set is both the validator and the test for "was this a full
+# run?". Those two were separate literals, and renaming the baselines updated one
+# of them — every run then wrote eval/report.partial.md and left the published
+# files alone. The guard did its job, but a single source of truth is the fix.
+ALL_BASELINES = {"pixel", "asapproved"}
 
-def main() -> int:
+
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--limit", type=int, default=None, help="Score only the first N variants.")
-    parser.add_argument("--baselines", default="b1,b2")
-    args = parser.parse_args()
+    parser.add_argument(
+        "--baselines",
+        default=",".join(sorted(ALL_BASELINES)),
+        help="Comma-separated: pixel, asapproved. b1/b2 are accepted as the old names.",
+    )
+    return parser
+
+
+def main() -> int:
+    args = build_parser().parse_args()
 
     labels_path = settings.labels_dir / "variantbench_uk.json"
     if not labels_path.exists():
@@ -53,20 +67,28 @@ def main() -> int:
         )
         return 1
 
-    wanted = {b.strip().lower() for b in args.baselines.split(",")}
+    # `b1`/`b2` were the original selectors; the reports have been named
+    # PIXEL/ASAPPROVED for a while, and a flag that still spoke the old
+    # vocabulary was one more thing a judge would have to decode.
+    aliases = {"b1": "pixel", "b2": "asapproved"}
+    wanted = {aliases.get(b, b) for b in (x.strip().lower() for x in args.baselines.split(","))}
+    unknown = wanted - ALL_BASELINES
+    if unknown:
+        print(f"unknown baseline(s): {', '.join(sorted(unknown))}", file=sys.stderr)
+        return 1
     reports = []
 
-    if "b1" in wanted:
+    if "pixel" in wanted:
         print("PIXEL — pixel diff alone ...", flush=True)
         t0 = time.time()
         preds = run_b1(labels, masters, variants)
-        # Scored rule-aware, like B2. A pixel diff answers "did something
-        # change?" and nothing else, so its per-rule row is the honest measure
-        # of the gap: strong at detection, incapable of attribution.
+        # Scored rule-aware, like the full pipeline. A pixel diff answers "did
+        # something change?" and nothing else, so its per-rule row is the honest
+        # measure of the gap: strong at detection, incapable of attribution.
         reports.append(score("PIXEL", "pixel diff alone", preds, labels))
         print(f"   done in {time.time() - t0:.0f}s")
 
-    if "b2" in wanted:
+    if "asapproved" in wanted:
         print("ASAPPROVED — full pipeline ...", flush=True)
         t0 = time.time()
         preds = run_b2(labels, masters, variants)
@@ -78,7 +100,7 @@ def main() -> int:
     # with the repo's own eval/report.md, which is the single most
     # credibility-destroying inconsistency this project could ship.
     out_dir = REPO_ROOT / "eval"
-    partial = bool(args.limit) or wanted != {"b1", "b2"}
+    partial = bool(args.limit) or wanted != ALL_BASELINES
     suffix = ".partial" if partial else ""
     if partial:
         print(f"\n  partial run -> eval/report{suffix}.md (published files untouched)")
@@ -97,6 +119,7 @@ def main() -> int:
 
     print()
     for r in reports:
+
         def pct(v):
             return "—" if v is None else f"{v * 100:.0f}%"
 

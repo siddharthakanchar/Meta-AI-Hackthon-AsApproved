@@ -1,7 +1,9 @@
 # AsApproved — submission copy
 
-Paste-ready text for the official form. **Numbers marked `[BENCH]` must be
-refreshed from `eval/report.md` before submitting** — never typed from memory.
+Paste-ready text for the official form. The results block below is
+**generated** by `python scripts/publish_numbers.py` from `eval/results.json`
+— never typed from memory. Run it after any benchmark run, and
+`--check` fails if it drifts.
 
 ---
 
@@ -93,10 +95,47 @@ than no audit trail.
 
 VariantBench-UK: 12 approved masters → 48 variants, 24 seeded violations across
 R1 and R3–R12, 24 benign edits. Ground truth is computed, not hand-written —
-each region's mask is pushed through the same transform that made the variant,
-so a label cannot disagree with its pixels.
+every rule a variant breaks is derived from what the generator drew: the RGB
+values it chose, the font scale it set, the box coordinates it placed. Nothing
+in the label pipeline reads a pixel or calls the rules engine, so a bug in the
+detector cannot launder itself into the answer key.
 
-`[BENCH]` — paste the table from `eval/report.md`.
+<!-- publish_numbers:submission start — generated, do not edit by hand -->
+
+| Baseline | Precision | Recall | F1 | False blocks | s/variant |
+|---|---|---|---|---|---|
+| Pixel diff alone | 95% | 95% | 95% | 1/23 | 0.4 |
+| **AsApproved** | 100% | 100% | 100% | 0/23 | 3.3 |
+| Muse Spark alone | not run — needs an API key | | | | |
+
+Per rule, where the two separate — precision / recall (TP, FP, FN):
+
+| Rule | AsApproved | Pixel diff |
+|---|---|---|
+| R1 — claim region materially changed | 100% / 100% (22, 0, 0) | 95% / 95% (21, 1, 1) |
+| R3 — warning removed or clipped | 100% / 100% (5, 0, 0) | — / 0% (0, 0, 5) |
+| R4 — on screen throughout (video) | 100% / 100% (4, 0, 0) | — / 0% (0, 0, 4) |
+| R5 — bordered, bold, underlined | 50% / 100% (3, 3, 0) | — / 0% (0, 0, 3) |
+| R6 — contrast below threshold | 100% / 100% (3, 0, 0) | — / 0% (0, 0, 3) |
+| R7 — smaller than body copy | 67% / 100% (2, 1, 0) | — / 0% (0, 0, 2) |
+| R8 — APR prominence vs trigger | 100% / 100% (2, 0, 0) | — / 0% (0, 0, 2) |
+| R9 — trigger spoken, APR not | not evaluated | not evaluated |
+| R10 — cost figure, no example | not evaluated | — / 0% (0, 0, 2) |
+| R11 — prescribed wording altered | 100% / 100% (2, 0, 0) | — / 0% (0, 0, 2) |
+| R12 — inside the platform UI zone | 100% / 80% (4, 0, 1) | — / 0% (0, 0, 5) |
+
+The pixel baseline is charged a miss on rules it cannot attempt, because it
+asserts the variant is clean; AsApproved reports *not evaluated* where it has
+no evidence. That asymmetry is the design, not a scoring trick: a definite
+wrong answer and an honest "could not measure" are different outcomes.
+
+45 of 48 variants scored, 3 audio-dependent and reported as not evaluated.
+0/23 benign variants wrongly flagged (exact 95% upper bound 15%). Label digest
+`d18da5ad90127363…`; a clean-clone rebuild reproduces it and all 60 generated
+assets byte for byte, verified 27 Oct 2026. Development-set numbers —
+thresholds were fitted on these 48 variants and there is no held-out split.
+
+<!-- publish_numbers:submission end -->
 
 The honest headline: a plain pixel diff nearly matches the full pipeline at
 answering "did something change?". It scores zero at answering "which rule
@@ -125,8 +164,11 @@ go in a compliance record. The per-rule table is where the two separate.
   anchored head.
 - Manifest verification proves integrity, not identity, unless a trusted key is
   pinned.
-- R9 cannot be scored without voiceover audio; those variants report as *not
-  evaluated*, never as passes.
+- **Three of twelve rules carry no measured evidence.** R2 needs live Marketing
+  API settings; R10 needs Muse Spark claim extraction; R9 needs a transcript,
+  and the three audio-dependent variants have no audio track — the voiceovers
+  in `data/masters/audio/` were generated but never muxed into the assets. All
+  three report as *not evaluated*, never as passes.
 
 ### What's next
 
@@ -169,7 +211,8 @@ SAM 3.1 · Muse Spark 1.3 · Muse Voice Transcribe · Meta Marketing API
 
 ## Pre-submission checklist
 
-- [ ] `[BENCH]` numbers pasted from `eval/report.md`, matching the README
+- [ ] `python scripts/publish_numbers.py --check` passes (numbers match the
+      README, DECISIONS and `eval/report.md`)
 - [ ] Hosted demo opens in an incognito window
 - [ ] Video within the official length limit and publicly viewable
 - [ ] Repo public, MIT licence, no secrets (`gitleaks detect`)

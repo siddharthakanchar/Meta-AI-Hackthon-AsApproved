@@ -1,8 +1,13 @@
 # Install once:  pre-commit install
 # Run on demand:  pre-commit run --all-files
 repos:
+  # Kept in step with the `ruff` floor in pyproject.toml's dev extra. They had
+  # drifted three majors apart, and 0.5.7 still enforced UP038 (removed in later
+  # ruff because `isinstance(x, int | float)` is slower than the tuple form). The
+  # hook therefore failed on four lines that `ruff check .` called clean, so the
+  # "run pre-commit before you push" step in docs/STATUS.md could never pass.
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.5.7
+    rev: v0.17.2
     hooks:
       - id: ruff
         args: [--fix]
@@ -15,8 +20,17 @@ repos:
         args: [--maxkb=5000]
       - id: check-merge-conflict
       - id: check-yaml
+      # Generated data is excluded on purpose. `precompute.py`, `make_variants.py`
+      # and `run_bench.py` write their JSON without a trailing newline; adding
+      # one here made the committed tree differ from a freshly regenerated one,
+      # so `git status` came up dirty the moment a judge rebuilt — which is
+      # exactly the byte-for-byte reproducibility the README claims. The fix
+      # belongs in the hook config, not in the generators: a trailing newline in
+      # a file nobody hand-edits buys nothing.
       - id: end-of-file-fixer
+        exclude: ^(data/runs/|data/labels/|data/lineage\.json|eval/results\.json)
       - id: trailing-whitespace
+        exclude: ^(data/runs/|data/labels/|data/lineage\.json|eval/results\.json)
       - id: detect-private-key
 
   # Secret scanner — the hard guardrail. Nothing ships if this fires.

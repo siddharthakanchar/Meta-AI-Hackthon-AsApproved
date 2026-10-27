@@ -142,9 +142,7 @@ def _run_decision(variant_id: str, run: dict, action: str) -> None:
             height=180,
         )
 
-        plan = plan_opt_out(
-            [s.ad_id for s in siblings], feature, reason=f"blocked: {variant_id}"
-        )
+        plan = plan_opt_out([s.ad_id for s in siblings], feature, reason=f"blocked: {variant_id}")
         result = apply_opt_out(plan)  # dry run by default
         st.markdown(f"**2 · Act** — {result.label}")
         st.code(json.dumps(plan.as_requests()[:2], indent=2), language="json")
@@ -246,8 +244,7 @@ def _simulated_banner() -> None:
 
 def _metric(col, value: str, label: str, css: str = "") -> None:
     col.markdown(
-        f'<div class="aa-metric {css}">{value}</div>'
-        f'<div class="aa-metric-sub">{label}</div>',
+        f'<div class="aa-metric {css}">{value}</div><div class="aa-metric-sub">{label}</div>',
         unsafe_allow_html=True,
     )
 
@@ -294,7 +291,16 @@ if screen == "Overview":
 
     st.markdown("#### All checks")
     view = df[
-        ["variant_id", "benign", "transform", "enhancement", "kind", "fail", "inconclusive", "seconds"]
+        [
+            "variant_id",
+            "benign",
+            "transform",
+            "enhancement",
+            "kind",
+            "fail",
+            "inconclusive",
+            "seconds",
+        ]
     ].rename(columns={"fail": "failing rules", "seconds": "s"})
     st.dataframe(view, width="stretch", height=420)
 
@@ -365,7 +371,9 @@ elif screen == "Variant review":
             if prev.get("master"):
                 a.image(str(PREVIEWS / prev["master"]), caption="Approved master", width="stretch")
             if prev.get("variant"):
-                b.image(str(PREVIEWS / prev["variant"]), caption="Delivered variant", width="stretch")
+                b.image(
+                    str(PREVIEWS / prev["variant"]), caption="Delivered variant", width="stretch"
+                )
         with tabs[1]:
             if prev.get("heat"):
                 st.image(
@@ -396,7 +404,9 @@ elif screen == "Variant review":
             if f["status"] in ("fail", "inconclusive"):
                 st.markdown(finding_card_html(f), unsafe_allow_html=True)
 
-        with st.expander(f"Passed and not applicable ({summary['pass'] + summary['not_applicable']})"):
+        with st.expander(
+            f"Passed and not applicable ({summary['pass'] + summary['not_applicable']})"
+        ):
             for f in run["findings"]:
                 if f["status"] in ("pass", "not_applicable"):
                     st.markdown(finding_card_html(f), unsafe_allow_html=True)
@@ -426,14 +436,14 @@ elif screen == "Variant review":
 
     st.markdown(
         f'<div class="aa-provenance">'
-        f'<b>Provenance.</b> Regions located by <code>{run["region_source"]}</code> '
+        f"<b>Provenance.</b> Regions located by <code>{run['region_source']}</code> "
         f"(normalised cross-correlation against the approved master) — not SAM 3.1, which "
         f"arrives when a Model API key is available. "
-        f'Text read by <code>{run["text_source"]}</code>. '
-        f'Video sampled at {run.get("sample_fps", 0):.0f} fps '
-        f'({run.get("frame_count", 1)} frames examined). '
-        f'Variant SHA-256 <code>{run["variant_sha256"][:16]}…</code>. '
-        f'Checked in {run.get("seconds", 0):.1f}s.'
+        f"Text read by <code>{run['text_source']}</code>. "
+        f"Video sampled at {run.get('sample_fps', 0):.0f} fps "
+        f"({run.get('frame_count', 1)} frames examined). "
+        f"Variant SHA-256 <code>{run['variant_sha256'][:16]}…</code>. "
+        f"Checked in {run.get('seconds', 0):.1f}s."
         f"</div>",
         unsafe_allow_html=True,
     )
@@ -526,9 +536,7 @@ elif screen == "Blast radius":
 
     proof = prove([s.ad_id for s in result.siblings], result.feature)
     st.dataframe(
-        pd.DataFrame(
-            [{"ad": p.ad_id, "status": p.status, "note": p.note} for p in proof]
-        ),
+        pd.DataFrame([{"ad": p.ad_id, "status": p.status, "note": p.note} for p in proof]),
         width="stretch",
     )
 
@@ -622,12 +630,11 @@ elif screen == "Benchmark":
 
     data = load_eval()
     if data is None:
-        st.info(
-            "No benchmark results yet. Run:\n\n```\npython scripts/run_bench.py\n```"
-        )
+        st.info("No benchmark results yet. Run:\n\n```\npython scripts/run_bench.py\n```")
     else:
         rows = []
         for rep in data["reports"]:
+
             def pct(v):
                 return "—" if v is None else f"{v * 100:.0f}%"
 
@@ -646,7 +653,7 @@ elif screen == "Benchmark":
             )
         st.dataframe(pd.DataFrame(rows), width="stretch")
         st.caption(
-            "B0 (Muse Spark alone) needs a Model API key and is reported as not run rather "
+            "The Muse Spark baseline needs a Model API key and is reported as not run rather "
             "than as a zero. False-block rate is the share of benign variants wrongly "
             "flagged — a tool that blocks good ads gets switched off."
         )
@@ -664,8 +671,10 @@ elif screen == "Benchmark":
                         "TP": v["tp"],
                         "FP": v["fp"],
                         "FN": v["fn"],
-                        "precision": "—" if v["precision"] is None else f"{v['precision']*100:.0f}%",
-                        "recall": "—" if v["recall"] is None else f"{v['recall']*100:.0f}%",
+                        "precision": "—"
+                        if v["precision"] is None
+                        else f"{v['precision'] * 100:.0f}%",
+                        "recall": "—" if v["recall"] is None else f"{v['recall'] * 100:.0f}%",
                         "not evaluated": v["not_evaluated"],
                     }
                 )

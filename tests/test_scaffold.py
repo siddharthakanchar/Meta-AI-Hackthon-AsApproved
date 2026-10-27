@@ -54,8 +54,14 @@ def test_unbuilt_commands_exit_cleanly() -> None:
 def test_phase2_commands_are_wired() -> None:
     """keygen/approve/verify-* are built — they must no longer claim otherwise."""
     for cmd in (
-        "keygen", "approve", "verify-manifest", "verify-log",
-        "check", "bench", "demo", "blast-radius",
+        "keygen",
+        "approve",
+        "verify-manifest",
+        "verify-log",
+        "check",
+        "bench",
+        "demo",
+        "blast-radius",
     ):
         result = runner.invoke(app, [cmd, "--help"])
         assert result.exit_code == 0, cmd
@@ -156,3 +162,47 @@ def test_gitignore_blocks_secrets() -> None:
 
 def test_data_dir_is_inside_repo() -> None:
     assert Path(settings.data_dir).is_relative_to(REPO_ROOT)
+
+
+def test_requirements_and_pyproject_agree_on_shared_pins() -> None:
+    """Streamlit Community Cloud installs `requirements.txt`; a local dev
+    installs `pyproject.toml`. They drifted: pyproject allowed `streamlit>=1.37`
+    while the review screens pass `width="stretch"`, which only 1.49 accepts, so
+    a resolver picking the floor produced an app that installed and then raised
+    on the first dataframe. Only the documented substitutions may differ.
+    """
+    import re
+    import tomllib
+
+    def parse(spec: str) -> tuple[str, str]:
+        name = re.split(r"[><=!\[;]", spec, maxsplit=1)[0].strip().lower()
+        return name, spec[len(name) :].strip()
+
+    pyproject = tomllib.loads((REPO_ROOT / "pyproject.toml").read_text(encoding="utf-8"))
+    base = dict(parse(d) for d in pyproject["project"]["dependencies"])
+    optional = {
+        name
+        for group in pyproject["project"]["optional-dependencies"].values()
+        for name, _ in (parse(d) for d in group)
+    }
+
+    reqs = {}
+    for line in (REPO_ROOT / "requirements.txt").read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if line and not line.startswith("#"):
+            name, constraint = parse(line)
+            reqs[name] = constraint
+
+    # Deliberate: the hosted container has no libGL, so it takes the headless
+    # wheel. DEPLOY.md explains it; a non-headless install there crashes on the
+    # first cv2 import.
+    substitutions = {"opencv-python-headless": "opencv-python"}
+
+    for name, constraint in reqs.items():
+        canonical = substitutions.get(name, name)
+        if canonical in optional and canonical not in base:
+            continue  # an extra pulled in for hosting, e.g. the OCR engine
+        assert canonical in base, f"{name} is in requirements.txt but not pyproject.toml"
+        assert constraint == base[canonical], (
+            f"{name}: requirements.txt says {constraint!r}, pyproject.toml says {base[canonical]!r}"
+        )

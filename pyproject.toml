@@ -53,7 +53,7 @@ all = [
 asapproved = "asapproved.cli:app"
 
 [project.urls]
-Repository = "https://github.com/siddharthakvss/asapproved"
+Repository = "https://github.com/siddharthakanchar/Meta-AI-Hackthon-AsApproved"
 
 [tool.hatch.build.targets.wheel]
 packages = ["asapproved"]

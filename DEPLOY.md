@@ -9,7 +9,7 @@ while a judge is watching.
 
 1. Push the repo to GitHub (public).
 2. Go to **share.streamlit.io** → *New app*.
-3. Repository `siddharthakvss/asapproved`, branch `main`,
+3. Repository `siddharthakanchar/Meta-AI-Hackthon-AsApproved`, branch `main`,
    main file **`app/streamlit_app.py`**.
 4. *Deploy*. No secrets are required.
 

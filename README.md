@@ -190,8 +190,8 @@ Image is unused (unavailable in India under Meta's Geographic Use Policy).
 ## Quick start
 
 ```powershell
-git clone https://github.com/siddharthakvss/asapproved.git
-cd asapproved
+git clone https://github.com/siddharthakanchar/Meta-AI-Hackthon-AsApproved.git
+cd Meta-AI-Hackthon-AsApproved
 python -m venv .venv
 .venv\Scripts\Activate.ps1           # macOS/Linux: source .venv/bin/activate
 pip install -e ".[dev,ocr,graph]"

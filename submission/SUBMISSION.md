@@ -198,7 +198,7 @@ and nothing at all for R9, which reports *not evaluated*.
 
 ## Links
 
-- Repository: `https://github.com/siddharthakvss/asapproved` (MIT)
+- Repository: `https://github.com/siddharthakanchar/Meta-AI-Hackthon-AsApproved` (MIT)
 - Hosted demo: `[FILL IN after deploy]`
 - Demo video: `[FILL IN]`
 

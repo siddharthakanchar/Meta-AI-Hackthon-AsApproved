@@ -327,7 +327,7 @@ with `sources_checked: null`. Published results are development-set results and 
 (precision/recall/F1) at variant level with 0/23 false blocks, against a
 pixel diff at 95%/95%/95% and
 1/23. Per-rule, the weakest are
-R12 (40% precision), R5 (50% precision), R7 (67% precision).
+R5 (50% precision), R7 (67% precision).
 R12 is the only rule with a false negative, and it regressed this round because the ground truth
 began checking the left and right overlay bands the detector already enforced — the two had been
 testing different rules.

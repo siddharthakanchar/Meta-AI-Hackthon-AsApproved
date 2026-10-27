@@ -7,20 +7,20 @@
   "sampled_fps": 5,
   "frame_count": 1,
   "summary": {
-    "fail": 4,
-    "blocking": 1,
+    "fail": 3,
+    "blocking": 0,
     "pass": 3,
-    "inconclusive": 2,
+    "inconclusive": 3,
     "not_applicable": 4,
     "failed_rules": [
       "R1",
       "R5",
-      "R7",
-      "R12"
+      "R7"
     ],
     "inconclusive_rules": [
       "R2",
-      "R10"
+      "R10",
+      "R12"
     ]
   },
   "findings": [
@@ -262,10 +262,10 @@
     {
       "rule_id": "R12",
       "rulebook_version": "uk_v1",
-      "status": "fail",
+      "status": "inconclusive",
       "severity": "block",
       "citation": "FG24/1 para 1.5",
-      "detail": "411 pixels of the 'warning' fall inside the reels interface overlay zone, where platform chrome can obscure them.",
+      "detail": "411 pixels of the 'warning' fall inside the reels overlay zone (1% of the region), but its position was inferred rather than matched, so an overlap this small cannot be distinguished from localisation error.",
       "measured": 411,
       "measured_display": "411px",
       "threshold": 0,
@@ -280,7 +280,8 @@
       },
       "sub_results": {},
       "caveats": [
-        "Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach."
+        "Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.",
+        "position inferred, not matched"
       ],
       "benchmark_only": false,
       "not_legal_advice": true
@@ -388,6 +389,6 @@
     ]
   },
   "sample_fps": 0.0,
-  "note": "4 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 87.5% of the 'apr' region changed from the approved master (threshold 2%).\n- R5 (COBS 4.12A.36R): Warning presentation fails on: border.\n  Caveat: bold not measurable\n  Caveat: underline not measurable\n- R7 (COBS 4.12A (prominence guidance)): Warning text is 24px against body copy at 27px — smaller than the surrounding copy.\n- R12 (FG24/1 para 1.5): 411 pixels of the 'warning' fall inside the reels interface overlay zone, where platform chrome can obscure them.\n  Caveat: Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.\n2 rule(s) could not be assessed: R2, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 4.11
+  "note": "3 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 87.5% of the 'apr' region changed from the approved master (threshold 2%).\n- R5 (COBS 4.12A.36R): Warning presentation fails on: border.\n  Caveat: bold not measurable\n  Caveat: underline not measurable\n- R7 (COBS 4.12A (prominence guidance)): Warning text is 24px against body copy at 27px — smaller than the surrounding copy.\n3 rule(s) could not be assessed: R2, R10, R12. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 4.12
 }

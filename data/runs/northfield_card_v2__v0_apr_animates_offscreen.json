@@ -619,5 +619,5 @@
   },
   "sample_fps": 5.0,
   "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 88.4% of the 'apr' region changed from the approved master (threshold 2%).\n- R8 (CONC 3.5.7R): The representative APR is less prominent than its trigger: APR is on screen for 6.7% of frames against the trigger's 100.0%.\n5 rule(s) could not be assessed: R2, R5, R9, R10, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 6.16
+  "seconds": 5.91
 }

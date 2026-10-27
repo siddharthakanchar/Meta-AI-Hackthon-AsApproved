@@ -611,5 +611,5 @@
   },
   "sample_fps": 5.0,
   "note": "No rule in rulebook uk_v1 failed for this variant.\n5 rule(s) could not be assessed: R1, R2, R5, R9, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 4.16
+  "seconds": 3.88
 }

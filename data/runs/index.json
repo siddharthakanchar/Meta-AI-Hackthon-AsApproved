@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T16:19:35Z",
+  "generated_at": "2026-10-27T09:32:37Z",
   "labels_sha256": "d18da5ad90127363ec9436bc0cd5b514cc6ab0ef1fc4ca5df4e30c5b4242a369",
   "count": 48,
   "runs": [
@@ -11,20 +11,19 @@
       "enhancement": "text_optimizations",
       "kind": "still",
       "placement": "reels",
-      "fail": 4,
-      "blocking": 1,
-      "inconclusive": 2,
+      "fail": 3,
+      "blocking": 0,
+      "inconclusive": 3,
       "failed_rules": [
         "R1",
         "R5",
-        "R7",
-        "R12"
+        "R7"
       ],
       "expected_rules": [
         "R1",
         "R7"
       ],
-      "seconds": 4.11
+      "seconds": 4.12
     },
     {
       "variant_id": "brightwell_loans_01__v1_warning_into_overlay_zone",
@@ -45,7 +44,7 @@
         "R1",
         "R12"
       ],
-      "seconds": 2.61
+      "seconds": 2.57
     },
     {
       "variant_id": "brightwell_loans_01__v2_background_hue_shift",
@@ -60,7 +59,7 @@
       "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.59
+      "seconds": 2.6
     },
     {
       "variant_id": "brightwell_loans_01__v3_brightness_lift",
@@ -75,7 +74,7 @@
       "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.97
+      "seconds": 1.79
     },
     {
       "variant_id": "brightwell_loans_02__v0_warning_low_contrast",
@@ -96,7 +95,7 @@
         "R1",
         "R6"
       ],
-      "seconds": 2.86
+      "seconds": 3.03
     },
     {
       "variant_id": "brightwell_loans_02__v1_representative_example_removed",
@@ -118,7 +117,7 @@
         "R3",
         "R10"
       ],
-      "seconds": 1.88
+      "seconds": 1.81
     },
     {
       "variant_id": "brightwell_loans_02__v2_background_hue_shift",
@@ -133,7 +132,7 @@
       "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.06
+      "seconds": 2.03
     },
     {
       "variant_id": "brightwell_loans_02__v3_brightness_lift",
@@ -148,7 +147,7 @@
       "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.73
+      "seconds": 1.55
     },
     {
       "variant_id": "brightwell_loans_v1__v0_warning_border_removed",
@@ -169,7 +168,7 @@
         "R1",
         "R5"
       ],
-      "seconds": 4.47
+      "seconds": 4.37
     },
     {
       "variant_id": "brightwell_loans_v1__v1_voiceover_drops_apr",
@@ -186,7 +185,7 @@
       "expected_rules": [
         "R9"
       ],
-      "seconds": 4.06
+      "seconds": 3.87
     },
     {
       "variant_id": "brightwell_loans_v1__v2_background_hue_shift",
@@ -201,7 +200,7 @@
       "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 4.09
+      "seconds": 3.79
     },
     {
       "variant_id": "brightwell_loans_v1__v3_brightness_lift",
@@ -216,7 +215,7 @@
       "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 4.12
+      "seconds": 3.86
     },
     {
       "variant_id": "kestrel_crypto_01__v0_expand_pushes_warning_offframe",
@@ -226,19 +225,20 @@
       "enhancement": "image_background_gen",
       "kind": "still",
       "placement": "reels",
-      "fail": 2,
-      "blocking": 1,
-      "inconclusive": 3,
+      "fail": 3,
+      "blocking": 2,
+      "inconclusive": 2,
       "failed_rules": [
         "R1",
-        "R3"
+        "R3",
+        "R12"
       ],
       "expected_rules": [
         "R1",
         "R3",
         "R12"
       ],
-      "seconds": 2.61
+      "seconds": 2.72
     },
     {
       "variant_id": "kestrel_crypto_01__v1_warning_reworded",
@@ -248,20 +248,19 @@
       "enhancement": "text_translation",
       "kind": "still",
       "placement": "reels",
-      "fail": 4,
-      "blocking": 2,
-      "inconclusive": 1,
+      "fail": 3,
+      "blocking": 1,
+      "inconclusive": 2,
       "failed_rules": [
         "R1",
         "R5",
-        "R11",
-        "R12"
+        "R11"
       ],
       "expected_rules": [
         "R1",
         "R11"
       ],
-      "seconds": 2.55
+      "seconds": 2.51
     },
     {
       "variant_id": "kestrel_crypto_01__v2_background_hue_shift",
@@ -276,7 +275,7 @@
       "inconclusive": 2,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.41
+      "seconds": 2.26
     },
     {
       "variant_id": "kestrel_crypto_01__v3_brightness_lift",
@@ -291,7 +290,7 @@
       "inconclusive": 2,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.07
+      "seconds": 1.85
     },
     {
       "variant_id": "kestrel_ltaf_v1__v0_warning_appears_late",
@@ -312,7 +311,7 @@
         "R1",
         "R4"
       ],
-      "seconds": 5.26
+      "seconds": 5.15
     },
     {
       "variant_id": "kestrel_ltaf_v1__v1_warning_low_contrast",
@@ -333,7 +332,7 @@
         "R1",
         "R6"
       ],
-      "seconds": 5.2
+      "seconds": 5.02
     },
     {
       "variant_id": "kestrel_ltaf_v1__v2_background_hue_shift",
@@ -348,7 +347,7 @@
       "inconclusive": 5,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 4.09
+      "seconds": 3.83
     },
     {
       "variant_id": "kestrel_ltaf_v1__v3_brightness_lift",
@@ -363,7 +362,7 @@
       "inconclusive": 5,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 4.16
+      "seconds": 3.88
     },
     {
       "variant_id": "kestrel_nrrs_01__v0_crop_removes_warning",
@@ -384,7 +383,7 @@
         "R1",
         "R3"
       ],
-      "seconds": 2.48
+      "seconds": 2.62
     },
     {
       "variant_id": "kestrel_nrrs_01__v1_warning_border_removed",
@@ -405,7 +404,7 @@
         "R1",
         "R5"
       ],
-      "seconds": 2.22
+      "seconds": 2.25
     },
     {
       "variant_id": "kestrel_nrrs_01__v2_background_hue_shift",
@@ -420,7 +419,7 @@
       "inconclusive": 2,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.56
+      "seconds": 1.44
     },
     {
       "variant_id": "kestrel_nrrs_01__v3_brightness_lift",
@@ -435,7 +434,7 @@
       "inconclusive": 2,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.54
+      "seconds": 1.39
     },
     {
       "variant_id": "kestrel_p2p_v1__v0_warning_reworded",
@@ -445,19 +444,18 @@
       "enhancement": "text_translation",
       "kind": "video",
       "placement": "reels",
-      "fail": 3,
-      "blocking": 2,
-      "inconclusive": 5,
+      "fail": 2,
+      "blocking": 1,
+      "inconclusive": 6,
       "failed_rules": [
         "R1",
-        "R11",
-        "R12"
+        "R11"
       ],
       "expected_rules": [
         "R1",
         "R11"
       ],
-      "seconds": 7.51
+      "seconds": 7.29
     },
     {
       "variant_id": "kestrel_p2p_v1__v1_warning_appears_late",
@@ -478,7 +476,7 @@
         "R1",
         "R4"
       ],
-      "seconds": 6.92
+      "seconds": 6.68
     },
     {
       "variant_id": "kestrel_p2p_v1__v2_recompressed",
@@ -493,7 +491,7 @@
       "inconclusive": 5,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 5.97
+      "seconds": 5.65
     },
     {
       "variant_id": "kestrel_p2p_v1__v3_background_hue_shift",
@@ -508,7 +506,7 @@
       "inconclusive": 5,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 6.32
+      "seconds": 6.02
     },
     {
       "variant_id": "northfield_card_01__v0_representative_example_removed",
@@ -530,7 +528,7 @@
         "R3",
         "R10"
       ],
-      "seconds": 2.17
+      "seconds": 2.23
     },
     {
       "variant_id": "northfield_card_01__v1_warning_border_removed",
@@ -551,7 +549,7 @@
         "R1",
         "R5"
       ],
-      "seconds": 2.06
+      "seconds": 1.96
     },
     {
       "variant_id": "northfield_card_01__v2_margin_trim",
@@ -566,7 +564,7 @@
       "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.44
+      "seconds": 2.47
     },
     {
       "variant_id": "northfield_card_01__v3_background_hue_shift",
@@ -581,7 +579,7 @@
       "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.73
+      "seconds": 1.56
     },
     {
       "variant_id": "northfield_card_02__v0_warning_into_overlay_zone",
@@ -603,7 +601,7 @@
         "R1",
         "R12"
       ],
-      "seconds": 3.27
+      "seconds": 3.31
     },
     {
       "variant_id": "northfield_card_02__v1_warning_low_contrast",
@@ -624,7 +622,7 @@
         "R1",
         "R6"
       ],
-      "seconds": 2.51
+      "seconds": 2.46
     },
     {
       "variant_id": "northfield_card_02__v2_image_touchup",
@@ -639,7 +637,7 @@
       "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.01
+      "seconds": 1.82
     },
     {
       "variant_id": "northfield_card_02__v3_background_hue_shift",
@@ -654,7 +652,7 @@
       "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 2.03
+      "seconds": 1.87
     },
     {
       "variant_id": "northfield_card_03__v0_apr_shrunk_below_trigger",
@@ -675,7 +673,7 @@
         "R1",
         "R8"
       ],
-      "seconds": 2.06
+      "seconds": 1.95
     },
     {
       "variant_id": "northfield_card_03__v1_warning_shrunk",
@@ -697,7 +695,7 @@
         "R1",
         "R7"
       ],
-      "seconds": 1.86
+      "seconds": 1.76
     },
     {
       "variant_id": "northfield_card_03__v2_brightness_lift",
@@ -712,7 +710,7 @@
       "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.73
+      "seconds": 1.59
     },
     {
       "variant_id": "northfield_card_03__v3_background_hue_shift",
@@ -727,7 +725,7 @@
       "inconclusive": 3,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 1.74
+      "seconds": 1.56
     },
     {
       "variant_id": "northfield_card_v1__v0_voiceover_drops_apr",
@@ -744,7 +742,7 @@
       "expected_rules": [
         "R9"
       ],
-      "seconds": 6.49
+      "seconds": 6.3
     },
     {
       "variant_id": "northfield_card_v1__v1_warning_appears_late",
@@ -765,7 +763,7 @@
         "R1",
         "R4"
       ],
-      "seconds": 7.47
+      "seconds": 7.19
     },
     {
       "variant_id": "northfield_card_v1__v2_background_hue_shift",
@@ -780,7 +778,7 @@
       "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 6.15
+      "seconds": 5.92
     },
     {
       "variant_id": "northfield_card_v1__v3_brightness_lift",
@@ -795,7 +793,7 @@
       "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 6.12
+      "seconds": 5.89
     },
     {
       "variant_id": "northfield_card_v2__v0_apr_animates_offscreen",
@@ -817,7 +815,7 @@
         "R8",
         "R12"
       ],
-      "seconds": 6.16
+      "seconds": 5.91
     },
     {
       "variant_id": "northfield_card_v2__v1_zoom_drops_warning",
@@ -827,13 +825,14 @@
       "enhancement": "image_animation",
       "kind": "video",
       "placement": "reels",
-      "fail": 3,
-      "blocking": 2,
-      "inconclusive": 5,
+      "fail": 4,
+      "blocking": 3,
+      "inconclusive": 4,
       "failed_rules": [
         "R1",
         "R3",
-        "R4"
+        "R4",
+        "R12"
       ],
       "expected_rules": [
         "R1",
@@ -841,7 +840,7 @@
         "R4",
         "R12"
       ],
-      "seconds": 8.17
+      "seconds": 7.74
     },
     {
       "variant_id": "northfield_card_v2__v2_music_swap",
@@ -856,7 +855,7 @@
       "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 6.16
+      "seconds": 5.88
     },
     {
       "variant_id": "northfield_card_v2__v3_background_hue_shift",
@@ -871,7 +870,7 @@
       "inconclusive": 6,
       "failed_rules": [],
       "expected_rules": [],
-      "seconds": 6.23
+      "seconds": 5.89
     }
   ]
 }

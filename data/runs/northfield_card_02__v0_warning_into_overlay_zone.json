@@ -388,5 +388,5 @@
   },
   "sample_fps": 0.0,
   "note": "3 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 73.6% of the 'apr' region changed from the approved master (threshold 2%).\n- R7 (COBS 4.12A (prominence guidance)): Warning text is 32px against body copy at 44px — smaller than the surrounding copy.\n- R12 (FG24/1 para 1.5): 61,281 pixels of the 'warning' fall inside the stories interface overlay zone, where platform chrome can obscure them.\n  Caveat: Safe-zone figures for 'stories' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.\n3 rule(s) could not be assessed: R2, R5, R10. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 3.27
+  "seconds": 3.31
 }

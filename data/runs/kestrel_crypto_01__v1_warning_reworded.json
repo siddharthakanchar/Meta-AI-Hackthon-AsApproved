@@ -7,19 +7,19 @@
   "sampled_fps": 5,
   "frame_count": 1,
   "summary": {
-    "fail": 4,
-    "blocking": 2,
+    "fail": 3,
+    "blocking": 1,
     "pass": 3,
-    "inconclusive": 1,
+    "inconclusive": 2,
     "not_applicable": 5,
     "failed_rules": [
       "R1",
       "R5",
-      "R11",
-      "R12"
+      "R11"
     ],
     "inconclusive_rules": [
-      "R2"
+      "R2",
+      "R12"
     ]
   },
   "findings": [
@@ -267,10 +267,10 @@
     {
       "rule_id": "R12",
       "rulebook_version": "uk_v1",
-      "status": "fail",
+      "status": "inconclusive",
       "severity": "block",
       "citation": "FG24/1 para 1.5",
-      "detail": "17,490 pixels of the 'warning' fall inside the reels interface overlay zone, where platform chrome can obscure them.",
+      "detail": "17,490 pixels of the 'warning' fall inside the reels overlay zone (9% of the region), but its position was inferred rather than matched, so an overlap this small cannot be distinguished from localisation error.",
       "measured": 17490,
       "measured_display": "17,490px",
       "threshold": 0,
@@ -285,7 +285,8 @@
       },
       "sub_results": {},
       "caveats": [
-        "Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach."
+        "Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.",
+        "position inferred, not matched"
       ],
       "benchmark_only": false,
       "not_legal_advice": true
@@ -391,6 +392,6 @@
     ]
   },
   "sample_fps": 0.0,
-  "note": "4 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 78.9% of the 'warning' region changed from the approved master (threshold 2%).\n- R5 (COBS 4.12A.36R): Warning presentation fails on: border.\n  Caveat: bold not measurable\n  Caveat: underline not measurable\n- R11 (COBS 4.12A.11R): The prescribed warning wording has been altered: diverges at word 1: expected “…don't invest unless…”, found “…only invest what…”\n  Caveat: Warning text was read by OCR, which mis-renders characters and spacing; comparison uses a calibrated similarity band, not exact equality.\n- R12 (FG24/1 para 1.5): 17,490 pixels of the 'warning' fall inside the reels interface overlay zone, where platform chrome can obscure them.\n  Caveat: Safe-zone figures for 'reels_with_disclaimer' are unverified (secondary spec round-ups, checked 26 Oct 2026); treat as a flag for review, not a measured breach.\n1 rule(s) could not be assessed: R2. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 2.55
+  "note": "3 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 78.9% of the 'warning' region changed from the approved master (threshold 2%).\n- R5 (COBS 4.12A.36R): Warning presentation fails on: border.\n  Caveat: bold not measurable\n  Caveat: underline not measurable\n- R11 (COBS 4.12A.11R): The prescribed warning wording has been altered: diverges at word 1: expected “…don't invest unless…”, found “…only invest what…”\n  Caveat: Warning text was read by OCR, which mis-renders characters and spacing; comparison uses a calibrated similarity band, not exact equality.\n2 rule(s) could not be assessed: R2, R12. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
+  "seconds": 2.51
 }

@@ -389,10 +389,26 @@ def check_variant(
         variant_regions[label] = region
 
         if master.placement:
-            occ = occlusion(v_mask, _placement_key(master.placement))
-            occluded[label] = occ.occluded_pixels
+            # Worst occlusion across every frame the region was tracked in, not
+            # just the frame it was measured on. The rulebook says "any occluded
+            # pixel in ANY frame", and a region that slides across the caption
+            # block mid-clip reads as perfectly clear at frame zero — which is
+            # precisely the kind of thing a preview cannot show you.
+            key = _placement_key(master.placement)
+            occ = occlusion(v_mask, key)
+            worst_px = occ.occluded_pixels
             if occ.caveat and occ.caveat not in occlusion_caveats:
                 occlusion_caveats.append(occ.caveat)
+
+            if master.is_video and track is not None:
+                for box in track.boxes:
+                    if box is None:
+                        continue
+                    frame_occ = occlusion(
+                        _mask_from_box(box, variant_frame.shape), key
+                    )
+                    worst_px = max(worst_px, frame_occ.occluded_pixels)
+            occluded[label] = worst_px
 
         if master.is_video:
             # Track the VARIANT's own appearance, not the master's. A warning

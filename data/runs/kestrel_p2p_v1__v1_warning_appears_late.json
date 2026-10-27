@@ -620,5 +620,5 @@
   },
   "sample_fps": 5.0,
   "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 100.0% of the 'warning' region changed from the approved master (threshold 2%).\n- R4 (FG24/1 Table 1): The warning is on screen for 28.0% of frames, below the 98% the guidance expects. Longest continuous absence: 10.8s.\n4 rule(s) could not be assessed: R2, R5, R9, B1. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 6.92
+  "seconds": 6.68
 }

@@ -122,7 +122,7 @@
           "f1": null
         }
       },
-      "mean_seconds": 0.727185434765286,
+      "mean_seconds": 0.3909926414489746,
       "errors": [],
       "notes": [
         "brightwell_loans_v1__v1_voiceover_drops_apr: requires audio, not evaluated",
@@ -176,13 +176,13 @@
         },
         "R12": {
           "rule_id": "R12",
-          "tp": 2,
-          "fp": 3,
+          "tp": 4,
+          "fp": 0,
           "fn": 1,
-          "not_evaluated": 2,
-          "precision": 0.4,
-          "recall": 0.6666666666666666,
-          "f1": 0.5
+          "not_evaluated": 0,
+          "precision": 1.0,
+          "recall": 0.8,
+          "f1": 0.888888888888889
         },
         "R3": {
           "rule_id": "R3",
@@ -255,7 +255,7 @@
           "f1": null
         }
       },
-      "mean_seconds": 4.550141387515598,
+      "mean_seconds": 3.1198985046810574,
       "errors": [],
       "notes": [
         "brightwell_loans_v1__v1_voiceover_drops_apr: requires audio, not evaluated",

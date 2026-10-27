@@ -9,8 +9,8 @@ All creative is SIMULATED. Numbers are reported as measured, including where a b
 
 | Baseline | Precision | Recall | F1 | False-block rate | Scored | Not evaluated | Mean s/variant |
 |---|---|---|---|---|---|---|---|
-| **PIXEL** — pixel diff alone | 95% | 95% | 95% | 4% | 45 | 3 | 0.7 |
-| **ASAPPROVED** — full pipeline | 100% | 100% | 100% | 0% | 45 | 3 | 4.6 |
+| **PIXEL** — pixel diff alone | 95% | 95% | 95% | 4% | 45 | 3 | 0.4 |
+| **ASAPPROVED** — full pipeline | 100% | 100% | 100% | 0% | 45 | 3 | 3.1 |
 
 **False-block rate** is the share of benign variants wrongly flagged. A tool that blocks compliant ads gets switched off, so it is reported beside recall rather than below it.
 
@@ -58,7 +58,7 @@ Not evaluated:
 | R9 | 0 | 0 | 0 | — | — | — | 2 |
 | R10 | 0 | 0 | 0 | — | — | — | 2 |
 | R11 | 2 | 0 | 0 | 100% | 100% | 100% | 0 |
-| R12 | 2 | 3 | 1 | 40% | 67% | 50% | 2 |
+| R12 | 4 | 0 | 1 | 100% | 80% | 89% | 0 |
 
 Not evaluated:
 

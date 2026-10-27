@@ -245,7 +245,7 @@
       "status": "inconclusive",
       "severity": "block",
       "citation": "FG24/1 para 1.5",
-      "detail": "Occlusion could not be measured for: warning.",
+      "detail": "No occlusion found in the regions measured, but occlusion could not be measured for: warning.",
       "measured": null,
       "measured_display": "",
       "threshold": 0,
@@ -364,5 +364,5 @@
   },
   "sample_fps": 0.0,
   "note": "2 rule(s) failed for this variant against rulebook uk_v1.\n- R1 (FG24/1 para 4.14): 100.0% of the 'warning' region changed from the approved master (threshold 2%).\n- R3 (COBS 4.12A.38R): The approved warning is absent from the delivered variant.\n3 rule(s) could not be assessed: R2, R11, R12. These are reported as inconclusive and are not treated as passes.\nFindings flag items for compliance review against paraphrased regulation. Not legal advice.",
-  "seconds": 2.48
+  "seconds": 2.62
 }

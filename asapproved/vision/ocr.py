@@ -207,6 +207,27 @@ def locate_text_region(
     if len(covered) / len(reference) < 0.35:
         return None
 
+    # Drop horizontal outliers before taking the union. A block of warning text
+    # has lines that start at the same margin; a line reaching far wider is
+    # usually a neighbouring element the word filter happened to admit. Taking
+    # a plain union let one such line widen the box by ~80px, and with the side
+    # overlay bands only ~43px wide, that localisation error alone pushed the
+    # box into them and produced R12 false positives.
+    import statistics
+
+    lefts = [b.box[0] for b in best]
+    rights = [b.box[0] + b.box[2] for b in best]
+    if len(best) >= 3:
+        med_l, med_r = statistics.median(lefts), statistics.median(rights)
+        spread = max(12, int((med_r - med_l) * 0.12))
+        kept = [
+            b
+            for b in best
+            if abs(b.box[0] - med_l) <= spread and abs(b.box[0] + b.box[2] - med_r) <= spread
+        ]
+        if kept:
+            best = kept
+
     xs0 = min(b.box[0] for b in best)
     ys0 = min(b.box[1] for b in best)
     xs1 = max(b.box[0] + b.box[2] for b in best)

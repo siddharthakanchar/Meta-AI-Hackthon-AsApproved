@@ -112,7 +112,7 @@ question.
 | **R9** | **trigger spoken, APR not** | **—** | **—** | **0** | **0** | **0** | **2** |
 | **R10** | **cost figure, no example** | **—** | **—** | **0** | **0** | **0** | **2** |
 | R11 | prescribed wording altered | 100% | 100% | 2 | 0 | 0 | 0 |
-| R12 | inside the platform UI zone | 40% | 67% | 2 | 3 | 1 | 2 |
+| R12 | inside the platform UI zone | 100% | 80% | 4 | 0 | 1 | 0 |
 
 A pixel-diff baseline scores **0% recall on every rule except R1** — asserting
 "something changed" is the only thing it can do.
@@ -122,8 +122,8 @@ settings against the manifest and has no pixel expression, so it is excluded
 from every vision baseline. R9 needs voiceover audio a transcriber can read.
 R10 needs Muse Spark claim extraction. Nine rules were measured.
 
-**Where it is weak.** Precision is below 100% on R12, R5, R7, and **R12 is the
-only rule that also misses** (67% recall,
+**Where it is weak.** Precision is below 100% on R5, R7, and **R12 is the
+only rule that also misses** (80% recall,
 1 false negative). R12 got *worse* in the last
 round, not better: the ground truth now checks the left and right overlay bands
 as well as top and bottom — previously it checked only top and bottom, so the
@@ -138,8 +138,8 @@ measure whether it does.
 
 | Baseline | Precision | Recall | F1 | False blocks | s/variant |
 |---|---|---|---|---|---|
-| Pixel diff alone | 95% | 95% | 95% | 1/23 | 0.7 |
-| **AsApproved** | 100% | 100% | 100% | 0/23 | 4.6 |
+| Pixel diff alone | 95% | 95% | 95% | 1/23 | 0.4 |
+| **AsApproved** | 100% | 100% | 100% | 0/23 | 3.1 |
 | Muse Spark alone | not run — needs an API key | | | | |
 
 45 of 48 variants scored; 3 need
@@ -157,8 +157,6 @@ and it should be read that way.
 seeded edit changes a claim region — so it carries most of the variant-level
 recall. Only 3 variants were *designed* to test it. The label file records
 both `intended_rules` and `violated_rules`.
-
-**Deterministic.** Two independent benchmark runs produced identical TP, FP and FN on every rule; only wall-clock time differed. The pipeline has no RNG and no model call, so a judge re-running it gets these exact figures.
 
 **Reproducible.** Regenerating the dataset from a clean clone reproduces the
 committed label digest `d18da5ad90127363…` exactly, so a judge who rebuilds is

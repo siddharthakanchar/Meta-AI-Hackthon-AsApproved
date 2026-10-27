@@ -637,3 +637,121 @@ def test_no_rule_claims_a_pass_on_an_empty_context(rule_id):
     assert f.status in {"inconclusive", "not_applicable"}, (
         f"{rule_id} returned '{f.status}' with nothing measured"
     )
+
+
+# --------------------------------------------------------------------------
+# R12 asymmetry: a breach is conclusive, "clear" needs completeness
+# --------------------------------------------------------------------------
+
+
+def test_r12_measured_breach_is_conclusive_even_if_another_region_is_unmeasured():
+    """Finding occlusion settles the question; not finding it does not.
+
+    This returned `inconclusive` over a region plainly measured as 57,600
+    pixels occluded, because a second region could not be measured. Evidence of
+    a breach does not become uncertain when something else is unknown.
+    """
+    f = _find(
+        evaluate(
+            _ctx(
+                placement="reels",
+                apr_label="risk_note",
+                investment_type="cryptoassets",
+                occluded_pixels={"risk_note": 57600},
+                variant_regions={
+                    "risk_note": {"present": True, "bbox": [50, 1100, 600, 120]},
+                    "warning": {"present": False, "locate_confident": True},
+                },
+            )
+        ),
+        "R12",
+    )
+    assert f.status == "fail"
+
+
+def test_r12_clear_verdict_requires_every_watched_region():
+    """The converse: "no occlusion" must not be claimed over an unmeasured region."""
+    f = _find(
+        evaluate(
+            _ctx(
+                placement="reels",
+                occluded_pixels={"warning": 0},
+                variant_regions={
+                    "warning": {"present": True, "bbox": [50, 100, 600, 120]},
+                    "apr": {"present": True, "bbox": [50, 300, 400, 40]},
+                },
+            )
+        ),
+        "R12",
+    )
+    assert f.status == "inconclusive"
+    assert "apr" in f.detail
+
+
+def test_r12_small_overlap_on_an_inferred_box_is_inconclusive():
+    """A box we predicted rather than matched carries localisation error.
+
+    Measured on VariantBench-UK: genuine occlusions cover 40-64% of the region,
+    while false positives from alignment-predicted boxes covered 0.6-9.5%. The
+    side bands are only ~6% of frame width, so a small overlap on an inferred
+    box is indistinguishable from our own error.
+    """
+    f = _find(
+        evaluate(
+            _ctx(
+                placement="reels",
+                occluded_pixels={"warning": 900},
+                variant_regions={
+                    "warning": {
+                        "present": True,
+                        "bbox": [0, 100, 600, 120],
+                        "located_by": "alignment",
+                    }
+                },
+            )
+        ),
+        "R12",
+    )
+    assert f.status == "inconclusive"
+    assert "inferred rather than matched" in f.detail
+
+
+def test_r12_large_overlap_fails_even_on_an_inferred_box():
+    f = _find(
+        evaluate(
+            _ctx(
+                placement="reels",
+                occluded_pixels={"warning": 50000},
+                variant_regions={
+                    "warning": {
+                        "present": True,
+                        "bbox": [0, 100, 600, 120],
+                        "located_by": "alignment",
+                    }
+                },
+            )
+        ),
+        "R12",
+    )
+    assert f.status == "fail"
+
+
+def test_r12_any_pixel_still_fails_on_a_matched_box():
+    """The rulebook threshold is unchanged for a region we actually matched."""
+    f = _find(
+        evaluate(
+            _ctx(
+                placement="reels",
+                occluded_pixels={"warning": 1},
+                variant_regions={
+                    "warning": {
+                        "present": True,
+                        "bbox": [0, 100, 600, 120],
+                        "located_by": "template",
+                    }
+                },
+            )
+        ),
+        "R12",
+    )
+    assert f.status == "fail"

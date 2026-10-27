@@ -188,10 +188,23 @@ def derive_violations(
             if box is None or not region_present.get(label, True):
                 continue
             x, y, bw, bh = box
+            # A region that runs off the frame is CLIPPED, not occluded. R12 is
+            # about the platform's own chrome sitting on top of the creative, so
+            # an APR that has slid out of frame belongs to R8 and R3, not here.
+            # Counting it as R12 made ground truth claim a breach of a rule the
+            # variant does not actually breach.
+            # Deliberately NOT excluding regions that touch the frame edge.
+            # Tried that, to stop an APR which had slid out of frame being
+            # labelled R12 for the sliver left inside the side band — and it
+            # stripped R12 from two variants where a region pushed PARTLY off
+            # frame still had its remaining portion under the caption block.
+            # That occlusion is real. A region can be both clipped and
+            # occluded, and discarding the whole region because one edge
+            # touches throws away the half that R12 is actually about.
+
             # Left and right bands too. The detector enforces all four, so
-            # omitting the side bands here made ground truth a DIFFERENT rule
-            # from the one under test, and the resulting false positives were
-            # definitionally unfixable.
+            # omitting the side bands made ground truth a DIFFERENT rule from
+            # the one under test, and the mismatch hid real detector error.
             left_px = _overlay_left(spec) * w_img
             right_px = (1.0 - _overlay_right(spec)) * w_img
             if (

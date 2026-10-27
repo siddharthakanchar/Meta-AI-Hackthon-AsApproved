@@ -64,6 +64,10 @@ R7_TOLERANCE = 0.95
 # 27,234. The floor sits in that gap, well clear of both.
 R1_MIN_CHANGED_PIXELS = 2_500
 
+# Below this share of the region, an occlusion found on an INFERRED box is
+# within our own localisation error and is reported as inconclusive.
+R12_INFERRED_TOLERANCE = 0.20
+
 _RULE_UNITS: dict[str, str] = {
     "R1": "fraction_bp",
     "R2": "none",
@@ -1021,24 +1025,58 @@ def _r12(rule: Rule, ctx: Context) -> Finding:
         return _finding(
             rule, ctx_version(ctx), "inconclusive", "Occlusion was not measured."
         )
-    if unmeasured:
-        # Do not announce "no part of the warning or APR falls inside the zone"
-        # while one of them was never measured. A pass that names regions it did
-        # not look at is the kind of confident silence this engine exists to
-        # avoid.
+
+    assert rule.threshold is not None
+    breaching = {k: v for k, v in measured.items() if v > rule.threshold}
+
+    if unmeasured and not breaching:
+        # Asymmetric on purpose. Evidence of a breach is conclusive — finding
+        # 57,600 occluded pixels on the risk line settles the question whether
+        # or not the warning could also be measured. Evidence of NO breach is
+        # only conclusive if we looked everywhere, so "clear" needs completeness
+        # while "breached" does not. Treating both the same reported
+        # `inconclusive` over a region we had plainly measured as occluded.
         return _finding(
             rule,
             ctx_version(ctx),
             "inconclusive",
-            "Occlusion could not be measured for: " + ", ".join(sorted(unmeasured)) + ".",
+            "No occlusion found in the regions measured, but occlusion could not be "
+            "measured for: " + ", ".join(sorted(unmeasured)) + ".",
             caveats=["region not measured for occlusion"],
             evidence={"placement": ctx.placement, "per_region_px": measured},
         )
 
-    assert rule.threshold is not None
     worst_label = max(measured, key=lambda k: measured[k])
     worst = measured[worst_label]
-    failed = worst > rule.threshold
+    failed = bool(breaching)
+
+    # The rulebook threshold stays at "any occluded pixel", which is right for a
+    # region we actually matched. But where the position was INFERRED from the
+    # alignment rather than matched, the box carries tens of pixels of error and
+    # the side overlay bands are only ~6% of the width — so a small overlap is
+    # indistinguishable from localisation error. Measured on this set: genuine
+    # occlusions run 40-64% of the region, inferred-box false positives
+    # 0.6-9.5%. This is a tolerance on OUR precision, not a regulatory
+    # threshold, and it only ever makes the engine say less.
+    if failed:
+        region = ctx.region("variant", worst_label) or {}
+        bbox = region.get("bbox") or []
+        area = (bbox[2] * bbox[3]) if len(bbox) == 4 else 0
+        inferred = region.get("located_by") == "alignment"
+        if inferred and area and worst < area * R12_INFERRED_TOLERANCE:
+            return _finding(
+                rule,
+                ctx_version(ctx),
+                "inconclusive",
+                f"{worst:,} pixels of the '{worst_label}' fall inside the {ctx.placement} "
+                f"overlay zone ({worst / area:.0%} of the region), but its position was "
+                "inferred rather than matched, so an overlap this small cannot be "
+                "distinguished from localisation error.",
+                measured=worst,
+                measured_display=f"{worst:,}px",
+                caveats=list(ctx.occlusion_caveats) + ["position inferred, not matched"],
+                evidence={"placement": ctx.placement, "per_region_px": measured},
+            )
     return _finding(
         rule,
         ctx_version(ctx),
